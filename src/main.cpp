@@ -7,5 +7,7 @@ int main() {
 	
 	std::cout << "Hello, World!" << std::endl;
 	
+	std::cout << "Committed" << std::endl;
+	
 	return 0;
 }
