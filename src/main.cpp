@@ -3,7 +3,7 @@
 #include "vector.h"
 
 int main() {
-	Vector v({1,2,3,4});
+	Vector v(5);
 	
 	std::cout << "Hello, World!" << std::endl;
 	

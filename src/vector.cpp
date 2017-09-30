@@ -16,9 +16,31 @@ Vector& Vector::operator=(Vector&& other) {
 double& Vector::operator[](const int index) {
 	// использовать соответствующий метод контейнера std::vector
 }
+
+// Оператор константного доступа к компоненте вектора:
+const double& Vector::operator[](const int index) const {
+	// использовать соответствующий метод контейнера std::vector
+}
 	
 // Проверка на пустоту:
 bool Vector::empty() const {
+	// использовать соответствующий метод контейнера std::vector
+}
+
+// Получение итераторов на начало и конец вектора:
+std::vector<double>::iterator Vector::begin() {
+	// использовать соответствующий метод контейнера std::vector
+}
+
+std::vector<double>::iterator Vector::end() {
+	// использовать соответствующий метод контейнера std::vector
+}
+
+const std::vector<double>::iterator Vector::begin() const {
+	// использовать соответствующий метод контейнера std::vector
+}
+
+const std::vector<double>::iterator Vector::end() const {
 	// использовать соответствующий метод контейнера std::vector
 }
 
@@ -65,8 +87,23 @@ Vector operator*(Vector vect, const double value) {
 }
 
 // Деление вектора на число:
-Vector Vector::operator/(const Vector vect, const double value) {
+Vector operator/(const Vector vect, const double value) {
 	// реализовать с использованием *= на обратное и семантикой премещения
+}
+
+// Сложение векторов:
+Vector operator+(Vector left, const Vector& right) {
+	// реализовать при помощи += и семантикой перемещения
+}
+
+// Разность векторов:
+Vector operator-(Vector left, const Vector& right) {
+	// реализовать при помощи -= и семантикой перемещения
+}
+
+// Сравнение двух векторов
+bool operator==(const Vector& left, const Vector& right) {
+	// реализовать, используя сравнение std::vector
 }
 
 // Вывод вектора в поток:
