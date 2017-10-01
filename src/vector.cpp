@@ -36,11 +36,11 @@ std::vector<double>::iterator Vector::end() {
 	// использовать соответствующий метод контейнера std::vector
 }
 
-const std::vector<double>::iterator Vector::begin() const {
+std::vector<double>::const_iterator Vector::begin() const {
 	// использовать соответствующий метод контейнера std::vector
 }
 
-const std::vector<double>::iterator Vector::end() const {
+std::vector<double>::const_iterator Vector::end() const {
 	// использовать соответствующий метод контейнера std::vector
 }
 
@@ -87,7 +87,7 @@ Vector operator*(Vector vect, const double value) {
 }
 
 // Деление вектора на число:
-Vector operator/(const Vector vect, const double value) {
+Vector operator/(Vector vect, const double value) {
 	// реализовать с использованием *= на обратное и семантикой премещения
 }
 

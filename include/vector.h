@@ -2,6 +2,7 @@
 
 #include <vector> // для контейнера std::vector
 #include <algorithm> // для семантики перемещения std::move
+#include <iostream> // для потока вывода
 
 class Vector;
 
@@ -58,8 +59,8 @@ public:
 	// Получение итераторов на начало и конец вектора:
 	std::vector<double>::iterator begin();
 	std::vector<double>::iterator end();
-	const std::vector<double>::iterator begin() const;
-	const std::vector<double>::iterator end() const;
+	std::vector<double>::const_iterator begin() const;
+	std::vector<double>::const_iterator end() const;
 	
 	// Основные арифметические операции с изменением вектора *this:
 	Vector& operator+=(const Vector& other);
