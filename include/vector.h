@@ -6,43 +6,44 @@
 
 class Vector;
 
-Vector operator*(const double value, Vector vect); // умножение числа на вектор
-Vector operator*(Vector vect, const double value); // умножение вектора на число
-Vector operator/(Vector vect, const double value); // деление вектора на число
-Vector operator+(Vector left, const Vector& right); // сложение векторов
-Vector operator-(Vector left, const Vector& right); // разность векторов
-bool operator==(const Vector& left, const Vector& right); // сравнение двух векторов
-std::ostream& operator<<(std::ostream& os, const Vector& vect); // вывод вектора в поток
-double dot(const Vector& left, const Vector& right); // скалярное произведение векторов
+// Умножение и деление вектора на число:
+Vector operator*(const double value, Vector vect);
+Vector operator*(Vector vect, const double value);
+Vector operator/(Vector vect, const double value);
+
+// Сложение и разность векторов:
+Vector operator+(Vector left, const Vector& right);
+Vector operator-(Vector left, const Vector& right);
+
+// Сравнение двух векторов:
+bool operator==(const Vector& left, const Vector& right); // полное сравнение
+bool same_dimension(const Vector& left, const Vector& right); // сравнение размерностей
+
+// Скалярное произведение:
+double dot(const Vector& left, const Vector& right);
+double operator*(const Vector& left, const Vector& right);
+
+// Вывод в поток:
+std::ostream& operator<<(std::ostream& os, const Vector& vect);
 
 class Vector {
 private:
 	std::vector<double> data;
 public:
 	// Конструктор вектора фиксированного размера + конструктор по-умолчанию:
-	Vector(int size = 0, double value = 0)
-		: data(size, value)
-	{ };
+	Vector(int size = 0, double value = 0);
 
 	// Конструктор копирования "std::vector":
-	Vector(const std::vector<double>& data = {}) 
-		: data(data)
-	{ };
+	Vector(const std::vector<double>& data);
 	
 	// Конструктор перемещения объекта класса "std::vector":
-	Vector(std::vector<double>&& data)
-		: data(std::move(data))
-	{ };
+	Vector(std::vector<double>&& data);
 	
 	// Конструктор копирования объекта класса "Вектор":
-	Vector(const Vector& other) 
-		: data(other.data)
-	{ };
+	Vector(const Vector& other);
 
 	// Конструктор перемещения объекта класса "Вектор":
-	Vector(Vector&& other) 
-		: data(std::move(other.data)) 
-	{ };
+	Vector(Vector&& other);
 	
 	// Операторы присваивания и перемещения объектов класса "Вектор": 
 	Vector& operator=(const Vector& other);
@@ -78,6 +79,8 @@ public:
 	friend Vector operator+(Vector left, const Vector& right); // сложение векторов
 	friend Vector operator-(Vector left, const Vector& right); // разность векторов
 	friend bool operator==(const Vector& left, const Vector& right); // сравнение двух векторов
+	friend bool same_dimension(const Vector& left, const Vector& right); // сравнение размерностей
 	friend std::ostream& operator<<(std::ostream& os, const Vector& vect); // вывод вектора в поток
 	friend double dot(const Vector& left, const Vector& right); // скалярное произведение векторов
+	friend double operator*(const Vector& left, const Vector& right); // скалярное произведение векторов
 };

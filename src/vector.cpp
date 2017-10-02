@@ -1,6 +1,33 @@
 #include "vector.h"
+#include <stdexcept> // Для выбрасывания исключений std::runtime_error("Поясняющий текст")
+#include <iomanip> // Для манипуляторов вывода
 
 // ----- Методы класса "Вектор" -----
+
+// Конструктор вектора фиксированного размера + конструктор по-умолчанию:
+Vector::Vector(int size, double value) 
+	: data(size, value) 
+{ }
+
+// Конструктор копирования "std::vector":
+Vector::Vector(const std::vector<double>& data) 
+	: data(data) 
+{ }
+
+// Конструктор перемещения объекта класса "std::vector":
+Vector::Vector(std::vector<double>&& data) 
+	: data(std::move(data)) 
+{ }
+
+// Конструктор копирования объекта класса "Вектор":
+Vector::Vector(const Vector& other) 
+	: data(other.data) 
+{ }
+
+// Конструктор перемещения объекта класса "Вектор":
+Vector::Vector(Vector&& other) 
+	: data(std::move(other.data)) 
+{ }
 
 // Оператор присваивания: 
 Vector& Vector::operator=(const Vector& other) {
@@ -51,12 +78,16 @@ int Vector::size() const {
 	
 // Прибавление к вектору содержимое другого вектора (покомпонентно):
 Vector& Vector::operator+=(const Vector& other) {
-	// реализовать, не забыть вернуть ссылку на текущий объект
+	// реализовать, не забыть:
+	// проверку совпадения размерностей векторов с выбрасыванием исключения
+	// вернуть ссылку на текущий объект
 }
 
 // Вычитание из вектора содержимого другого вектора (покомпонентно):
 Vector& Vector::operator-=(const Vector& other) {
-	// реализовать, не забыть вернуть ссылку на текущий объект
+	// реализовать, не забыть:
+	// проверку совпадения размерностей векторов с выбрасыванием исключения
+	// вернуть ссылку на текущий объект
 }
 
 // Умножение всего вектора на число с изменением *this:
@@ -66,7 +97,9 @@ Vector& Vector::operator*=(const double value) {
 
 // Деление всего вектора на число с изменением *this:
 Vector& Vector::operator/=(const double value) {
-	// реализовать, не забыть вернуть ссылку на текущий объект
+	// реализовать, не забыть:
+	// проверку value на ноль с выбрасыванием исключения
+	// вернуть ссылку на текущий объект
 }
 
 // Унарный минус - получение противоположного вектора:
@@ -106,12 +139,22 @@ bool operator==(const Vector& left, const Vector& right) {
 	// реализовать, используя сравнение std::vector
 }
 
+// Сравнение размерностей
+bool same_dimension(const Vector& left, const Vector& right) {
+	// реализовать
+}
+
+// Скалярное произведение векторов:
+double dot(const Vector& left, const Vector& right) {
+	// реализовать, не забыть сравнить размерности векторов с выбрасыванием исключения
+}
+
+// Сравнение размерностей
+bool same_dimension(const Vector& left, const Vector& right) {
+	// вызвать dot
+}
+
 // Вывод вектора в поток:
 std::ostream& operator<<(std::ostream& os, const Vector& vect) {
 	// реализовать
 } 
-
-// Скалярное произведение векторов:
-double dot(const Vector& left, const Vector& right) {
-	// реализовать
-}
