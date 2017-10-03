@@ -3,8 +3,15 @@
 #include "vector.h" 
 
 #include <vector> // для контейнера std::vector
+#include <initializer_list> // для списка инициализации std::initializer_list
 #include <algorithm> // для семантики перемещения std::move
 #include <iostream> // для потока вывода
+
+// Тип матрицы инициализации (например, вида {{a, b},{c,d}}):
+typedef std::initializer_list<Vector> Init_Matr;
+
+// Проверка на то, что матрица инициализации является квадратной с выбрасыванием исключения:
+Init_Matr throw_if_not_square_matrix(Init_Matr M);
 
 class Matrix;
 
@@ -41,11 +48,8 @@ public:
 	// Конструктор перемещения матрицы
 	Matrix(Matrix&& other);
 	
-	// Конструктор копирования стандартного контейнера std::vector
-	Matrix(const std::vector<std::vector<double>>& other);
-	
-	// Конструктор перемещения стандартного контейнера std::vector
-	Matrix(std::vector<std::vector<double>>&& other);
+	// Конструктор перемещения матрицы инициализации
+	Matrix(Init_Matr other);
 	
 	// Оператор присваивания
 	Matrix& operator=(const Matrix& other);

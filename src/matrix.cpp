@@ -1,6 +1,17 @@
 #include "matrix.h"
 #include <stdexcept> // Для выбрасывания исключений std::runtime_error("Поясняющий текст")
 
+// Проверка на то, что матрица инициализации является квадратной с выбрасыванием исключения:
+Init_Matr throw_if_not_square_matrix(Init_Matr M) {
+	int n = (int)M.size();
+	for (auto & row : M) {
+		if (n != (int)row.size()) {
+			throw std::runtime_error("Not square initializer matrix");
+		}
+	}
+	return M;
+}
+
 // ----- Методы класса Матриц -----
 
 // Конструктор квадратной матрицы фиксированного размера + конструктор по-умолчанию
@@ -18,23 +29,10 @@ Matrix::Matrix(Matrix&& other)
 	: data(std::move(other.data))
 { }
 
-// Конструктор копирования стандартного контейнера std::vector
-Matrix::Matrix(const std::vector<std::vector<double>>& other)
-	: data(other.size())
-{ 
-	// реализовать копирование каждой вектор-строки в цикле отдельно
-	// проверить, что размерность столбцов совпадает с размерностью строк (матрица квадратная)
-	// если это не так - выбросить исключение при помощи std::runtime_error()
-}
-
-// Конструктор перемещения стандартного контейнера std::vector
-Matrix::Matrix(std::vector<std::vector<double>>&& other) 
-	: data(other.size())
-{ 
-	// реализовать перемещение каждой вектор-строки в цикле отдельно
-	// проверить, что размерность столбцов совпадает с размерностью строк (матрица квадратная)
-	// если это не так - выбросить исключение при помощи std::runtime_error()
-}
+// Конструктор от матрицы инициализации
+Matrix::Matrix(Init_Matr other)
+	: data(std::move(throw_if_not_square_matrix(other)))
+{ }
 
 // Оператор присваивания
 Matrix& Matrix::operator=(const Matrix& other) {

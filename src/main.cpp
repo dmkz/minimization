@@ -6,11 +6,11 @@ int main() {
 	Vector v(5, 1), w(5, 2);
 	std::cout << v+w << std::endl << std::endl;
 
-	Matrix m = std::vector<std::vector<double>>({
+	Matrix m = {
 		{1, 0, 0},
 		{0, 1, 0},
 		{0, 0, 1}
-	});
+	};
 	
 	std::cout << m << std::endl;
 	return 0;

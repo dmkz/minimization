@@ -9,13 +9,8 @@ Vector::Vector(int size, double value)
 	: data(size, value) 
 { }
 
-// Конструктор копирования "std::vector":
-Vector::Vector(const std::vector<double>& data) 
-	: data(data) 
-{ }
-
-// Конструктор перемещения объекта класса "std::vector":
-Vector::Vector(std::vector<double>&& data) 
+// Конструктор перемещения объекта класса "std::initializer_list":
+Vector::Vector(std::initializer_list<double> data) 
 	: data(std::move(data)) 
 { }
 

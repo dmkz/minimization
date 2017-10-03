@@ -1,6 +1,7 @@
 #pragma once
 
-#include <vector> // для контейнера std::vector
+#include <vector> // для контейнера std::vector<double>
+#include <initializer_list> // для списка инициализации std::initializer_list<double>
 #include <algorithm> // для семантики перемещения std::move
 #include <iostream> // для потока вывода
 
@@ -33,11 +34,8 @@ public:
 	// Конструктор вектора фиксированного размера + конструктор по-умолчанию:
 	Vector(int size = 0, double value = 0);
 
-	// Конструктор копирования "std::vector":
-	Vector(const std::vector<double>& data);
-	
-	// Конструктор перемещения объекта класса "std::vector":
-	Vector(std::vector<double>&& data);
+	// Конструктор перемещения списка инициализации:
+	Vector(std::initializer_list<double> data);
 	
 	// Конструктор копирования объекта класса "Вектор":
 	Vector(const Vector& other);
