@@ -52,7 +52,7 @@ const int maxdeg = 50, deg = 0;
 int p, q, add[maxq/*!*/][maxq/*!*/], mul[maxq/*!*/][maxq/*!*/], sub[maxq/*!*/][maxq/*!*/];
 
 
-vector <vector<double>> vResult;
+vector<vector<double>> vResult;
 vector<double> vector_;
 int ResultCounter = 0;
 
@@ -373,7 +373,7 @@ void INLO2(int dim, int skip) {
 bounds - границы области, в которой генерируются точки.
 */
 
-void GOLO2(double *quasi, vector <vector<double>> &bounds) {
+void GOLO2(double *quasi, vector<vector<double>> &bounds) {
     int r;
     recip = pow(2, -nbits);
     for (int i = 0; i < dimen2; ++i) {
@@ -420,7 +420,7 @@ bounds - границы области
 */
 
 void
-GENIN2(int dimen_, int seqlen_, int m_, double (*fun)(vector<double> &), vector <vector<double>> &bounds) // PROGRAM
+GENIN2(int dimen_, int seqlen_, int m_, double (*fun)(vector<double> &), vector<vector<double>> &bounds) // PROGRAM
 {
     dimen = dimen_;
     int seqlen = seqlen_;
@@ -477,42 +477,80 @@ GENIN2(int dimen_, int seqlen_, int m_, double (*fun)(vector<double> &), vector 
     free(values);
 }
 
-int main() {
-    int m, d, s;
-    vector <vector<double>> bounds;
-    do {
-        cout << "Enter dimension: ";
-        cin >> d;
-        if (d > maxdim) cout << "Dimension may not exceed " << maxdim << endl;
-    } while (d > maxdim);
-
-    bounds.resize(d);
-    cout << "Enter bound for every dimension: ";
-    for (int i = 0; i < d; ++i) {
-        bounds[i].resize(2);
-        cout << "Enter 2 bounds for " << i + 1 << " dimension: ";
-        cin >> bounds[i][0] >> bounds[i][1];
+/**
+ * Calculate tsm net.
+ * Read dimension and bounds from file.
+ *
+ * Params file example:
+ *  5 - This is dimension. Dimension should be less than maxdim, which seems taken RANDOMLY.
+ *  0 1 - This and below are bound.
+ *  0 1
+ *  0 1
+ *  0 1
+ *  0 1
+ *  2^10 = 1024 or 2^15 = 32768 or 2^20 = 1048576 - This is sequence length.
+ *                                                  There are no assumptions why this is so.
+ *                                                  Length must be strictly positive.
+ *  10 - This is dots count.
+ *
+ */
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        cout << "tsm <file>\n\n";
+        cout << "Calculate tsm net.\n"
+                "Read dimension and bounds from file.\n"
+                "\n"
+                "Params file example:\n"
+                "  5 - This is dimension. Dimension should be less than maxdim.\n"
+                "  0 1 - This and below are bound.\n"
+                "  0 1\n"
+                "  0 1\n"
+                "  0 1\n"
+                "  0 1\n"
+                "  2^10 = 1024 or 2^15 = 32768 or 2^20 = 1048576 - This is sequence length.\n"
+                "                                                  Length must be strictly positive.\n"
+                "  10 - This is dots count.\n";
+        return 1;
     }
 
-    cout << "Choose sequence length from list below: " << endl;
-    int pow_;
-    pow_ = 1 << 10;
-    cout << "2^10 = " << pow_ << endl;
-    pow_ = 1 << 15;
-    cout << "2^15 = " << pow_ << endl;
-    pow_ = 1 << 20;
-    cout << "2^20 = " << pow_ << endl;
-    do {
-        cout << "Sequence length: ";
-        cin >> s;
-        if (s < 0) cout << "Length must be strictly positive" << endl;
-    } while (s < 0);
-    cout << "How many dots you want: ";
-    cin >> m;
+    int m, dimension, s;
+    vector<vector<double>> bounds;
+    fstream inputFile(argv[1]);
+
+    if (!inputFile) {
+        cout << "Bad file";
+        return 1;
+    }
+
+    inputFile >> dimension;
+    if (dimension > maxdim) {
+        cout << "Dimension may not exceed " << maxdim << endl;
+        return 1;
+    } else {
+        cout << "Dimension: " << dimension << endl;
+    }
+
+    bounds.resize(dimension);
+    for (int i = 0; i < dimension; ++i) {
+        bounds[i].reserve(2);
+        inputFile >> bounds[i][0] >> bounds[i][1];
+        cout << "Bounds for " << i + 1 << " dimension: " << bounds[i][0] << " " << bounds[i][1] << endl;
+    }
+
+    inputFile >> s;
+    if (s < 0) {
+        cout << "Length must be strictly positive" << endl;
+        return 1;
+    } else {
+        cout << "Sequence length: " << s << endl;
+    }
+
+    inputFile >> m;
+    cout << "Dots count: " << m << endl;
 
     double (*f_pointer)(vector<double> &) = &func;
 
-    GENIN2(d, s, m, f_pointer, bounds);
+    GENIN2(dimension, s, m, f_pointer, bounds);
 
     return 0;
 }
