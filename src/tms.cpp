@@ -1,12 +1,7 @@
 /*
  *	Source origin: https://github.com/olegrum/opti-fun
  */
-
-#include <iostream>
-#include <cmath>
-#include <fstream>
-#include <vector>
-#include <iomanip>
+#include "../include/tms.h"
 
 using namespace std;
 
@@ -543,7 +538,7 @@ int main(int argc, char *argv[]) {
 
     inputFile >> dots;
     cout << "Dots count: " << dots << endl;
-    
+
     inputFile.close();
 
     double (*f_pointer)(vector<double> &) = &func;
