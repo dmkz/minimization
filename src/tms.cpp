@@ -11,9 +11,9 @@
 using namespace std;
 
 /*
-maxdim - макс размерность пространства
-maxfig - максимальное количество чисел с основанием Q , которое мы можем обработать
-nbits - число бит в слове (сейчас 31, для поддержания платформонезависимости)
+MAX_DIMENSION - макс размерность пространства
+MAX_FIG - максимальное количество чисел с основанием Q , которое мы можем обработать
+NUMBER_OF_BITS - число бит в слове (сейчас 31, для поддержания платформонезависимости)
 c - хранит числа Нидеррайтера (I,J,R)
 count - индекс текущего элемента в C
 d - значения D(I,J)
@@ -23,9 +23,9 @@ dimen - размерность генерируемой последовател
 nfigs - количество  чисел по основанию Q, которые мы используем по факту
 recip - переменная, хранящая 1 / (Q ^ NFIGS)
 
-maxq - максимальное значение Q
-maxdeg - наибольшая степень полинома (многочлена)
-deg - текущая степень многочлена
+MAX_Q_VALUE - максимальное значение Q
+MAX_POLY_DEGREE - наибольшая степень полинома (многочлена)
+CURRENT_DEGREE_VALUE - текущая степень многочлена
 p, q - характеристики поля
 add - результат сложения многочленов
 mul - результат умножения
@@ -33,22 +33,21 @@ sub - результат деления
 */
 
 // COMM
-const int maxdim = 20;
-const int nbits = 31;
-
+const int MAX_DIMENSION = 20;
+const int NUMBER_OF_BITS = 31;
 double recip;
 unsigned long dimen;
 
 // COMM2
-int cj[maxdim][nbits/*!*/];
+int cj[MAX_DIMENSION][NUMBER_OF_BITS/*!*/];
 int count2;
 unsigned long dimen2;
-int nextq2[maxdim];
+int nextq2[MAX_DIMENSION];
 
 // FIELD
-const int maxq = 50;
-const int maxdeg = 50, deg = 0;
-int p, q, add[maxq/*!*/][maxq/*!*/], mul[maxq/*!*/][maxq/*!*/], sub[maxq/*!*/][maxq/*!*/];
+const int MAX_Q_VALUE = 50;
+const int MAX_POLY_DEGREE = 50, CURRENT_DEGREE_VALUE = 0;
+int p, q, add[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/], mul[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/], sub[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/];
 
 
 vector<vector<double>> vResult;
@@ -64,7 +63,7 @@ struct point {
 void SETFLD(int qin) {
     cout << "SETFLD" << endl;
     int i, j;
-    if (qin <= 1 || qin > maxq) cout << "SETFLD: Bad value of Q";
+    if (qin <= 1 || qin > MAX_Q_VALUE) cout << "SETFLD: Bad value of Q";
     q = qin;
     p = q;
     if (p == 0) cout << "SETFLD: There is no field of order" << q;
@@ -82,12 +81,12 @@ void SETFLD(int qin) {
 //Программа используется для умножения полиномов
 void PLYMUL(int *pa, int *pb, int *pc) {
     int i, j, dega, degb, degc, term;
-    int pt[maxdeg + 2];
-    dega = pa[deg];
-    degb = pb[deg];
+    int pt[MAX_POLY_DEGREE + 2];
+    dega = pa[CURRENT_DEGREE_VALUE];
+    degb = pb[CURRENT_DEGREE_VALUE];
     if (dega == -1 || degb == -1) degc = -1;
     else degc = dega + degb;
-    if (degc > maxdeg)
+    if (degc > MAX_POLY_DEGREE)
         cout << "PLYMUL: Degree of product exceeds MAXDEG" << endl;
     for (i = 0; i <= degc; ++i) {
         term = 0;
@@ -95,9 +94,9 @@ void PLYMUL(int *pa, int *pb, int *pc) {
             term = add[term][mul[pa[i - j + 1]][pb[j + 1]]];
         pt[i + 1] = term;
     }
-    pc[deg] = degc;
+    pc[CURRENT_DEGREE_VALUE] = degc;
     for (i = 1; i <= degc + 1; ++i) pc[i] = pt[i];
-    for (i = degc + 2; i < maxdeg + 2; ++i) pc[i] = 0;
+    for (i = degc + 2; i < MAX_POLY_DEGREE + 2; ++i) pc[i] = 0;
 }
 
 /*
@@ -113,16 +112,16 @@ void PLYMUL(int *pa, int *pb, int *pc) {
 */
 
 void CALCV(int *px, int *b, int *v, int maxv) {
-    int h[maxdeg + 2];
+    int h[MAX_POLY_DEGREE + 2];
     int bigm = 0, m = 0, kj, term;
     int arbit = 1, nonzer = 1;
 
-    for (int i = 0; i < b[deg] + 2; ++i)
+    for (int i = 0; i < b[CURRENT_DEGREE_VALUE] + 2; ++i)
         h[i] = b[i];
-    bigm = h[deg];
+    bigm = h[CURRENT_DEGREE_VALUE];
     PLYMUL(px, b, b);
 
-    m = b[deg];
+    m = b[CURRENT_DEGREE_VALUE];
 
     kj = bigm;
     for (int r = 0; r < kj; ++r)
@@ -159,12 +158,12 @@ C помощью этой программы вычисляем значения
 */
 
 void CALCC2() {
-    int maxe = 5, maxv = nbits + maxe;
-    int px[maxdeg + 2], b[maxdeg + 2];
-    int v[maxv + 1], ci[nbits][nbits];
+    int maxe = 5, maxv = NUMBER_OF_BITS + maxe;
+    int px[MAX_POLY_DEGREE + 2], b[MAX_POLY_DEGREE + 2];
+    int v[maxv + 1], ci[NUMBER_OF_BITS][NUMBER_OF_BITS];
     int e, j, r, u, term;
     unsigned long i;
-    int irred[maxdim][maxe + 2];
+    int irred[MAX_DIMENSION][maxe + 2];
     {
         irred[0][0] = 1;
         irred[0][1] = 0;
@@ -317,23 +316,23 @@ void CALCC2() {
     SETFLD(2);
 
     for (i = 0; i < dimen; ++i) {
-        e = irred[i][deg];
-        b[deg] = 0;
+        e = irred[i][CURRENT_DEGREE_VALUE];
+        b[CURRENT_DEGREE_VALUE] = 0;
         b[1] = 1;
         u = 0;
         for (j = 0; j < e + 2; ++j)
             px[j] = irred[i][j];
 
-        for (j = 0; j <= nbits - 1; ++j) {
+        for (j = 0; j <= NUMBER_OF_BITS - 1; ++j) {
             if (u == 0) CALCV(px, b, v, maxv);
-            for (r = 0; r <= nbits - 1; ++r)
+            for (r = 0; r <= NUMBER_OF_BITS - 1; ++r)
                 ci[j][r] = v[r + u];
             ++u;
             if (u == e) u = 0;
         }
-        for (r = 0; r <= nbits - 1; ++r) {
+        for (r = 0; r <= NUMBER_OF_BITS - 1; ++r) {
             term = 0;
-            for (j = 1; j <= nbits; ++j)
+            for (j = 1; j <= NUMBER_OF_BITS; ++j)
                 term = (term << 1) + ci[j - 1][r];
             cj[i][r] = term;
         }
@@ -349,7 +348,7 @@ skip - количество значений, которые должны быт
 void INLO2(unsigned long dim, int skip) {
     int r, gray;
     dimen2 = dim;
-    if (dimen2 <= 0 || dimen2 > maxdim) {
+    if (dimen2 <= 0 || dimen2 > MAX_DIMENSION) {
         cout << "INLO2 : Bad dimension";
         return;
     }
@@ -375,7 +374,7 @@ bounds - границы области, в которой генерируютс
 
 void GOLO2(double *quasi, vector<vector<double>> &bounds) {
     int r;
-    recip = pow(2, -nbits);
+    recip = pow(2, -NUMBER_OF_BITS);
     for (unsigned long i = 0; i < dimen2; ++i) {
         quasi[i] = nextq2[i] * recip;
         vResult[ResultCounter][i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * quasi[i];
@@ -388,7 +387,7 @@ void GOLO2(double *quasi, vector<vector<double>> &bounds) {
         r++;
         i >>= 1;
     }
-    if (r >= nbits) {
+    if (r >= NUMBER_OF_BITS) {
         cout << "GOLO2 : Too many calls";
         return;
     }
@@ -438,7 +437,7 @@ GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun
     INLO2(dimen, skip);
     cout << "GENIN2 :  Initialization complete" << endl;
 
-    double quasi[maxdim];
+    double quasi[MAX_DIMENSION];
 
     for (unsigned long i = 1; i <= seqlen; ++i)
         GOLO2(quasi, bounds);
@@ -483,7 +482,7 @@ GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun
  * Read dimension and bounds from file.
  *
  * Params file example:
- *  5 - This is dimension. Dimension should be less than maxdim, which seems taken RANDOMLY.
+ *  5 - This is dimension. Dimension should be less than MAX_DIMENSION, which seems taken RANDOMLY.
  *  0 1 - This and below are bound.
  *  0 1
  *  0 1
@@ -502,7 +501,7 @@ int main(int argc, char *argv[]) {
                 "Read dimension and bounds from file.\n"
                 "\n"
                 "Params file example:\n"
-                "  5 - This is dimension. Dimension should be less than maxdim.\n"
+                "  5 - This is dimension. Dimension should be less than MAX_DIMENSION.\n"
                 "  0 1 - This and below are bound.\n"
                 "  0 1\n"
                 "  0 1\n"
@@ -525,8 +524,8 @@ int main(int argc, char *argv[]) {
     }
 
     inputFile >> dimension;
-    if (dimension > maxdim) {
-        cout << "Dimension may not exceed " << maxdim << endl;
+    if (dimension > MAX_DIMENSION) {
+        cout << "Dimension may not exceed " << MAX_DIMENSION << endl;
         return 1;
     } else {
         cout << "Dimension: " << dimension << endl;
