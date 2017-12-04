@@ -42,8 +42,8 @@ int nextq2[MAX_DIMENSION];
 // FIELD
 const int MAX_Q_VALUE = 50;
 const int MAX_POLY_DEGREE = 50, CURRENT_DEGREE_VALUE = 0;
-int p, q, add[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/], mul[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/], sub[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/];
-
+int p, q, add[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/], mul[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/],
+        sub[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/];
 
 vector<vector<double>> vResult;
 vector<double> vector_;
@@ -398,8 +398,8 @@ double func(vector<double> &p) {
 
 //Функция сравнения точек для сортировки
 int cmp(const void *a, const void *b) {
-    struct point *x = (struct point *) a;
-    struct point *y = (struct point *) b;
+    auto *x = (struct point *) a;
+    auto *y = (struct point *) b;
     return 2 * ((x->value - y->value) > 0) - 1;
 }
 
@@ -413,10 +413,8 @@ m_ - колличество минимальныйх точек для запу�
 bounds - границы области
 */
 
-void
-GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
-       vector<vector<double>> &bounds) // PROGRAM
-{
+void GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
+       vector<vector<double>> &bounds) {// PROGRAM
     dimen = dimen_;
     unsigned long seqlen = seqlen_;
     unsigned dots = dots_;
