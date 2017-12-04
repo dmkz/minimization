@@ -6,7 +6,6 @@
 #include <cmath>
 #include <fstream>
 #include <vector>
-#include <algorithm>
 #include <iomanip>
 
 using namespace std;
@@ -35,19 +34,15 @@ sub - результат деления
 
 // COMM
 const int maxdim = 20;
-const int maxfig = 20;
 const int nbits = 31;
 
-int c[maxdim][maxfig][maxfig/*!*/]; // /*!*/ - индексация как в си, т.е. C(MAXDIM, MAXFIG, 0:MAXFIG-1)
-int count[maxfig/*!*/], d[maxdim][maxfig];
-int nextq[maxdim], qpow[maxfig];
-int dimen, nfigs;
 double recip;
+unsigned long dimen;
 
 // COMM2
 int cj[maxdim][nbits/*!*/];
 int count2;
-int dimen2;
+unsigned long dimen2;
 int nextq2[maxdim];
 
 // FIELD
@@ -61,7 +56,7 @@ vector<double> vector_;
 int ResultCounter = 0;
 
 struct point {
-    int point;
+    unsigned long point;
     double value;
 };
 
@@ -167,7 +162,8 @@ void CALCC2() {
     int maxe = 5, maxv = nbits + maxe;
     int px[maxdeg + 2], b[maxdeg + 2];
     int v[maxv + 1], ci[nbits][nbits];
-    int e, i, j, r, u, term;
+    int e, j, r, u, term;
+    unsigned long i;
     int irred[maxdim][maxe + 2];
     {
         irred[0][0] = 1;
@@ -350,7 +346,7 @@ dim - измерение последовательностей, которые 
 skip - количество значений, которые должны быть отброшены в начале последовательности
 */
 
-void INLO2(int dim, int skip) {
+void INLO2(unsigned long dim, int skip) {
     int r, gray;
     dimen2 = dim;
     if (dimen2 <= 0 || dimen2 > maxdim) {
@@ -360,11 +356,11 @@ void INLO2(int dim, int skip) {
 
     CALCC2();
     gray = skip xor skip >> 1;
-    for (int i = 1; i <= dimen2; ++i) nextq2[i - 1] = 0;
+    for (unsigned long i = 1; i <= dimen2; ++i) nextq2[i - 1] = 0;
     r = 0;
     while (gray != 0) {
         if (gray % 2 != 0)
-            for (int i = 1; i <= dimen2; ++i)
+            for (unsigned long i = 1; i <= dimen2; ++i)
                 nextq2[i - 1] = nextq2[i - 1] xor cj[i - 1][r];
         gray >>= 1; //делим на 2
         r++;
@@ -380,7 +376,7 @@ bounds - границы области, в которой генерируютс
 void GOLO2(double *quasi, vector<vector<double>> &bounds) {
     int r;
     recip = pow(2, -nbits);
-    for (int i = 0; i < dimen2; ++i) {
+    for (unsigned long i = 0; i < dimen2; ++i) {
         quasi[i] = nextq2[i] * recip;
         vResult[ResultCounter][i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * quasi[i];
     }
@@ -396,7 +392,7 @@ void GOLO2(double *quasi, vector<vector<double>> &bounds) {
         cout << "GOLO2 : Too many calls";
         return;
     }
-    for (int I = 0; I < dimen2; ++I)
+    for (unsigned long I = 0; I < dimen2; ++I)
         nextq2[I] = nextq2[I] xor cj[I][r];
     ++count2;
 }
@@ -424,16 +420,17 @@ bounds - границы области
 */
 
 void
-GENIN2(int dimen_, int seqlen_, int m_, double (*fun)(vector<double> &), vector<vector<double>> &bounds) // PROGRAM
+GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
+       vector<vector<double>> &bounds) // PROGRAM
 {
     dimen = dimen_;
-    int seqlen = seqlen_;
-    int m = m_;
+    unsigned long seqlen = seqlen_;
+    unsigned dots = dots_;
 
     // выделяем память для точек. количество точек: seqlen; координат на точку: dimen
     vResult.resize(seqlen);
     vector_.resize(seqlen);
-    for (int i = 0; i < seqlen; ++i)
+    for (unsigned long i = 0; i < seqlen; ++i)
         vResult[i].resize(dimen);
 
     int skip = 0;
@@ -443,7 +440,7 @@ GENIN2(int dimen_, int seqlen_, int m_, double (*fun)(vector<double> &), vector<
 
     double quasi[maxdim];
 
-    for (int i = 1; i <= seqlen; ++i)
+    for (unsigned long i = 1; i <= seqlen; ++i)
         GOLO2(quasi, bounds);
 
     cout << "GENIN2:  iteration ends" << endl;
@@ -453,8 +450,8 @@ GENIN2(int dimen_, int seqlen_, int m_, double (*fun)(vector<double> &), vector<
     ofstream fout("out.txt");
     struct point *values = (struct point *) calloc(seqlen, sizeof(struct point));
 
-    for (int i = 0; i < seqlen; ++i) {
-        for (int j = 0; j < dimen; ++j) {
+    for (unsigned long i = 0; i < seqlen; ++i) {
+        for (unsigned long j = 0; j < dimen; ++j) {
             vector_[j] = vResult[i][j];
             fout << fixed << setprecision(9) << vResult[i][j] << " ";
         }
@@ -469,8 +466,8 @@ GENIN2(int dimen_, int seqlen_, int m_, double (*fun)(vector<double> &), vector<
 
     ofstream fout1("out_min.txt"); // файл, в котором хранятся все m точек, где функция минимальна
 
-    for (int p = 0; p < m; ++p) {
-        for (int t = 0; t < dimen; ++t)
+    for (unsigned p = 0; p < dots; ++p) {
+        for (unsigned long t = 0; t < dimen; ++t)
             fout1 << vResult[values[p].point][t]
                   << " "; // записываем в файл координаты точек, в которых функция принимает минимальное значение
         fout1 << " " << values[p].value << endl;
@@ -517,7 +514,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int m, dimension, s;
+    unsigned dots;
+    unsigned long dimension, sequence;
     vector<vector<double>> bounds;
     fstream inputFile(argv[1]);
 
@@ -535,26 +533,23 @@ int main(int argc, char *argv[]) {
     }
 
     bounds.resize(dimension);
-    for (int i = 0; i < dimension; ++i) {
+    for (unsigned long i = 0; i < dimension; ++i) {
         bounds[i].reserve(2);
         inputFile >> bounds[i][0] >> bounds[i][1];
         cout << "Bounds for " << i + 1 << " dimension: " << bounds[i][0] << " " << bounds[i][1] << endl;
     }
 
-    inputFile >> s;
-    if (s < 0) {
-        cout << "Length must be strictly positive" << endl;
-        return 1;
-    } else {
-        cout << "Sequence length: " << s << endl;
-    }
+    inputFile >> sequence;
+    cout << "Sequence length: " << sequence << endl;
 
-    inputFile >> m;
-    cout << "Dots count: " << m << endl;
+    inputFile >> dots;
+    cout << "Dots count: " << dots << endl;
+    
+    inputFile.close();
 
     double (*f_pointer)(vector<double> &) = &func;
 
-    GENIN2(dimension, s, m, f_pointer, bounds);
+    GENIN2(dimension, sequence, dots, f_pointer, bounds);
 
     return 0;
 }
