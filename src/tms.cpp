@@ -45,7 +45,7 @@ const int MAX_POLY_DEGREE = 50, CURRENT_DEGREE_VALUE = 0;
 int p, q, add[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/], mul[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/],
         sub[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/];
 
-vector<vector<double>> vResult;
+vector< vector<double> > vResult;
 vector<double> vector_;
 int ResultCounter = 0;
 
@@ -367,7 +367,7 @@ void INLO2(unsigned long dim, int skip) {
 bounds - границы области, в которой генерируются точки.
 */
 
-void GOLO2(double *quasi, vector<vector<double>> &bounds) {
+void GOLO2(double *quasi, vector< vector<double> > &bounds) {
     int r;
     recip = pow(2, -NUMBER_OF_BITS);
     for (unsigned long i = 0; i < dimen2; ++i) {
@@ -414,7 +414,7 @@ bounds - границы области
 */
 
 void GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
-       vector<vector<double>> &bounds) {// PROGRAM
+       vector< vector<double> > &bounds) {// PROGRAM
     dimen = dimen_;
     unsigned long seqlen = seqlen_;
     unsigned dots = dots_;
@@ -508,7 +508,7 @@ int main(int argc, char *argv[]) {
 
     unsigned dots;
     unsigned long dimension, sequence;
-    vector<vector<double>> bounds;
+    vector< vector<double> > bounds;
     fstream inputFile(argv[1]);
 
     if (!inputFile) {
