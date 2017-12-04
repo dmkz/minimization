@@ -492,6 +492,7 @@ GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun
  *                                                  There are no assumptions why this is so.
  *                                                  Length must be strictly positive.
  *  10 - This is dots count.
+ *
  */
 int main(int argc, char *argv[]) {
     if (argc != 2) {
