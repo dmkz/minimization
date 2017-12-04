@@ -1,3 +1,7 @@
+/*
+ *	Source origin: https://github.com/olegrum/opti-fun
+ */
+
 #include <iostream>
 #include <cmath>
 #include <fstream>
