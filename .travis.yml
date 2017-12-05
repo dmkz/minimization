@@ -1,2 +1,2 @@
 language: cpp
-script: cmake CMakeLists.txt && make tms && pwd && ls && ./tms ../tests/DefaultTest.txt
+script: cmake CMakeLists.txt && make tms && pwd && ls && ./tms tests/DefaultTest.txt
