@@ -42,4 +42,4 @@
 * Дмитрий Гаврюшин
 * Баркова Екатерина
 
-Статус сборки для worldfly/minimization/develop: https://travis-ci.org/worldfly/minimization.svg?branch=develop
+Статус сборки для worldfly/minimization/develop: ![alt text](https://travis-ci.org/worldfly/minimization.svg?branch=develop)
