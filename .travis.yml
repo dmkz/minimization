@@ -1,2 +1,2 @@
 language: cpp
-script: cmake
+script: cmake CMakeLists.txt
