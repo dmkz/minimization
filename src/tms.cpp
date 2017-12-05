@@ -1,7 +1,5 @@
-/*
- *	Source origin: https://github.com/olegrum/opti-fun
- */
-#include "../include/tms.h"
+#include <iostream>
+#include "tms.h"
 
 using namespace std;
 
@@ -27,35 +25,7 @@ mul - результат умножения
 sub - результат деления
 */
 
-// COMM
-const int MAX_DIMENSION = 20;
-const int NUMBER_OF_BITS = 31;
-double recip;
-unsigned long dimen;
-
-// COMM2
-int cj[MAX_DIMENSION][NUMBER_OF_BITS/*!*/];
-int count2;
-unsigned long dimen2;
-int nextq2[MAX_DIMENSION];
-
-// FIELD
-const int MAX_Q_VALUE = 50;
-const int MAX_POLY_DEGREE = 50, CURRENT_DEGREE_VALUE = 0;
-int p, q, add[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/], mul[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/],
-        sub[MAX_Q_VALUE/*!*/][MAX_Q_VALUE/*!*/];
-
-vector< vector<double> > vResult;
-vector<double> vector_;
-int ResultCounter = 0;
-
-struct point {
-    unsigned long point;
-    double value;
-};
-
-// эта подпрограмма инициализирует таблицы сложений, умножений, вычитаний
-void SETFLD(int qin) {
+void TMSNet::SETFLD(int qin) {
     cout << "SETFLD" << endl;
     int i, j;
     if (qin <= 1 || qin > MAX_Q_VALUE) cout << "SETFLD: Bad value of Q";
@@ -73,8 +43,7 @@ void SETFLD(int qin) {
         for (j = 0; j < q; ++j) sub[add[i][j]][i] = j;
 }
 
-//Программа используется для умножения полиномов
-void PLYMUL(int *pa, int *pb, int *pc) {
+void TMSNet::PLYMUL(int *pa, int *pb, int *pc) {
     int i, j, dega, degb, degc, term;
     int pt[MAX_POLY_DEGREE + 2];
     dega = pa[CURRENT_DEGREE_VALUE];
@@ -94,19 +63,7 @@ void PLYMUL(int *pa, int *pb, int *pc) {
     for (i = degc + 2; i < MAX_POLY_DEGREE + 2; ++i) pc[i] = 0;
 }
 
-/*
-  C помощью этой программы вычисляем значения констант V(J,R)
-
-  px соответствующего неприводимого полинома для  текущего измерения
-  На входе в подпрограмму, степень B  определяет параметр J, как deg(B) = Е*(J-1), где Е - степень px.
-  MAXV дает размерность массива V.
-
-  результат выполнения - B умноженный на px, его степень на данный момент Е*J.
-  V содержит требуемыые значения.
-  подпрограмма PLYMUL используется для умножения полиномов
-*/
-
-void CALCV(int *px, int *b, int *v, int maxv) {
+void TMSNet::CALCV(int *px, int *b, int *v, int maxv) {
     int h[MAX_POLY_DEGREE + 2];
     int bigm = 0, m = 0, kj, term;
     int arbit = 1, nonzer = 1;
@@ -144,15 +101,7 @@ void CALCV(int *px, int *b, int *v, int maxv) {
     }
 }
 
-/*
-C помощью этой программы вычисляем значения константы  C(I,J,R).
-для каждого значения I, мы сначала рассчитываем все соответствующие значения  C : они хранятся в массиве CI.
-Все  значения C  0 или 1. Далее мы помещаем значения в массив  СJ, таким образом,  CJ(I,R) имеет значения С
-для указанных значений I и R, и для каждого J от 1 до NBITS
-И когда значения CJ(I,R) расчитаны, мы возвращаемсяк этому массиву в вызываемой программе
-*/
-
-void CALCC2() {
+void TMSNet::CALCC2() {
     int maxe = 5, maxv = NUMBER_OF_BITS + maxe;
     int px[MAX_POLY_DEGREE + 2], b[MAX_POLY_DEGREE + 2];
     int v[maxv + 1], ci[NUMBER_OF_BITS][NUMBER_OF_BITS];
@@ -334,13 +283,7 @@ void CALCC2() {
     }
 }
 
-/*
-Эта подпрограмма вычисляет значения нидеррейтера C(I,J,R) , вызывая CALCC2 и выполняет другие необходимые инициализации перед вызовом GOLO2
-dim - измерение последовательностей, которые должны быть созданы.
-skip - количество значений, которые должны быть отброшены в начале последовательности
-*/
-
-void INLO2(unsigned long dim, int skip) {
+void TMSNet::INLO2(unsigned long dim, int skip) {
     int r, gray;
     dimen2 = dim;
     if (dimen2 <= 0 || dimen2 > MAX_DIMENSION) {
@@ -362,12 +305,7 @@ void INLO2(unsigned long dim, int skip) {
     count2 = skip;
 }
 
-/*
-Эта функция создает новый квази-случайный вектор на каждый вызов программы
-bounds - границы области, в которой генерируются точки.
-*/
-
-void GOLO2(double *quasi, vector< vector<double> > &bounds) {
+void TMSNet::GOLO2(double *quasi, vector< vector<double> > &bounds) {
     int r;
     recip = pow(2, -NUMBER_OF_BITS);
     for (unsigned long i = 0; i < dimen2; ++i) {
@@ -391,30 +329,8 @@ void GOLO2(double *quasi, vector< vector<double> > &bounds) {
     ++count2;
 }
 
-//
-double func(vector<double> &p) {
-    return p[0] * p[0] + p[1] * p[1];
-}
-
-//Функция сравнения точек для сортировки
-int cmp(const void *a, const void *b) {
-    auto *x = (struct point *) a;
-    auto *y = (struct point *) b;
-    return 2 * ((x->value - y->value) > 0) - 1;
-}
-
-/*
-C помощью этой программы тестируем на точность численное интегрирование
-C помощью малых отклонений двоичных последовательностей Нидеррайтера (1988), как это реализовано в INLO2, GOLO2.
-Различные возможные проверки интегралов GENIN2 генерирует только  последовательности с основанием 2.
-dime_ - размерность пространвства
-sqlen_ - колличество точе
-m_ - колличество минимальныйх точек для запуска функций минимизации.
-bounds - границы области
-*/
-
-void GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
-       vector< vector<double> > &bounds) {// PROGRAM
+void TMSNet::GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
+    vector< vector<double> > &bounds) {// PROGRAM
     dimen = dimen_;
     unsigned long seqlen = seqlen_;
     unsigned dots = dots_;
@@ -453,8 +369,7 @@ void GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double 
     }
     fout.close();
 
-    qsort(values, seqlen, sizeof(struct point),
-          cmp); // сортируем вектор значений функции и запоминаем какой точке принадлежит каждое значение
+    qsort(values, seqlen, sizeof(struct point), cmp); // сортируем вектор значений функции и запоминаем какой точке принадлежит каждое значение
 
     ofstream fout1("out_min.txt"); // файл, в котором хранятся все m точек, где функция минимальна
 
@@ -470,8 +385,18 @@ void GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double 
     free(values);
 }
 
+double func(vector<double> &p) {
+    return p[0] * p[0] + p[1] * p[1];
+}
+
+int TMSNet::cmp(const void *a, const void *b) {
+    auto *x = (struct point *) a;
+    auto *y = (struct point *) b;
+    return 2 * ((x->value - y->value) > 0) - 1;
+}
+
 /**
- * Calculate tsm net.
+ * Calculate tms net.
  * Read dimension and bounds from file.
  *
  * Params file example:
@@ -489,8 +414,8 @@ void GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double 
  */
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-        cout << "tsm <file>\n\n";
-        cout << "Calculate tsm net.\n"
+        cout << "tms <file>\n\n";
+        cout << "Calculate tms net.\n"
                 "Read dimension and bounds from file.\n"
                 "\n"
                 "Params file example:\n"
@@ -509,6 +434,7 @@ int main(int argc, char *argv[]) {
     unsigned dots;
     unsigned long dimension, sequence;
     vector< vector<double> > bounds;
+    TMSNet tmsnet;
     fstream inputFile(argv[1]);
 
     if (!inputFile) {
@@ -517,8 +443,8 @@ int main(int argc, char *argv[]) {
     }
 
     inputFile >> dimension;
-    if (dimension > MAX_DIMENSION) {
-        cout << "Dimension may not exceed " << MAX_DIMENSION << endl;
+    if (dimension > tmsnet.MAX_DIMENSION) {
+        cout << "Dimension may not exceed " << tmsnet.MAX_DIMENSION << endl;
         return 1;
     } else {
         cout << "Dimension: " << dimension << endl;
@@ -541,7 +467,7 @@ int main(int argc, char *argv[]) {
 
     double (*f_pointer)(vector<double> &) = &func;
 
-    GENIN2(dimension, sequence, dots, f_pointer, bounds);
+    tmsnet.GENIN2(dimension, sequence, dots, f_pointer, bounds);
 
     return 0;
 }
