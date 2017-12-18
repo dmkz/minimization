@@ -9,3 +9,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 
 add_executable(main src/main.cpp)
 add_executable(tms src/tms.cpp include/tms.h)
+
+add_subdirectory (tests)
+enable_testing ()
+add_test (NAME Factorial COMMAND Test)

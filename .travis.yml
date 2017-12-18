@@ -1,2 +1,7 @@
 language: cpp
-script: cmake CMakeLists.txt && make tms && ./tms tests/DefaultTest.txt && cat out_min.txt
+script:
+- cmake CMakeLists.txt
+- make tests
+- make tms
+- ./tms tests/DefaultTest.txt
+- cat out_min.txt
