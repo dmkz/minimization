@@ -39,3 +39,9 @@ Makefile
 *.exe
 *.out
 *.app
+
+bin/out_min\.txt
+
+bin/out\.txt
+
+bin/CMakeFiles/
