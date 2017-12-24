@@ -5,10 +5,9 @@ project(minimization)
 include_directories(include)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g")
 
 add_executable(main src/main.cpp)
-add_executable(tms src/tms.cpp include/tms.h)
 
 add_subdirectory (tests)
 enable_testing ()

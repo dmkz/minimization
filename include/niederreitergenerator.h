@@ -5,9 +5,9 @@
 #include <fstream>
 #include <vector>
 #include <iomanip>
+#include "tmsnet.h"
 
-
-class TMSNet
+class NiederreiterGenerator : public TMSNet
 {
 public:
     // Инициализация таблицы сложений, умножений, вычитаний
@@ -65,10 +65,8 @@ public:
     //Функция сравнения точек для сортировки
     static int cmp(const void *a, const void *b);
 
-    struct point {
-        unsigned long point;
-        double value;
-    };
+    //Сгенерировать точки в файл
+    int GeneratePointsToFile(int argc, char *argv[]);
 
     // COMM
     static const int MAX_DIMENSION = 20;
