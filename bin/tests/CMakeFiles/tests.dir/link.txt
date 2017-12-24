@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E remove -f CMakeFiles\tests.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\tests.dir/objects.a @CMakeFiles\tests.dir\objects1.rsp
-C:\MinGW\bin\g++.exe  -Wall -Wextra -Werror -g   -Wl,--whole-archive CMakeFiles\tests.dir/objects.a -Wl,--no-whole-archive  -o tests.exe -Wl,--out-implib,libtests.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\tests.dir\linklibs.rsp
