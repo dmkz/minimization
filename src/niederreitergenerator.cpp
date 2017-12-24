@@ -25,7 +25,7 @@ mul - результат умножения
 sub - результат деления
 */
 
-void TMSNet::SETFLD(int qin) {
+void NiederreiterGenerator::SETFLD(int qin) {
     cout << "SETFLD" << endl;
     int i, j;
     if (qin <= 1 || qin > MAX_Q_VALUE) cout << "SETFLD: Bad value of Q";
@@ -43,7 +43,7 @@ void TMSNet::SETFLD(int qin) {
         for (j = 0; j < q; ++j) sub[add[i][j]][i] = j;
 }
 
-void TMSNet::PLYMUL(int *pa, int *pb, int *pc) {
+void NiederreiterGenerator::PLYMUL(int *pa, int *pb, int *pc) {
     int i, j, dega, degb, degc, term;
     int pt[MAX_POLY_DEGREE + 2];
     dega = pa[CURRENT_DEGREE_VALUE];
@@ -63,7 +63,7 @@ void TMSNet::PLYMUL(int *pa, int *pb, int *pc) {
     for (i = degc + 2; i < MAX_POLY_DEGREE + 2; ++i) pc[i] = 0;
 }
 
-void TMSNet::CALCV(int *px, int *b, int *v, int maxv) {
+void NiederreiterGenerator::CALCV(int *px, int *b, int *v, int maxv) {
     int h[MAX_POLY_DEGREE + 2];
     int bigm = 0, m = 0, kj, term;
     int arbit = 1, nonzer = 1;
@@ -101,7 +101,7 @@ void TMSNet::CALCV(int *px, int *b, int *v, int maxv) {
     }
 }
 
-void TMSNet::CALCC2() {
+void NiederreiterGenerator::CALCC2() {
     int maxe = 5, maxv = NUMBER_OF_BITS + maxe;
     int px[MAX_POLY_DEGREE + 2], b[MAX_POLY_DEGREE + 2];
     int v[maxv + 1], ci[NUMBER_OF_BITS][NUMBER_OF_BITS];
@@ -283,7 +283,7 @@ void TMSNet::CALCC2() {
     }
 }
 
-void TMSNet::INLO2(unsigned long dim, int skip) {
+void NiederreiterGenerator::INLO2(unsigned long dim, int skip) {
     int r, gray;
     dimen2 = dim;
     if (dimen2 <= 0 || dimen2 > MAX_DIMENSION) {
@@ -305,7 +305,7 @@ void TMSNet::INLO2(unsigned long dim, int skip) {
     count2 = skip;
 }
 
-void TMSNet::GOLO2(double *quasi, vector< vector<double> > &bounds) {
+void NiederreiterGenerator::GOLO2(double *quasi, vector< vector<double> > &bounds) {
     int r;
     recip = pow(2, -NUMBER_OF_BITS);
     for (unsigned long i = 0; i < dimen2; ++i) {
@@ -329,7 +329,7 @@ void TMSNet::GOLO2(double *quasi, vector< vector<double> > &bounds) {
     ++count2;
 }
 
-void TMSNet::GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
+void NiederreiterGenerator::GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_, double (*fun)(vector<double> &),
     vector< vector<double> > &bounds) {// PROGRAM
     dimen = dimen_;
     unsigned long seqlen = seqlen_;
@@ -356,7 +356,7 @@ void TMSNet::GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_,
 
     //int k; //количество точек в сетке
     ofstream fout("out.txt");
-    struct point *values = (struct point *) calloc(seqlen, sizeof(struct point));
+    struct NetPoint *values = (struct NetPoint *) calloc(seqlen, sizeof(struct NetPoint));
 
     for (unsigned long i = 0; i < seqlen; ++i) {
         for (unsigned long j = 0; j < dimen; ++j) {
@@ -369,7 +369,7 @@ void TMSNet::GENIN2(unsigned long dimen_, unsigned long seqlen_, unsigned dots_,
     }
     fout.close();
 
-    qsort(values, seqlen, sizeof(struct point), cmp); // сортируем вектор значений функции и запоминаем какой точке принадлежит каждое значение
+    qsort(values, seqlen, sizeof(struct NetPoint), cmp); // сортируем вектор значений функции и запоминаем какой точке принадлежит каждое значение
 
     ofstream fout1("out_min.txt"); // файл, в котором хранятся все m точек, где функция минимальна
 
@@ -389,9 +389,9 @@ double func(vector<double> &p) {
     return p[0] * p[0] + p[1] * p[1];
 }
 
-int TMSNet::cmp(const void *a, const void *b) {
-    auto *x = (struct point *) a;
-    auto *y = (struct point *) b;
+int NiederreiterGenerator::cmp(const void *a, const void *b) {
+    auto *x = (struct NetPoint *) a;
+    auto *y = (struct NetPoint *) b;
     return 2 * ((x->value - y->value) > 0) - 1;
 }
 
@@ -412,7 +412,7 @@ int TMSNet::cmp(const void *a, const void *b) {
  *  10 - This is dots count.
  *
  */
-int main(int argc, char *argv[]) {
+int NiederreiterGenerator::GeneratePointsToFile(int argc, char *argv[]) {
     if (argc != 2) {
         cout << "tms <file>\n\n";
         cout << "Calculate tms net.\n"
