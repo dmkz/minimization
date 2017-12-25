@@ -14,7 +14,7 @@ Vector hess_prod_vect(Function f, const Vector& x, const Vector& dx);
 Vector conjugade_gradient(Matrix A, Vector b, ld c, Vector x);
 
 // Медленный алгоритм Hessian Free (без модификации)
-std::pair<Vector, int> slow_hessian_free(Function f, Vector x, int iter_limit = 10000);
+std::pair<Vector, int> slow_hessian_free(Function f, Vector x, int iter_limit = 100);
 
 // Быстрый алгоритм Hessian Free (с модификацией)
-std::pair<Vector, int> hessian_free(Function f, Vector x, int iter_limit = 10000);
+std::pair<Vector, int> hessian_free(Function f, Vector x, int iter_limit = 100);
