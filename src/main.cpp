@@ -1,5 +1,6 @@
 #include "global_min.hpp"
 
+#include <stdio.h>
 #include <iostream>
 #include <iomanip>
 #include <set>
@@ -7,6 +8,9 @@
 #include <algorithm>
 
 #define N_max 100
+#define M_E 2.71828182845904523536
+#define M_PI 3.14159265358979323846
+#define M_PI_2 1.57079632679489661923
 
 ld f1(const Vector& x) {
     return 1 + x[0] + x[1] - x[0] * x[1] + x[0] * x[0] + x[1] * x[1];
