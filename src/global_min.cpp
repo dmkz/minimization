@@ -9,7 +9,7 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	
 	// Количество ядер:
 	uint32_t nCores = std::thread::hardware_concurrency();
-	std::cout << "Число ядер = " << nCores << std::endl;
+	// std::cout << "Число ядер = " << nCores << std::endl;
 	
 	// Вектор из тредов:
 	std::vector<std::thread> t;
@@ -21,10 +21,10 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	
 	// Создаем столько тредов, сколько ядер:
 	for (uint32_t i = 0; i < nCores; i++) {
-		t.push_back(std::thread([&inData, &outData, &globalIndex] {
+		t.push_back(std::thread([&] {
 			while (1) {
 				inRead.lock();
-				uint32_t i = global_index;
+				uint32_t i = globalIndex;
 				if (globalIndex >= inData.size()) {
 					inRead.unlock();
 					return;
@@ -72,10 +72,10 @@ find_local_mins_with_threads(const std::vector<std::pair<ld, Vector>>& inData) {
 	
 	// Создаем столько тредов, сколько ядер:
 	for (uint32_t i = 0; i < nCores; i++) {
-		t.push_back(std::thread([&inData, &outData, &globalIndex] {
+		t.push_back(std::thread([&] {
 			while (1) {
 				inRead.lock();
-				uint32_t i = global_index;
+				uint32_t i = globalIndex;
 				if (globalIndex >= inData.size()) {
 					inRead.unlock();
 					return;
