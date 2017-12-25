@@ -44,16 +44,12 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 		auto x1 = bfgs(f, it->second, 10).first;
 		auto x2 = hessian_free(f, it->second, 10).first;
 		auto x3 = nesterov(f, it->second, 10).first;
-		answer[i] = std::min(
-			std::min(
-				*it, 
-				std::make_pair(f(x1), x1)
-			), 
-			std::min(
-				std::make_pair(f(x2), x2), 
-				std::make_pair(f(x3), x3)
-			)
-		);
+		answer[i] = std::min({
+			*it,
+			std::make_pair(f(x1), x1),
+			std::make_pair(f(x2), x2), 
+			std::make_pair(f(x3), x3)
+		});
 		it++;
 	}
 	
