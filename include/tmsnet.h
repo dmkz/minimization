@@ -2,36 +2,34 @@
 
 typedef long double Real;
 
-using namespace std;
-
 template<typename T> struct Point
 {
-    long unsigned int N;
-    vector<T> coordinate;
+    uint32_t N;
+    std::vector<T> coordinate;
 
     Point();
 
-    Point(long unsigned int _N);
+    Point(uint32_t _N);
 
-    Point(long unsigned int _N, const vector<T>& _coordinate);
+    Point(uint32_t _N, const std::vector<T>& _coordinate);
 };
 
 template <typename T>
 Point<T>::Point()
 {
     N = 1;
-    coordinate = vector<T>(1, 0);
+	coordinate.resize(N);
 }
 
 template <typename T>
-Point<T>::Point(long unsigned int _N)
+Point<T>::Point(uint32_t _N)
 {
     N = _N;
-    coordinate = vector<T>(_N);
+	coordinate.resize(_N);
 }
 
 template <typename T>
-Point<T>::Point(long unsigned int _N, const vector<T>& _coordinate)
+Point<T>::Point(uint32_t _N, const std::vector<T>& _coordinate)
 {
     N = _N;
     coordinate = _coordinate;
@@ -41,7 +39,7 @@ Point<T>::Point(long unsigned int _N, const vector<T>& _coordinate)
 typedef Point<Real> PointReal;
 
 struct NetPoint {
-    unsigned long point;
+    uint32_t point;
     double value;
 };
 

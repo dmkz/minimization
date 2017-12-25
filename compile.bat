@@ -4,6 +4,7 @@ PATH | findstr /I CMake\bin >nul &&echo Check PATH to cmake.exe: OK ||echo Check
 PATH | findstr /I MinGW\bin >nul &&echo Check PATH to MinGW compiler: OK||echo Check PATH to MinGW compiler: ERROR
 
 @echo on
+del main.exe
 cmake -G "MinGW Makefiles"
 make
 main

@@ -1,9 +1,14 @@
 .idea
 .DS_Store
 
+# Temp input/output files
+output.txt
+input.txt
+
 # Ignored CMakeFiles
 CMakeFiles/*
-cmake_install.cmake
+tests/CMakeFiles/*
+*.cmake
 CMakeCache.txt
 Makefile
 
