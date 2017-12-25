@@ -1,5 +1,8 @@
 #include "sobolseqgenerator.h"
 #include "math.hpp"
+#include "nesterov.hpp"
+#include "hessian_free.hpp"
+#include "bfgs.hpp"
 
 #include <iostream>
 #include <iomanip>
