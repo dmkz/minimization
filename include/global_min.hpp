@@ -18,7 +18,7 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData);
 
 // Второй этап: запуск методов локальной минимизации в попытках улучшить результат: 
 std::vector<std::pair<ld, Vector>>
-find_local_mins_with_threads(const std::vector<std::pair<ld, Vector>>& inData);
+find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>>& inData);
 
 // Основная функция поиска абсолютных минимумов:
 std::vector<std::pair<ld, Vector>>
