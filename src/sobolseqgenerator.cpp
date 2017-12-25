@@ -16,7 +16,7 @@ int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
     N = _N;
     D = _D;
     current_point_number = -1;
-    L = (uint32_t)std::ceil(std::log((Real)N)/std::log(2.0));
+    L = (uint32_t)std::ceil(std::log(Real(N))/std::log(2.0L));
 
     std::ifstream infile(dir_file, std::ios::in);
     if (!infile) {
@@ -82,14 +82,14 @@ PointReal SobolSeqGenerator::GeneratePoint()
         uint32_t d, s;
         uint32_t a;
         infile >> d >> s >> a;
-        uint32_t *m = new uint32_t [s + 1];
+        std::vector<uint32_t> m(s+1);
         for (uint32_t i = 1; i <= s; i++)
         {
             infile >> m[i];
         }
 
         // ¬ычислить направл€ющие числа V, умноженные на pow(2,32)
-        uint32_t *V = new uint32_t [L + 1];
+        std::vector<uint32_t> V(L + 1);
         if (L <= s)
         {
             for (uint32_t i = 1; i <= L; i++)
