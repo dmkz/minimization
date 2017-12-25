@@ -20,7 +20,7 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 	
 	SobolSeqGenerator net;
 	net.Init(nAllPoints, dim, "new-joe-kuo-6.21201.txt");
-	// std::cout << "Prepare\n";
+
 	// Формирование списка лучших кандидатов
 	std::set<std::pair<ld, Vector>> candidates;
 	for (uint32_t i = 0; i < nAllPoints; ++i) {
@@ -36,22 +36,14 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 			candidates.erase(std::prev(candidates.end()));
 		}
 	}
-	// std::cout << "Calc\n";
+	
 	std::vector<std::pair<ld, Vector>> answer(candidates.size());
 	
 	auto it = candidates.begin();
 	for (uint32_t i = 0; i < answer.size(); ++i) {
-		// std::cout << "i = " << i << "\n";
-		// std::cout << "start from point = {" << it->second << "}\n";
-		/*
 		auto x1 = bfgs(f, it->second, 10).first;
-		std::cout << "bfgs success!!\n";
-		*/
-		auto x1 = it->second;
 		auto x2 = hessian_free(f, it->second, 10).first;
-		// std::cout << "hf success!!\n";
 		auto x3 = nesterov(f, it->second, 10).first;
-		// std::cout << "nesterov success!!\n";
 		answer[i] = std::min(
 			std::min(
 				*it, 
@@ -68,6 +60,26 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 	std::sort(answer.begin(), answer.end());
 	
 	return answer;
+}
+
+ld f1(const Vector& x) {
+    return 1 + x[0] + x[1] - x[0] * x[1] + x[0] * x[0] + x[1] * x[1];
+}
+
+ld f2(const Vector& x) {
+    return 1 + 7 * x[0] + 5 * x[1] + 0.5 * x[0] * x[1] + 3 * x[0] * x[0] + x[1] * x[1];
+}
+
+ld f3(const Vector& x) {
+    return 100 + 7 * x[0] + 5 * x[1] - 10 * x[0] * x[1] + 3 * x[0] * x[0] + 10 * x[1] * x[1];
+}
+
+ld f4(const Vector& x) {
+    return 100 + 7 * x[0] + 5 * x[1] - 10.95 * x[0] * x[1] + 3 * x[0] * x[0] + 10 * x[1] * x[1];
+}
+
+ld f5(const Vector& x) {
+    return 1+x[0]+x[1]+x[2] + x[0] * x[1] + x[0] * x[2] + x[1] * x[2] + x[0] * x[0] + x[1] * x[1] + x[2] * x[2];
 }
 
 ld f6(const Vector& x) {
@@ -102,6 +114,26 @@ void test(std::string title, Function f, uint32_t dim, uint32_t nBestPoints, uin
 	}
 }
 
+void test1() {
+	test("Test  1", f1, 2, 5, 32, Vector(2, -5), Vector(2, 5));
+}
+
+void test2() {
+	test("Test  2", f2, 2, 5, 32, Vector(2, -5), Vector(2, 5));
+}
+
+void test3() {
+	test("Test  3", f3, 2, 5, 32, Vector(2, -5), Vector(2, 5));
+}
+
+void test4() {
+	test("Test  4", f4, 2, 5, 32, Vector(2, -5), Vector(2, 5));
+}
+
+void test5() {
+	test("Test  5", f5, 3, 5, 32, Vector(3, -5), Vector(3, 5));
+}
+
 void test6() {
 	test("Test  6", f6, 2, 5, 32, Vector(2, -5), Vector(2, 5));
 }
@@ -123,6 +155,11 @@ void test10() {
 }
 
 int main() {
+	test1 ();
+	test2 ();
+	test3 ();
+	test4 ();
+	test5 ();
 	test6 ();
 	test7 ();
 	test8 ();

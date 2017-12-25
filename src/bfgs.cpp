@@ -63,7 +63,7 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
     return res;
 }
 
-ld search_alpha(Function f, Vector& x, Vector& p) {
+ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit) {
     ld alpha0 = 1.0;
     Vector x_cur = x;
     for(size_t i = 0; i < x_cur.size(); ++i) {
@@ -83,7 +83,7 @@ ld search_alpha(Function f, Vector& x, Vector& p) {
     if (phi_a1 <= phi0 + 0.0001*alpha1*derphi0) {
         return alpha1;
     }
-    while(alpha1 > 0) {
+    for (int iter = 0; iter < iter_limit && alpha1 > COMPARE_EPS; ++iter) {
         ld factor = alpha0 * alpha0 * alpha1 * alpha1 * (alpha1-alpha0);
         ld a = alpha0 * alpha0 * (phi_a1 - phi0 - derphi0*alpha1) - 
                    alpha1 * alpha1 * (phi_a0 - phi0 - derphi0*alpha0);
@@ -119,7 +119,7 @@ std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
     ld alpha;
     for(int i = 0; i < n; ++i)
         t[i] = -t[i];
-    alpha = search_alpha(f, start_point, t);
+    alpha = search_alpha(f, start_point, t, iter_limit);
 	if (alpha == -1) {
 	    return {start_point, 0};
     }
@@ -139,7 +139,7 @@ std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
                 p[i] -= B[i][j] * cur_grad[j];
             }
         }
-        alpha = search_alpha(f, x_cur, p);
+        alpha = search_alpha(f, x_cur, p, iter_limit);
 		if (alpha == -1) {
 		    break;
         }
