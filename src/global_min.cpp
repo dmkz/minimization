@@ -55,7 +55,7 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 }
 
 std::vector<std::pair<ld, Vector>>
-find_local_mins_with_threads(const std::vector<std::pair<ld, Vector>>& inData) {
+find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>>& inData) {
 	// Создаем вектор под ответ:
 	std::vector<std::pair<ld, Vector>> outData(inData.size());
 	
@@ -86,7 +86,7 @@ find_local_mins_with_threads(const std::vector<std::pair<ld, Vector>>& inData) {
 				inRead.unlock();
 				
 				// После чтения вызываем методы минимизации:
-				auto x1 = bfgs(f, it,second, 1000).first;
+				auto x1 = bfgs(f, it.second, 1000).first;
 				auto x2 = hessian_free(f, it.second, 1000).first;
 				auto x3 = nesterov(f, it.second, 1000).first;
 				
