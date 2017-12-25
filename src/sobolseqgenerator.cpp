@@ -20,7 +20,7 @@ int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
 
     std::ifstream infile(dir_file, std::ios::in);
     if (!infile) {
-		std::cout << "РќРµ РЅР°Р№РґРµРЅ С„Р°Р№Р» СЃРѕРґРµСЂР¶Р°С‰РёР№ РЅР°РїСЂР°РІР»СЏСЋС‰РёРµ С‡РёСЃР»Р°!\n";
+		std::cout << "Не найден файл содержащий направляющие числа!\n";
 		return -1;
     }
 
@@ -34,13 +34,13 @@ PointReal SobolSeqGenerator::GeneratePoint()
 {
     if (N == 0 || D == 0)
     {
-        std::cout << "Р“РµРЅРµСЂР°С‚РѕСЂ СЃРµС‚РѕРє РЎРѕР±РѕР»РµРІР° РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅ! N = " << N << ", D = " << D;
+        std::cout << "Генератор сеток Соболева некорректно инициализирован! N = " << N << ", D = " << D;
         return PointReal();
     }
     
 	std::ifstream infile(params_filename, std::ios::in);
     if (!infile) {
-		std::cout << "РќРµ РЅР°Р№РґРµРЅ С„Р°Р№Р» СЃРѕРґРµСЂР¶Р°С‰РёР№ РЅР°РїСЂР°РІР»СЏСЋС‰РёРµ С‡РёСЃР»Р°!\n";
+		std::cout << "Не найден файл содержащий направляющие числа!\n";
 		return -1;
     }
     char buffer[1000];
@@ -48,7 +48,7 @@ PointReal SobolSeqGenerator::GeneratePoint()
 	
     if (current_point_number == N - 1)
     {
-        std::cout << "Р“РµРЅРµСЂР°С‚РѕСЂ СѓР¶Рµ СЃРіРµРЅРµСЂРёСЂРѕРІР°Р» РІСЃРµ N С‚РѕС‡РµРє!";
+        std::cout << "Генератор уже сгенерировал все N точек!";
         return PointReal();
     }
 
@@ -69,16 +69,16 @@ PointReal SobolSeqGenerator::GeneratePoint()
         C++;
     }
 	
-    // Р’С‹С‡РёСЃР»РёС‚СЊ РЅР°РїСЂР°РІР»СЏСЋoРµРµ С‡РёСЃР»Рѕ V, СѓРјРЅРѕР¶РµРЅРЅРѕРµ РЅР° pow(2,32)
+    // Вычислить направляюoее число V, умноженное на pow(2,32)
     uint32_t V_first = 1 << (32u-C);
 
-    // Р’С‹С‡РёСЃР»РёС‚СЊ РїРµСЂРІСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ, СѓРјРЅРѕР¶РµРЅРЅСѓСЋ РЅР° pow(2,32)
+    // Вычислить первую координату, умноженную на pow(2,32)
     result_point.coordinate[0] = last_generated_point.coordinate[0] ^ V_first;
 	
-    // ----- Р’С‹С‡РёСЃР»РёС‚СЊ РѕСЃС‚Р°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ -----
+    // ----- Вычислить остальные координаты -----
     for (uint32_t j = 1; j < D; j++) {
 
-        // Р§С‚РµРЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ РёР· С„Р°Р№Р»Р°
+        // Чтение параметров из файла
         uint32_t d, s;
         uint32_t a;
         infile >> d >> s >> a;
@@ -88,7 +88,7 @@ PointReal SobolSeqGenerator::GeneratePoint()
             infile >> m[i];
         }
 
-        // Р’С‹С‡РёСЃР»РёС‚СЊ РЅР°РїСЂР°РІР»СЏСЋС‰РёРµ С‡РёСЃР»Р° V, СѓРјРЅРѕР¶РµРЅРЅС‹Рµ РЅР° pow(2,32)
+        // Вычислить направляющие числа V, умноженные на pow(2,32)
         std::vector<uint32_t> V(L + 1);
         if (L <= s)
         {
@@ -114,7 +114,7 @@ PointReal SobolSeqGenerator::GeneratePoint()
             }
         }
 
-        // Р’С‹С‡РёСЃР»РёС‚СЊ j-СЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ, СѓРјРЅРѕР¶РµРЅРЅСѓСЋ РЅР° pow(2,32)
+        // Вычислить j-ю координату, умноженную на pow(2,32)
         result_point.coordinate[j] = last_generated_point.coordinate[j] ^ V[C];
     }
 
