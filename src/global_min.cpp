@@ -148,7 +148,7 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 		}
 		if (i == nAllPoints - 1 || group.size() == GROUP_SIZE) {
 			// Запускаем многопоточное вычисление значений во всех точках
-			for (auto& it : calc_f_with_threads(group)) {
+			for (auto& it : calc_f_with_threads(f, group)) {
 				candidates.insert(it);
 				if (candidates.size() > nBestPoints) {
 					candidates.erase(std::prev(candidates.end()));
@@ -168,7 +168,7 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 	}
 	
 	// Многопоточная обработка кандидатов:
-	auto answer = find_local_mins_with_threads(temp);
+	auto answer = find_local_mins_with_threads(f, temp);
 	
 	// Итоговая сортировка всех найденных точек по неубыванию значения функции в них:
 	std::sort(answer.begin(), answer.end());
