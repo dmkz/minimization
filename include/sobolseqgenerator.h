@@ -4,9 +4,7 @@
 #include <string>
 #include "tmsnet.h"
 
-using namespace std;
-
-typedef Point<unsigned> PointUnsigned;
+typedef Point<uint32_t> PointUnsigned;
 
 struct DirectionalNumbersParams
 {
@@ -19,17 +17,17 @@ class SobolSeqGenerator : public TMSNet
 {
 public:
     int Init();
-    int Init(long unsigned int _N, long unsigned int _D, string dir_file);
+    int Init(uint32_t _N, uint32_t _D, std::string dir_file);
     PointReal GeneratePoint();
 
 private:
-    long unsigned int N;
-    long unsigned int D;
-    long unsigned int current_point_number;
+    uint32_t N;
+    uint32_t D;
+    uint32_t current_point_number;
 
     // L = максимальное число нужных битов
-    unsigned L;
-    unsigned C;
+    uint32_t L;
+    uint32_t C;
 
     // Параметры направляющих чисел
     string params_filename;

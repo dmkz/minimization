@@ -6,26 +6,24 @@
 #include <string>
 #include "sobolseqgenerator.h"
 
-using namespace std;
-
 int SobolSeqGenerator::Init()
 {
     return Init(1, 1, "sobol_net_default.txt");
 }
 
-int SobolSeqGenerator::Init(long unsigned int _N, long unsigned int _D, string dir_file)
+int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
 {
     N = _N;
     D = _D;
     current_point_number = -1;
-    L = (unsigned)ceil(log((double)N)/log(2.0));
- 
-    ifstream infile(dir_file, ios::in);
-    if (!infile)
-    {
-      cout << "Не найден файл содержащий направляющие числа!\n";
-      infile.close();
-      return -1;
+
+    L = (uint32_t)std::ceil(std::log(Real(N))/std::log(2.0L));
+
+    std::ifstream infile(dir_file, std::ios::in);
+    if (!infile) {
+		std::cout << "Не найден файл содержащий направляющие числа!\n";
+		return -1;
+      
     }
     char buffer[1000];
     infile.getline(buffer,1000,'\n');
@@ -61,13 +59,14 @@ PointReal SobolSeqGenerator::GeneratePoint()
 {
     if (N == 0 || D == 0)
     {
-        cout << "Генератор сеток Соболева некорректно инициализирован! N = " << N << ", D = " << D;
+        std::cout << "Генератор сеток Соболева некорректно инициализирован! N = " << N << ", D = " << D;
         return PointReal();
     }
 
     if(current_point_number == N - 1)
+
     {
-        cout << "Генератор уже сгенерировал все N точек!";
+        std::cout << "Генератор уже сгенерировал все N точек!";
         return PointReal();
     }
 
@@ -75,26 +74,27 @@ PointReal SobolSeqGenerator::GeneratePoint()
 
     if(current_point_number == 0)
     {
-        last_generated_point = PointUnsigned(D, vector<unsigned>(D, 0));
-        return PointReal(D, vector<Real>(D, 0));
+        last_generated_point = PointUnsigned(D, std::vector<uint32_t>(D, 0));
+        return PointReal(D, std::vector<Real>(D, 0));
     }
-
+	
     PointUnsigned result_point = PointUnsigned(D);
 
     C = 1;
-    unsigned value = current_point_number - 1;
-    while (value & 1)
-    {
+
+    uint32_t value = current_point_number - 1;
+    while (value & 1) {
+
         value >>= 1;
         C++;
     }
-
+	
     // Вычислить направляюoее число V, умноженное на pow(2,32)
-    unsigned V_first = 1 << (32-C);
+    uint32_t V_first = 1 << (32u-C);
 
     // Вычислить первую координату, умноженную на pow(2,32)
     result_point.coordinate[0] = last_generated_point.coordinate[0] ^ V_first;
-
+	
     // ----- Вычислить остальные координаты -----
     for (unsigned j = 1; j < D; j++)
     {
@@ -105,27 +105,27 @@ PointReal SobolSeqGenerator::GeneratePoint()
         auto m = dir_num_params[j].m;
 
         // Вычислить направляющие числа V, умноженные на pow(2,32)
-        unsigned *V = new unsigned [L + 1];
+        std::vector<uint32_t> V(L + 1);
         if (L <= s)
         {
-            for (unsigned i = 1; i <= L; i++)
+            for (uint32_t i = 1; i <= L; i++)
             {
-                V[i] = m[i] << (32 - i);
+                V[i] = m[i] << (32u - i);
             }
         }
         else
         {
-            for (unsigned i = 1; i <= s; i++)
+            for (uint32_t i = 1; i <= s; i++)
             {
-                V[i] = m[i] << (32 - i);
+                V[i] = m[i] << (32u - i);
             }
 
-            for (unsigned i = s + 1; i <= L; i++)
+            for (uint32_t i = s + 1; i <= L; i++)
             {
                 V[i] = V[i-s] ^ (V[i-s] >> s);
-  	            for (unsigned k = 1; k <= s-1; k++)
+  	            for (uint32_t k = 1; k <= s-1; k++)
                 {
-                    V[i] ^= (((a >> (s - 1 - k)) & 1) * V[i-k]);
+                    V[i] ^= (((a >> (s - 1 - k)) & 1u) * V[i-k]);
                 }
             }
         }
@@ -137,9 +137,9 @@ PointReal SobolSeqGenerator::GeneratePoint()
     last_generated_point = result_point;
 
     PointReal final_result = PointReal(D);
-    for (unsigned j = 0; j < D; j++)
+    for (uint32_t j = 0; j < D; j++)
     {
-        final_result.coordinate[j] = (Real) result_point.coordinate[j] / pow(2.0, 32);
+        final_result.coordinate[j] = (Real) result_point.coordinate[j] / std::pow(Real(2.0), 32);
     }
 
     return final_result;
