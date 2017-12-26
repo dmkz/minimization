@@ -10,6 +10,7 @@
 ## Алгоритмы локальной минимизации:
 1. BFGS
 2. Hessian Free
+3. Nesterov
 
 Ограничения: размерность m от 32 до 64, количество узлов сетки 2^m.
 Статус сборки для worldfly/minimization/develop: ![alt text](https://travis-ci.org/worldfly/minimization.svg?branch=develop)
