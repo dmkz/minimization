@@ -385,7 +385,7 @@ int main() {
 	test27();
 	test28();
 	test29();
-	test30();
+	test30(); /*
 	test31();
 	test32();
 	test33();
@@ -405,6 +405,6 @@ int main() {
 	test47();
 	test48();
 	test49();
-	test50();
+	test50(); */
 	return 0;
 }
