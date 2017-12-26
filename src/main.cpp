@@ -202,7 +202,7 @@ void test12() {
 }
 
 void test13() {
-    test("Test 13", f21, 2, 5, 32, {-1.5, -3}, {4, 4});
+    test("Test 13", f21, 2, 10, 32, {-1.5, -3}, {4, 4});
 }
 
 void test14() {
@@ -234,7 +234,7 @@ void test20() {
 }
 
 void test21() {
-    test("Test 21", f17, 2, 5, 32, Vector(2, -5), Vector(2, 5));
+    test("Test 21", f17, 2, 10, 32, Vector(2, -5), Vector(2, 5));
 }
 
 void test22() {
@@ -266,7 +266,7 @@ void test28() {
 }
 
 void test29() {
-    test("Test 29", f17, 4, 5, 128, Vector(4, -5), Vector(4, 5));
+    test("Test 29", f17, 4, 20, 128, Vector(4, -5), Vector(4, 5));
 }
 
 void test30() {
@@ -294,7 +294,7 @@ void test35() {
 }
 
 void test36() {
-    test("Test 36", f17, 10, 5, 2048, Vector(10, -5), Vector(10, 5));
+    test("Test 36", f17, 10, 50, 2048, Vector(10, -5), Vector(10, 5));
 }
 
 void test37() {
@@ -322,7 +322,7 @@ void test42() {
 }
 
 void test43() {
-    test("Test 43", f17, 20, 5, 1024u * 1024u, Vector(20, -5), Vector(20, 5));
+    test("Test 43", f17, 20, 50, 1024u * 1024u, Vector(20, -5), Vector(20, 5));
 }
 
 void test44() {
@@ -350,7 +350,7 @@ void test49() {
 }
 
 void test50() {
-    test("Test 50", f17, N_max, 5, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5));
+    test("Test 50", f17, N_max, 50, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5));
 }
 
 int main() {
