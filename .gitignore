@@ -8,6 +8,8 @@ input.txt
 # Ignored CMakeFiles
 CMakeFiles/*
 tests/CMakeFiles/*
+build/tests/CMakeFiles/*
+build/CMakeFiles/*
 *.cmake
 CMakeCache.txt
 Makefile
