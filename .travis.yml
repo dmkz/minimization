@@ -30,6 +30,6 @@ before_install:
 script:
 - cmake CMakeLists.txt
 - make tests
-- make tms
-- ./tms tests/DefaultTest.txt
-- cat out_min.txt
+#- make tms
+#- ./tms tests/DefaultTest.txt
+#- cat out_min.txt

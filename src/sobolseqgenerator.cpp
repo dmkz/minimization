@@ -16,12 +16,37 @@ int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
     N = _N;
     D = _D;
     current_point_number = -1;
+
     L = (uint32_t)std::ceil(std::log(Real(N))/std::log(2.0L));
 
     std::ifstream infile(dir_file, std::ios::in);
     if (!infile) {
 		std::cout << "Не найден файл содержащий направляющие числа!\n";
 		return -1;
+      
+    }
+    char buffer[1000];
+    infile.getline(buffer,1000,'\n');
+
+    dir_num_params.push_back(DirectionalNumbersParams());
+
+    for (unsigned j = 1; j < D; j++)
+    {
+        dir_num_params.push_back(DirectionalNumbersParams());        
+        // Чтение параметров из файла
+        unsigned _d, _s;
+        unsigned _a;
+        infile >> _d >> _s >> _a;
+        dir_num_params[j].d = _d;
+        dir_num_params[j].s = _s;
+        dir_num_params[j].a = _a;
+        dir_num_params[j].m.push_back(1);
+        for (unsigned i = 1; i <= _s; i++)
+        {
+            unsigned _m;
+            infile >> _m;
+            dir_num_params[j].m.push_back(_m);
+        }
     }
 
     infile.close();
@@ -37,16 +62,9 @@ PointReal SobolSeqGenerator::GeneratePoint()
         std::cout << "Генератор сеток Соболева некорректно инициализирован! N = " << N << ", D = " << D;
         return PointReal();
     }
-    
-	std::ifstream infile(params_filename, std::ios::in);
-    if (!infile) {
-		std::cout << "Не найден файл содержащий направляющие числа!\n";
-		return -1;
-    }
-    char buffer[1000];
-    infile.getline(buffer,1000,'\n');
-	
-    if (current_point_number == N - 1)
+
+    if(current_point_number == N - 1)
+
     {
         std::cout << "Генератор уже сгенерировал все N точек!";
         return PointReal();
@@ -63,8 +81,10 @@ PointReal SobolSeqGenerator::GeneratePoint()
     PointUnsigned result_point = PointUnsigned(D);
 
     C = 1;
+
     uint32_t value = current_point_number - 1;
     while (value & 1) {
+
         value >>= 1;
         C++;
     }
@@ -76,17 +96,13 @@ PointReal SobolSeqGenerator::GeneratePoint()
     result_point.coordinate[0] = last_generated_point.coordinate[0] ^ V_first;
 	
     // ----- Вычислить остальные координаты -----
-    for (uint32_t j = 1; j < D; j++) {
+    for (unsigned j = 1; j < D; j++)
+    {
 
         // Чтение параметров из файла
-        uint32_t d, s;
-        uint32_t a;
-        infile >> d >> s >> a;
-        std::vector<uint32_t> m(s+1);
-        for (uint32_t i = 1; i <= s; i++)
-        {
-            infile >> m[i];
-        }
+        unsigned s = dir_num_params[j].s;
+        unsigned a = dir_num_params[j].a;
+        auto m = dir_num_params[j].m;
 
         // Вычислить направляющие числа V, умноженные на pow(2,32)
         std::vector<uint32_t> V(L + 1);
@@ -118,8 +134,6 @@ PointReal SobolSeqGenerator::GeneratePoint()
         result_point.coordinate[j] = last_generated_point.coordinate[j] ^ V[C];
     }
 
-    infile.close();
-	
     last_generated_point = result_point;
 
     PointReal final_result = PointReal(D);

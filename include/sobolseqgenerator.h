@@ -6,6 +6,13 @@
 
 typedef Point<uint32_t> PointUnsigned;
 
+struct DirectionalNumbersParams
+{
+        unsigned d, s;
+        unsigned a;
+        std::vector<unsigned> m;
+};
+
 class SobolSeqGenerator : public TMSNet
 {
 public:
@@ -22,8 +29,11 @@ private:
     uint32_t L;
     uint32_t C;
 
-    std::string params_filename;
+    // Параметры направляющих чисел
+    string params_filename;
+    vector<DirectionalNumbersParams> dir_num_params;
 
     // Последняя сгенерированная одиночная точка
     PointUnsigned last_generated_point;
+
 };
