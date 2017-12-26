@@ -18,7 +18,7 @@ std::pair<Vector, int> nesterov(Function f, Vector startingPoint, int iter_limit
 	ld fCurrent = 0; //Перменная для хранения f(x(i))
 	Vector xCurrent = startingPoint;  //Переменная для хранения x(i)
     
-    int iterations = 0;
+    int iterations = 0; //Переменная для хранения номера итерации
 	while (iterations < iter_limit) {
 		while (true) {
 			alfaNext = alfa + std::sqrt(alfa*alfa + 2 * alfa*A);
