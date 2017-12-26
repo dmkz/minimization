@@ -8,14 +8,8 @@ input.txt
 # Ignored CMakeFiles
 CMakeFiles/*
 tests/CMakeFiles/*
-<<<<<<< HEAD
-<<<<<<< HEAD
 build/tests/CMakeFiles/*
 build/CMakeFiles/*
-=======
->>>>>>> parent of 116d0a8... Кодировка и скрипт компиляции под винду
-=======
->>>>>>> parent of 116d0a8... Кодировка и скрипт компиляции под винду
 *.cmake
 CMakeCache.txt
 Makefile
