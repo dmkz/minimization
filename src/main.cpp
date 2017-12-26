@@ -355,6 +355,7 @@ void test50() {
 
 int main() {
     freopen("test_result.txt", "wt", stdout);
+	std::cout << "Число ядер = " << std::thread::hardware_concurrency() << std::endl;
 	test1 ();
 	test2 ();
 	test3 ();

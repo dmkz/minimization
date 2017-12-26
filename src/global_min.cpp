@@ -9,7 +9,6 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	
 	// Количество ядер:
 	uint32_t nCores = std::thread::hardware_concurrency();
-	// std::cout << "Число ядер = " << nCores << std::endl;
 	
 	// Вектор из тредов:
 	std::vector<std::thread> t;
