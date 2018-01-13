@@ -33,7 +33,7 @@ private:
 
     // Параметры направляющих чисел
     std::string params_filename;
-	// Направляющие числа
+    // Направляющие числа
     std::vector<DirectionalNumbersParams> dir_num_params;
 
 	// Номер последней сгенерированной точки
