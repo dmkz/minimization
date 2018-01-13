@@ -18,6 +18,8 @@ class SobolSeqGenerator : public TMSNet
 public:
     int Init();
     int Init(uint32_t _N, uint32_t _D, std::string dir_file);
+	int Reset();
+	
     PointReal GeneratePoint();
 
 private:

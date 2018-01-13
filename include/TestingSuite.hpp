@@ -99,7 +99,7 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 					uniqueness_test->Attribute("pointnum");
 				new_test->test_name = new_test_name;
 				new_test->generator = new SobolSeqGenerator();
-				new_test->generator->Init(new_test->dimension, new_test->point_num, filename);
+				new_test->generator->Init(new_test->point_num, new_test->dimension, filename);
 				TMSNetTestElement* test_ptr = new_test; 
 				tests.push_back(test_ptr);
 			}
@@ -119,12 +119,12 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 				integration_test->QueryBoolAttribute("writeoutput", &new_test->write_output);
 				integration_test->QueryUnsignedAttribute("dimension", &new_test->dimension);
 				integration_test->QueryUnsignedAttribute("pointnum", &new_test->point_num);
-				std::string foo_key = integration_params->Attribute("function_key");
-				if (foo_key.empty()) {
+				if (!integration_params->Attribute("function_key")) {
 					std::cerr << "\nNo function name specified for integration test group \"" << new_testgroup_name << "\"";
 					delete new_test;
 					break;
 				}
+				std::string foo_key = integration_params->Attribute("function_key");
 				new_test->function_key = integration_params->Attribute("function_key");
 				if (new_generator_name == "joe-kuo")
 				{
@@ -137,7 +137,7 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 						integration_test->Attribute("pointnum");
 					new_test->test_name = new_test_name;
 					new_test->generator = new SobolSeqGenerator();
-					new_test->generator->Init(new_test->dimension, new_test->point_num, filename);
+					new_test->generator->Init(new_test->point_num, new_test->dimension, filename);
 					TMSNetTestElement* test_ptr = new_test;
 					tests.push_back(test_ptr);
 				}

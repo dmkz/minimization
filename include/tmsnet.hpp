@@ -50,6 +50,7 @@ class TMSNet
 public:
     virtual int Init() = 0;
     virtual int Init(uint32_t _N, uint32_t _D, std::string dir_file) = 0;
+	virtual int Reset() = 0;
 	
     // Генерация одной точки
     virtual PointReal GeneratePoint() = 0;

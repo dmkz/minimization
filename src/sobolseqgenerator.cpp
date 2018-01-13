@@ -6,12 +6,14 @@
 #include <string>
 #include "sobolseqgenerator.hpp"
 
-int SobolSeqGenerator::Init()
+int 
+SobolSeqGenerator::Init()
 {
     return Init(1, 1, "sobol_net_default.txt");
 }
 
-int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
+int 
+SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
 {
     N = _N;
     D = _D;
@@ -54,7 +56,8 @@ int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
     return 0;
 }
 
-PointReal SobolSeqGenerator::GeneratePoint()
+PointReal 
+SobolSeqGenerator::GeneratePoint()
 {
     if (N == 0 || D == 0)
     {
@@ -142,4 +145,11 @@ PointReal SobolSeqGenerator::GeneratePoint()
     }
 
     return final_result;
+}
+
+int
+SobolSeqGenerator::Reset()
+{
+	current_point_number = -1;
+	return 0;
 }
