@@ -3,7 +3,7 @@
 		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-6.21201.txt"/>
 		<uniqueness  writeoutput="true" dimension="1024" pointnum="512"/>
 		<uniqueness  writeoutput="true" dimension="1024" pointnum="1024"/>
-		<integration writeoutput="true" dimension="64" pointnum="65536">
+		<integration writeoutput="true" dimension="32" pointnum="16384">
 			<parameters function_key="subcube"/>
 		</integration>
 	</testgroup>
@@ -12,7 +12,7 @@
 		<uniqueness  writeoutput="true" dimension="1024" pointnum="2048"/>
 		<uniqueness  writeoutput="true" dimension="1024" pointnum="1024"/>
 		<uniqueness  writeoutput="true" dimension="1024" pointnum="512"/>
-		<integration writeoutput="true" dimension="128" pointnum="131072">
+		<integration writeoutput="true" dimension="64" pointnum="32768">
 			<parameters function_key="subcube"/>
 		</integration>
 	</testgroup>
