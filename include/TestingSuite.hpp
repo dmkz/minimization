@@ -120,20 +120,35 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 				integration_test->QueryUnsignedAttribute("dimension", &new_test->dimension);
 				integration_test->QueryUnsignedAttribute("pointnum", &new_test->point_num);
 				new_test->function_key = integration_params->Attribute("function_key");
+				std::cout << "\nRegistration of integration test: START";
 				if (new_generator_name == "joe-kuo")
 				{
 					std::string filename = tms_net_generator->Attribute("filename");
+					
+					std::cout << "\nRegistration of integration test: STEP";
 					std::string new_test_name = new_testgroup_name + "_" + 
 						filename + "_" +
 						new_test->function_key + "_" +
 						"integration" + "_" + 
 						integration_test->Attribute("dimension") + "_" + 
 						integration_test->Attribute("pointnum");
+						
+					std::cout << "\nRegistration of integration test: STEP";
 					new_test->test_name = new_test_name;
+					
+					std::cout << "\nRegistration of integration test: STEP";
 					new_test->generator = new SobolSeqGenerator();
+					
+					std::cout << "\nRegistration of integration test: STEP";
 					new_test->generator->Init(new_test->dimension, new_test->point_num, filename);
+					
+					std::cout << "\nRegistration of integration test: STEP";
 					TMSNetTestElement* test_ptr = new_test; 
+					
+					std::cout << "\nRegistration of integration test: STEP";
 					tests.push_back(test_ptr);
+					
+					std::cout << "\nRegistration of integration test: END";
 				}
 				else
 				{
