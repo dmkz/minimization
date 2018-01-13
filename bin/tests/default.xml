@@ -13,7 +13,7 @@
 		<uniqueness  writeoutput="true" dimension="1024" pointnum="1024"/>
 		<uniqueness  writeoutput="true" dimension="1024" pointnum="512"/>
 		<integration writeoutput="true" dimension="1024" pointnum="1024">
-			<parameters name="subcube"/>
+			<parameters function_key="subcube"/>
 		</integration>
 	</testgroup>
 </root>

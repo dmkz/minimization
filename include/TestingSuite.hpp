@@ -111,47 +111,35 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 			}
 		}
 		
-		std::cout << "\nRegistration of integration tests begin";
 		for(auto integration_test = test_group->FirstChildElement("integration"); integration_test != nullptr; integration_test = integration_test->NextSiblingElement("integration"))
 		{
-			
-			std::cout << "\nRegistration of integration tests parameters begin";
 			for(auto integration_params = integration_test->FirstChildElement("parameters"); integration_params != nullptr; integration_params = integration_params->NextSiblingElement("parameters"))
 			{
 				IntegrationTest* new_test = new IntegrationTest();
 				integration_test->QueryBoolAttribute("writeoutput", &new_test->write_output);
 				integration_test->QueryUnsignedAttribute("dimension", &new_test->dimension);
 				integration_test->QueryUnsignedAttribute("pointnum", &new_test->point_num);
+				std::string foo_key = integration_params->Attribute("function_key");
+				if (foo_key.empty()) {
+					std::cerr << "\nNo function name specified for integration test group \"" << new_testgroup_name << "\"";
+					delete new_test;
+					break;
+				}
 				new_test->function_key = integration_params->Attribute("function_key");
-				std::cout << "\nRegistration of integration test: START";
 				if (new_generator_name == "joe-kuo")
 				{
 					std::string filename = tms_net_generator->Attribute("filename");
-					
-					std::cout << "\nRegistration of integration test: STEP";
 					std::string new_test_name = new_testgroup_name + "_" + 
 						filename + "_" +
 						new_test->function_key + "_" +
 						"integration" + "_" + 
 						integration_test->Attribute("dimension") + "_" + 
 						integration_test->Attribute("pointnum");
-						
-					std::cout << "\nRegistration of integration test: STEP";
 					new_test->test_name = new_test_name;
-					
-					std::cout << "\nRegistration of integration test: STEP";
 					new_test->generator = new SobolSeqGenerator();
-					
-					std::cout << "\nRegistration of integration test: STEP";
 					new_test->generator->Init(new_test->dimension, new_test->point_num, filename);
-					
-					std::cout << "\nRegistration of integration test: STEP";
-					TMSNetTestElement* test_ptr = new_test; 
-					
-					std::cout << "\nRegistration of integration test: STEP";
+					TMSNetTestElement* test_ptr = new_test;
 					tests.push_back(test_ptr);
-					
-					std::cout << "\nRegistration of integration test: END";
 				}
 				else
 				{
