@@ -125,7 +125,7 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 					std::string filename = tms_net_generator->Attribute("filename");
 					std::string new_test_name = new_testgroup_name + "_" + 
 						filename + "_" +
-						integration_params->function_key + "_" +
+						new_test->function_key + "_" +
 						"integration" + "_" + 
 						integration_test->Attribute("dimension") + "_" + 
 						integration_test->Attribute("pointnum");
