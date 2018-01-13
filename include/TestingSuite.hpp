@@ -162,5 +162,7 @@ TestingSuite::RunAllTests()
 		test->RunTest();
 	}
 	
+	std::cout << "\n";
+	
 	return 0;
 }
