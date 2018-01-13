@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
-#include "sobolseqgenerator.h"
+#include "sobolseqgenerator.hpp"
 
 int SobolSeqGenerator::Init()
 {
@@ -21,9 +21,8 @@ int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
 
     std::ifstream infile(dir_file, std::ios::in);
     if (!infile) {
-		std::cout << "Не найден файл содержащий направляющие числа!\n";
+		std::cout << "\nDirection numbers file not found!" << "(" << dir_file << ")";
 		return -1;
-      
     }
     char buffer[1000];
     infile.getline(buffer,1000,'\n');
@@ -59,14 +58,14 @@ PointReal SobolSeqGenerator::GeneratePoint()
 {
     if (N == 0 || D == 0)
     {
-        std::cout << "Генератор сеток Соболева некорректно инициализирован! N = " << N << ", D = " << D;
+        std::cout << "Sobol sequence generator isnt initialized correctly! N = " << N << ", D = " << D;
         return PointReal();
     }
 
     if(current_point_number == N - 1)
 
     {
-        std::cout << "Генератор уже сгенерировал все N точек!";
+        std::cout << "Generator has already generated N points!";
         return PointReal();
     }
 

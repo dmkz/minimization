@@ -1,5 +1,6 @@
 #include <iostream>
 #include "tms.h"
+#include "niederreitergenerator.hpp"
 
 using namespace std;
 

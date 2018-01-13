@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "tmsnet.h"
+#include "tmsnet.hpp"
 
 typedef Point<uint32_t> PointUnsigned;
 
@@ -21,19 +21,24 @@ public:
     PointReal GeneratePoint();
 
 private:
+	// Количество точек, которые нужно сгенерировать 
     uint32_t N;
+	// Размерность сетки
     uint32_t D;
-    uint32_t current_point_number;
-
-    // L = максимальное число нужных битов
+	
+    // Максимальное число нужных битов
     uint32_t L;
+	// ???
     uint32_t C;
 
     // Параметры направляющих чисел
-    string params_filename;
-    vector<DirectionalNumbersParams> dir_num_params;
+    std::string params_filename;
+	// Направляющие числа
+    std::vector<DirectionalNumbersParams> dir_num_params;
 
-    // Последняя сгенерированная одиночная точка
+	// Номер последней сгенерированной точки
+    uint32_t current_point_number;
+    // Последняя сгенерированная точка
     PointUnsigned last_generated_point;
 
 };
