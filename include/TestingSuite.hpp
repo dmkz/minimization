@@ -125,10 +125,10 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 					std::string filename = tms_net_generator->Attribute("filename");
 					std::string new_test_name = new_testgroup_name + "_" + 
 						filename + "_" +
-						function_key + "_" +
+						integration_params->function_key + "_" +
 						"integration" + "_" + 
-						uniqueness_test->Attribute("dimension") + "_" + 
-						uniqueness_test->Attribute("pointnum");
+						integration_test->Attribute("dimension") + "_" + 
+						integration_test->Attribute("pointnum");
 					new_test->test_name = new_test_name;
 					new_test->generator = new SobolSeqGenerator();
 					new_test->generator->Init(new_test->dimension, new_test->point_num, filename);
