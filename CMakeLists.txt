@@ -13,6 +13,3 @@ set_target_properties( tms_net_tests
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/tests"
 )
-# add_subdirectory (tests)
-# enable_testing ()
-# add_test (NAME Factorial COMMAND Test)

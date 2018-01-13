@@ -113,16 +113,35 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 		
 		for(auto integration_test = test_group->FirstChildElement("integration"); integration_test != nullptr; integration_test = integration_test->NextSiblingElement("integration"))
 		{
-			//TODO
-			/*
-			IntegrationTest new_test;
-			new_test.test_name = new_testgroup_name;
-			integration_test->QueryBoolAttribute("writeoutput", &new_test.write_output);
-			integration_test->QueryUnsignedAttribute("dimension", &new_test.dimension);
-			integration_test->QueryUnsignedAttribute("pointnum", &new_test.point_num);
-			function_params.insert(std::pair<string, double>(key, value))
-			integration_tests.push_back(new_test);
-			*/
+			for(auto integration_params = integration_test->FirstChildElement("parameters"); integration_params != nullptr; integration_params = integration_params->NextSiblingElement("parameters"))
+			{
+				IntegrationTest* new_test = new IntegrationTest();
+				integration_test->QueryBoolAttribute("writeoutput", &new_test->write_output);
+				integration_test->QueryUnsignedAttribute("dimension", &new_test->dimension);
+				integration_test->QueryUnsignedAttribute("pointnum", &new_test->point_num);
+				new_test->function_key = integration_params->Attribute("function_key");
+				if (new_generator_name == "joe-kuo")
+				{
+					std::string filename = tms_net_generator->Attribute("filename");
+					std::string new_test_name = new_testgroup_name + "_" + 
+						filename + "_" +
+						function_key + "_" +
+						"integration" + "_" + 
+						uniqueness_test->Attribute("dimension") + "_" + 
+						uniqueness_test->Attribute("pointnum");
+					new_test->test_name = new_test_name;
+					new_test->generator = new SobolSeqGenerator();
+					new_test->generator->Init(new_test->dimension, new_test->point_num, filename);
+					TMSNetTestElement* test_ptr = new_test; 
+					tests.push_back(test_ptr);
+				}
+				else
+				{
+					std::cerr << "\nNo new tests for this generator have been implemented yet or wrong generator name!(" << new_generator_name << ")";
+					delete new_test;
+					break;
+				}
+			}
 		}
 	}
 	

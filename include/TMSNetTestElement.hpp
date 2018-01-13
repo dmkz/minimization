@@ -31,6 +31,7 @@ public:
 int
 UniquenessTest::RunTest()
 {
+	// TODO
 	std::cout << "\n" << test_name << " UniquenessTest";
 	auto p = generator->GeneratePoint();
 	p = generator->GeneratePoint();
@@ -47,7 +48,6 @@ public:
 	uint32_t dimension;
 	uint32_t point_num;
 	std::string function_key;
-	std::map<std::string, double> function_params;
 };
 
 int
