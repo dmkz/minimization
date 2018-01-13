@@ -30,8 +30,8 @@ private:
     uint32_t C;
 
     // Параметры направляющих чисел
-    string params_filename;
-    vector<DirectionalNumbersParams> dir_num_params;
+    std::string params_filename;
+    std::vector<DirectionalNumbersParams> dir_num_params;
 
     // Последняя сгенерированная одиночная точка
     PointUnsigned last_generated_point;

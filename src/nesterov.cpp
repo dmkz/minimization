@@ -13,7 +13,12 @@ std::pair<Vector, int> nesterov(Function f, Vector startingPoint, int iter_limit
 	ld alfaNext = 0.0;
 	ld A = 0;
 
-    int iterations = 0;
+    Vector xPrev = startingPoint; //Переменная для хранения x(i-1)
+	ld fPrev = 0; //Переменная для хранения f(x(i-1))
+	ld fCurrent = 0; //Перменная для хранения f(x(i))
+	Vector xCurrent = startingPoint;  //Переменная для хранения x(i)
+    
+    int iterations = 0; //Переменная для хранения номера итерации
 	while (iterations < iter_limit) {
 		while (true) {
 			alfaNext = alfa + std::sqrt(alfa*alfa + 2 * alfa*A);
@@ -29,6 +34,12 @@ std::pair<Vector, int> nesterov(Function f, Vector startingPoint, int iter_limit
 		A += alfaNext;
 		alfaNext = teta * alfa;
         ++iterations;
+        
+        //Запись значений x(i). x(i-1), f(x(i)), f(x(i-1))
+		xPrev = xCurrent;
+		fPrev = fCurrent;
+		xCurrent = xNext;
+		fCurrent = f(xCurrent);
 	}
 	return {xNext, iterations};
 }

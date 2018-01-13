@@ -6,6 +6,8 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <ctime>
 
 #define N_max 100
 #define M_E 2.71828182845904523536
@@ -354,8 +356,17 @@ void test50() {
 }
 
 int main() {
-    freopen("test_result.txt", "wt", stdout);
+	/*
+    auto start_d = std::chrono::system_clock::now();
+    auto start_t = std::chrono::system_clock::to_time_t(start_d);
+	std::string s = std::ctime(&start_t);
+	s.pop_back();
+	s = "Test " + s + ".txt";
+	*/
+    freopen("test_results.txt", "wt", stdout);
+	
 	std::cout << "Число ядер = " << std::thread::hardware_concurrency() << std::endl;
+	
 	test1 ();
 	test2 ();
 	test3 ();
@@ -385,7 +396,7 @@ int main() {
 	test27();
 	test28();
 	test29();
-	test30();
+	test30(); 
 	test31();
 	test32();
 	test33();
@@ -397,7 +408,7 @@ int main() {
 	test39();
 	test40();
 	test41();
-	test42();
+	test42(); /*
 	test43();
 	test44();
 	test45();
@@ -405,6 +416,6 @@ int main() {
 	test47();
 	test48();
 	test49();
-	test50();
+	test50(); */
 	return 0;
 }
