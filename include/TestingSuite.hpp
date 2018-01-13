@@ -111,8 +111,11 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 			}
 		}
 		
+		std::cout << "\nRegistration of integration tests begin";
 		for(auto integration_test = test_group->FirstChildElement("integration"); integration_test != nullptr; integration_test = integration_test->NextSiblingElement("integration"))
 		{
+			
+			std::cout << "\nRegistration of integration tests parameters begin";
 			for(auto integration_params = integration_test->FirstChildElement("parameters"); integration_params != nullptr; integration_params = integration_params->NextSiblingElement("parameters"))
 			{
 				IntegrationTest* new_test = new IntegrationTest();
