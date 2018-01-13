@@ -1,0 +1,19 @@
+<root>
+	<testgroup name="test1">
+		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-6.21201.txt"/>
+		<uniqueness  writeoutput="true" dimension="1024" pointnum="512"/>
+		<uniqueness  writeoutput="true" dimension="1024" pointnum="1024"/>
+		<integration writeoutput="true" dimension="1024" pointnum="1024">
+			<parameters name="subcube" a="0.5"/>
+		</integration>
+	</testgroup>
+	<testgroup name="test2">
+		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-6.21201.txt"/>
+		<uniqueness  writeoutput="true" dimension="1024" pointnum="2048"/>
+		<uniqueness  writeoutput="true" dimension="1024" pointnum="1024"/>
+		<uniqueness  writeoutput="true" dimension="1024" pointnum="512"/>
+		<integration writeoutput="true" dimension="1024" pointnum="1024">
+			<parameters name="subcube" a="0.5"/>
+		</integration>
+	</testgroup>
+</root>
