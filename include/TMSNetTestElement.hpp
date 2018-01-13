@@ -69,7 +69,7 @@ IntegrationTest::RunTest()
 int
 IntegrationTest::SubcubeTest()
 {
-	for (uint32_t d = 0; d < dimension; d++)
+	for (uint32_t d = 1; d <= dimension; d++)
 	{
 		double result = 0;
 		for (uint32_t i = 0; i < point_num; i++)
