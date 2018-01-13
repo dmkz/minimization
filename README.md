@@ -13,6 +13,6 @@
 
 Ограничения: размерность m от 32 до 64, количество узлов сетки 2^m.
 
-Статус сборки для dmkz/minimization/develop: [![Build Status](https://ci.worldfly.org/buildStatus/icon?job=Minimization main)](https://ci.worldfly.org/job/Minimization%20main/)
+Статус сборки для dmkz/minimization/develop: [![Build Status](https://ci.worldfly.org/buildStatus/icon?job=Minimization-main)](https://ci.worldfly.org/job/Minimization-main/)
 
 Статус сборки для worldfly/minimization/develop: [![Build Status](https://ci.worldfly.org/buildStatus/icon?job=Minimization)](https://ci.worldfly.org/job/Minimization/)
