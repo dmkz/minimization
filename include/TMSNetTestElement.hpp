@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <fstream>
+#include <set>
 #include "tmsnet.hpp"
 
 class TMSNetTestElement
@@ -43,7 +44,7 @@ UniquenessTest::RunTest()
         }
         if (s.size() < point_num)
         {
-			std::cout << "\nGenerator does not pass the test at dimension " << i << ", point " << j; 
+			std::cout << "\nGenerator does not pass the test at dimension " << i << "!"; 
             return 1;
         }
         s.clear();
