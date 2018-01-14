@@ -168,7 +168,7 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 					projection_test->Attribute("pointnum");
 				new_test->test_name = new_test_name;
 				new_test->generator = new SobolSeqGenerator();
-				uint32_t dimension = new_test->x > new_test->y ? new_test->x > : new_test->y;
+				uint32_t dimension = new_test->x > new_test->y ? new_test->x : new_test->y;
 				new_test->generator->Init(new_test->point_num, dimension, filename);
 				TMSNetTestElement* test_ptr = new_test; 
 				tests.push_back(test_ptr);
