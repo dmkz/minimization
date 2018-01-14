@@ -48,6 +48,7 @@ UniquenessTest::RunTest()
             return 1;
         }
         s.clear();
+		generator->Reset();
     }
 	
 	return 0;
