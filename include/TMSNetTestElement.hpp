@@ -112,3 +112,34 @@ IntegrationTest::SubcubeTestAnalyticValue(uint32_t d)
 {
 	return pow(0.5, d);
 }
+
+class ProjectionTest : public TMSNetTestElement
+{
+public:
+	int RunTest();
+	
+	uint32_t dimension;
+	uint32_t x;
+	uint32_t y;
+	uint32_t point_num;
+};
+
+int
+ProjectionTest::RunTest()
+{
+	std::ofstream output_stream;
+	output_stream.open(test_name);
+	if (x < 0 || y < 0 || x >= generator->D || y >= generator->D)
+	{
+		std::cerr << "\nProjection test error: bad x or y axis! x = " << x << " y = " << y;
+		return 1;
+	}
+	for (uint32_t i = 0; i < point_num; i++)
+	{
+		auto point = generator->GeneratePoint();
+		output_stream << point.coordinate[x] << " " << point.coordinate[y] << "\n";
+	}
+	output_stream.close();
+		
+	return 0;
+}
