@@ -69,6 +69,8 @@ IntegrationTest::RunTest()
 int
 IntegrationTest::SubcubeTest()
 {
+	ofstream output_stream;
+	output_stream.open(test_name);
 	for (uint32_t d = 1; d <= dimension; d++)
 	{
 		double result = 0;
@@ -81,9 +83,13 @@ IntegrationTest::SubcubeTest()
 		std::cout << "\n" << result << " " << point_num << " " << SubcubeTestAnalyticValue(d);
 		result = fabs(result - SubcubeTestAnalyticValue(d));
 		std::cout << "\nD: " << d << ", delta = " << result;
-		
+		if (write_output)
+		{
+			output_stream << d << result;
+		}
 		generator->Reset();
 	}
+	output_stream.close();
 	
 	return 0;
 }
