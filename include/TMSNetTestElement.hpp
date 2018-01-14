@@ -179,9 +179,9 @@ OrthogonalityTest::RunTest()
 	
 	for(uint32_t i = 0; i < point_num; i++)
 	{
-		for(uint32_t j1 = 0; j1 < point_num; j1++)
+		for(uint32_t j1 = 0; j1 < dimension; j1++)
 		{
-			for(uint32_t j2 = j1 + 1; j2 < point_num; j2++)
+			for(uint32_t j2 = j1 + 1; j2 < dimension; j2++)
 			{
 				std::vector<uint32_t> appearance(b_pow_r, 0u);
 				auto point = generator->GeneratePoint();
@@ -206,7 +206,7 @@ OrthogonalityTest::RunTest()
 				for(uint32_t j = 0; j < appearance.size(); j++)
 				{
 					if (appearance[j] != lambda)
-					{	
+					{
 						std::cerr << "\nOrthogonality test(" << test_name << "):Wrong number of pair " << j1 <<", "<< j2 << "(axis pair) appearance: pair(" << j % b << ", " << j / b << ") appears " << appearance[j] << " times!!!";					
 						std::cout << "\n" << test_name << " end";
 						return 1;
