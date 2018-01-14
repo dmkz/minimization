@@ -1,6 +1,8 @@
 #pragma once 
 
 #include <cmath>
+#include <fstream>
+#include <set>
 #include "tmsnet.hpp"
 
 class TMSNetTestElement
@@ -32,11 +34,27 @@ public:
 int
 UniquenessTest::RunTest()
 {
-	// TODO
-	std::cout << "\n" << test_name << " UniquenessTest";
-	auto p = generator->GeneratePoint();
-	p = generator->GeneratePoint();
-	std::cout << p.coordinate[0] << p.coordinate[p.coordinate.size()-1];
+	std::cout << "\n" << test_name << " start";
+    std::set<Real> s;
+    for (uint32_t i = 0; i < dimension; i++)
+    {
+        for (uint32_t j = 0; j < point_num; j++)
+        {
+			auto point = generator->GeneratePoint();
+            s.insert(point.coordinate[i]);
+        }
+        if (s.size() < point_num)
+        {
+			std::cout << "\nGenerator does not pass the test at dimension " << i << "!"; 
+			std::cout << "\n" << test_name << " end";
+            return 1;
+        }
+        s.clear();
+		generator->Reset();
+    }
+	
+	std::cout << "\nGenerator passed the test " << test_name << "!"; 
+	std::cout << "\n" << test_name << " start";
 	return 0;
 }
 
@@ -58,9 +76,12 @@ public:
 int
 IntegrationTest::RunTest()
 {	
+	std::cout << "\n" << test_name << " start";
 	if (function_key == "subcube")
 	{
-		return SubcubeTest();
+		int res = SubcubeTest();
+		std::cout << "\n" << test_name << " end";
+		return res;
 	}
 	std::cout << "\nNo new tests for this function key have been implemented yet or wrong function key!(" << function_key << ")";
 	return -1;
@@ -69,21 +90,25 @@ IntegrationTest::RunTest()
 int
 IntegrationTest::SubcubeTest()
 {
+	std::ofstream output_stream;
+	output_stream.open(test_name);
 	for (uint32_t d = 1; d <= dimension; d++)
 	{
-		double result = 0;
+		Real result = 0;
 		for (uint32_t i = 0; i < point_num; i++)
 		{
 			auto point = generator->GeneratePoint();
 			result += SubcubeTestFunction(point, d);
 		}
 		result /= point_num;
-		std::cout << "\n" << result << " " << point_num << " " << SubcubeTestAnalyticValue(d);
 		result = fabs(result - SubcubeTestAnalyticValue(d));
-		std::cout << "\nD: " << d << ", delta = " << result;
-		
+		if (write_output)
+		{
+			output_stream << d << " " << result << "\n";
+		}
 		generator->Reset();
 	}
+	output_stream.close();
 	
 	return 0;
 }
@@ -104,4 +129,32 @@ double
 IntegrationTest::SubcubeTestAnalyticValue(uint32_t d)
 {
 	return pow(0.5, d);
+}
+
+class ProjectionTest : public TMSNetTestElement
+{
+public:
+	int RunTest();
+	
+	uint32_t dimension;
+	uint32_t x;
+	uint32_t y;
+	uint32_t point_num;
+};
+
+int
+ProjectionTest::RunTest()
+{
+	std::cout << "\n" << test_name << " start";
+	std::ofstream output_stream;
+	output_stream.open(test_name);
+	for (uint32_t i = 0; i < point_num; i++)
+	{
+		auto point = generator->GeneratePoint();
+		output_stream << point.coordinate[x-1] << " " << point.coordinate[y-1] << "\n";
+	}
+	output_stream.close();
+	std::cout << "\n" << test_name << " end";
+
+	return 0;
 }
