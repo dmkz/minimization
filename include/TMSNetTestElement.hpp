@@ -51,6 +51,7 @@ UniquenessTest::RunTest()
 		generator->Reset();
     }
 	
+	std::cout << "\nGenerator passed the test " << test_name << "!"; 
 	return 0;
 }
 
