@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <cmath>
+#include <fstream>
 #include "tmsnet.hpp"
 
 class TMSNetTestElement
@@ -69,7 +70,7 @@ IntegrationTest::RunTest()
 int
 IntegrationTest::SubcubeTest()
 {
-	ofstream output_stream;
+	std::ofstream output_stream;
 	output_stream.open(test_name);
 	for (uint32_t d = 1; d <= dimension; d++)
 	{
