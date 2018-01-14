@@ -8,7 +8,7 @@
 		<integration writeoutput="true" dimension="64" pointnum="32768">
 			<parameters function_key="subcube"/>
 		</integration>
-		<projection writeoutput="true" x="50" y="8" pointnum="8192">
+		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
 	</testgroup>
 	<testgroup name="joe-kuo-5(new)">
 		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-5.21201.txt"/>
@@ -19,7 +19,7 @@
 		<integration writeoutput="true" dimension="64" pointnum="32768">
 			<parameters function_key="subcube"/>
 		</integration>
-		<projection writeoutput="true" x="50" y="8" pointnum="8192">
+		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
 	</testgroup>
 	<testgroup name="joe-kuo-7(new)">
 		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-7.21201.txt"/>
@@ -30,6 +30,6 @@
 		<integration writeoutput="true" dimension="64" pointnum="32768">
 			<parameters function_key="subcube"/>
 		</integration>
-		<projection writeoutput="true" x="50" y="8" pointnum="8192">
+		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
 	</testgroup>
 </root>
