@@ -33,14 +33,14 @@ public:
 int
 UniquenessTest::RunTest()
 {
-	std::set<Real> s;
+    std::set<Real> s;
     for (int i = 0; i < dimension; i++)
     {
         for (int j = 0; j < 65536; j++)
         {
             s.insert(net_gen.GeneratePoint().coordinate[i]);
         }
-        if (s.size() == 65536)
+        if (s.size() < 65536)
         {
             return 1;
         }
