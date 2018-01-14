@@ -202,18 +202,18 @@ OrthogonalityTest::RunTest()
 					}
 				}
 				appearance[first_coord + second_coord * b] += 1;
-			}
-			
-			for(uint32_t i = 0; i < appearance.size(); i++)
-			{
-				if (appearance[i] != lambda)
-				{	
-					std::cerr << "\nOrthogonality test(" << test_name << "):Wrong number of pair appearance: pair(" << i % b << ", " << i / b << ") appears " << appearance[i] << " times!!!";					
-					std::cout << "\n" << test_name << " end";
-					return 1;
+				
+				for(uint32_t i = 0; i < appearance.size(); i++)
+				{
+					if (appearance[i] != lambda)
+					{	
+						std::cerr << "\nOrthogonality test(" << test_name << "):Wrong number of pair appearance: pair(" << i % b << ", " << i / b << ") appears " << appearance[i] << " times!!!";					
+						std::cout << "\n" << test_name << " end";
+						return 1;
+					}
 				}
 			}
-
+			
 			generator->Reset();
 		}
 	}

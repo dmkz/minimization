@@ -200,7 +200,7 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 					orthogonality_test->Attribute("pointnum");
 				new_test->test_name = new_test_name;
 				new_test->generator = new SobolSeqGenerator();
-				new_test->generator->Init(new_test->point_num, dimension, filename);
+				new_test->generator->Init(new_test->point_num, new_test->dimension, filename);
 				TMSNetTestElement* test_ptr = new_test; 
 				tests.push_back(test_ptr);
 			}
