@@ -168,7 +168,38 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 					projection_test->Attribute("pointnum");
 				new_test->test_name = new_test_name;
 				new_test->generator = new SobolSeqGenerator();
-				uint32_t dimension = new_test->x > new_test->y ? new_test->x : new_test->y;
+				uint32_t dim = new_test->x > new_test->y ? new_test->x : new_test->y;
+				new_test->dimension = dimension
+				new_test->generator->Init(new_test->point_num, new_test->dimension, filename);
+				TMSNetTestElement* test_ptr = new_test; 
+				tests.push_back(test_ptr);
+			}
+			else
+			{
+				std::cerr << "\nNo new tests for this generator have been implemented yet or wrong generator name!(" << new_generator_name << ")";
+				delete new_test;
+				break;
+			}
+		}
+		
+		for(auto orthogonality_test = test_group->FirstChildElement("orthogonality"); orthogonality_test != nullptr; orthogonality_test = orthogonality_test->NextSiblingElement("orthogonality"))
+		{
+			OrthogonalityTest* new_test = new OrthogonalityTest();
+			orthogonality_test->QueryBoolAttribute("writeoutput", &new_test->write_output);
+			orthogonality_test->QueryUnsignedAttribute("dimension", &new_test->point_num);
+			orthogonality_test->QueryUnsignedAttribute("b", &new_test->b);
+			orthogonality_test->QueryUnsignedAttribute("pointnum", &new_test->point_num);
+			if (new_generator_name == "joe-kuo")
+			{
+				std::string filename = tms_net_generator->Attribute("filename");
+				std::string new_test_name = new_testgroup_name + "_" + 
+					filename + 
+					"_orthogonality_" + 
+					orthogonality_test->Attribute("dimension") + "_" +
+					orthogonality_test->Attribute("b") + "_" + 
+					orthogonality_test->Attribute("pointnum");
+				new_test->test_name = new_test_name;
+				new_test->generator = new SobolSeqGenerator();
 				new_test->generator->Init(new_test->point_num, dimension, filename);
 				TMSNetTestElement* test_ptr = new_test; 
 				tests.push_back(test_ptr);
