@@ -73,9 +73,12 @@ public:
 int
 IntegrationTest::RunTest()
 {	
+	std::cout << "\n" << test_name << " start";
 	if (function_key == "subcube")
 	{
-		return SubcubeTest();
+		int res = SubcubeTest();
+		std::cout << "\n" << test_name << " end";
+		return res;
 	}
 	std::cout << "\nNo new tests for this function key have been implemented yet or wrong function key!(" << function_key << ")";
 	return -1;
@@ -95,9 +98,7 @@ IntegrationTest::SubcubeTest()
 			result += SubcubeTestFunction(point, d);
 		}
 		result /= point_num;
-		std::cout << "\n" << result << " " << point_num << " " << SubcubeTestAnalyticValue(d);
 		result = fabs(result - SubcubeTestAnalyticValue(d));
-		std::cout << "\nD: " << d << ", delta = " << result;
 		if (write_output)
 		{
 			output_stream << d << " " << result << "\n";

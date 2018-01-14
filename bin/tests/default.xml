@@ -10,7 +10,6 @@
 		</integration>
 		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
 	</testgroup>
-	<!--
 	<testgroup name="joe-kuo-5(new)">
 		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-5.21201.txt"/>
 		<uniqueness  writeoutput="true" dimension="64" pointnum="65536"/>
@@ -32,5 +31,5 @@
 			<parameters function_key="subcube"/>
 		</integration>
 		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
-	</testgroup>-->
+	</testgroup>
 </root>
