@@ -149,6 +149,37 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 				}
 			}
 		}
+		
+		for(auto projection_test = test_group->FirstChildElement("projection"); projection_test != nullptr; projection_test = projection_test->NextSiblingElement("projection"))
+		{
+			ProjectionTest* new_test = new ProjectionTest();
+			projection_test->QueryBoolAttribute("writeoutput", &new_test->write_output);
+			projection_test->QueryUnsignedAttribute("x", &new_test->x);
+			projection_test->QueryUnsignedAttribute("y", &new_test->y);
+			projection_test->QueryUnsignedAttribute("pointnum", &new_test->point_num);
+			if (new_generator_name == "joe-kuo")
+			{
+				std::string filename = tms_net_generator->Attribute("filename");
+				std::string new_test_name = new_testgroup_name + "_" + 
+					filename + 
+					"_projection_" + 
+					projection_test->Attribute("x") + "_" + 
+					projection_test->Attribute("y") + "_" + 
+					projection_test->Attribute("pointnum");
+				new_test->test_name = new_test_name;
+				new_test->generator = new SobolSeqGenerator();
+				uint32_t dimension = new_test->x > new_test->y ? new_test->x > : new_test->y;
+				new_test->generator->Init(new_test->point_num, dimension, filename);
+				TMSNetTestElement* test_ptr = new_test; 
+				tests.push_back(test_ptr);
+			}
+			else
+			{
+				std::cerr << "\nNo new tests for this generator have been implemented yet or wrong generator name!(" << new_generator_name << ")";
+				delete new_test;
+				break;
+			}
+		}
 	}
 	
 	return 0;

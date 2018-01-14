@@ -34,10 +34,11 @@ public:
 int
 UniquenessTest::RunTest()
 {
+	std::cout << "\n" << test_name << " start";
     std::set<Real> s;
-    for (int i = 0; i < dimension; i++)
+    for (uint32_t i = 0; i < dimension; i++)
     {
-        for (int j = 0; j < point_num; j++)
+        for (uint32_t j = 0; j < point_num; j++)
         {
 			auto point = generator->GeneratePoint();
             s.insert(point.coordinate[i]);
@@ -45,6 +46,7 @@ UniquenessTest::RunTest()
         if (s.size() < point_num)
         {
 			std::cout << "\nGenerator does not pass the test at dimension " << i << "!"; 
+			std::cout << "\n" << test_name << " end";
             return 1;
         }
         s.clear();
@@ -52,6 +54,7 @@ UniquenessTest::RunTest()
     }
 	
 	std::cout << "\nGenerator passed the test " << test_name << "!"; 
+	std::cout << "\n" << test_name << " start";
 	return 0;
 }
 
@@ -91,7 +94,7 @@ IntegrationTest::SubcubeTest()
 	output_stream.open(test_name);
 	for (uint32_t d = 1; d <= dimension; d++)
 	{
-		double result = 0;
+		Real result = 0;
 		for (uint32_t i = 0; i < point_num; i++)
 		{
 			auto point = generator->GeneratePoint();
@@ -142,14 +145,16 @@ public:
 int
 ProjectionTest::RunTest()
 {
+	std::cout << "\n" << test_name << " start";
 	std::ofstream output_stream;
 	output_stream.open(test_name);
 	for (uint32_t i = 0; i < point_num; i++)
 	{
 		auto point = generator->GeneratePoint();
-		output_stream << point.coordinate[x] << " " << point.coordinate[y] << "\n";
+		output_stream << point.coordinate[x-1] << " " << point.coordinate[y-1] << "\n";
 	}
 	output_stream.close();
-		
+	std::cout << "\n" << test_name << " end";
+
 	return 0;
 }
