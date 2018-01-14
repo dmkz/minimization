@@ -187,27 +187,27 @@ OrthogonalityTest::RunTest()
 				auto point = generator->GeneratePoint();
 				uint32_t first_coord = 0;
 				uint32_t second_coord = 0;
-				for (uint32_t i = 0; i < b; i++)
+				for (uint32_t j = 0; j < b; j++)
 				{
-					if (point.coordinate[j1] >= (double)(i)/b && point.coordinate[j1] < (double)((i+1))/b)
+					if (point.coordinate[j1] >= (double)(j)/b && point.coordinate[j1] < (double)((j+1))/b)
 					{
-						first_coord = i;
+						first_coord = j;
 					}
 				}
-				for (uint32_t i = 0; i < b; i++)
+				for (uint32_t j = 0; j < b; j++)
 				{
-					if (point.coordinate[j2] >= (double)(i)/b && point.coordinate[j2] < (double)((i+1))/b)
+					if (point.coordinate[j2] >= (double)(j)/b && point.coordinate[j2] < (double)((j+1))/b)
 					{
-						second_coord = i;
+						second_coord = j;
 					}
 				}
 				appearance[first_coord + second_coord * b] += 1;
 				
-				for(uint32_t i = 0; i < appearance.size(); i++)
+				for(uint32_t j = 0; j < appearance.size(); j++)
 				{
-					if (appearance[i] != lambda)
+					if (appearance[j] != lambda)
 					{	
-						std::cerr << "\nOrthogonality test(" << test_name << "):Wrong number of pair " << j1 <<", "<< j2 << "(axis pair) appearance: pair(" << i % b << ", " << i / b << ") appears " << appearance[i] << " times!!!";					
+						std::cerr << "\nOrthogonality test(" << test_name << "):Wrong number of pair " << j1 <<", "<< j2 << "(axis pair) appearance: pair(" << j % b << ", " << j / b << ") appears " << appearance[j] << " times!!!";					
 						std::cout << "\n" << test_name << " end";
 						return 1;
 					}
