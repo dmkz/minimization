@@ -140,11 +140,6 @@ ProjectionTest::RunTest()
 {
 	std::ofstream output_stream;
 	output_stream.open(test_name);
-	if (x < 0 || y < 0 || x >= generator->D || y >= generator->D)
-	{
-		std::cerr << "\nProjection test error: bad x or y axis! x = " << x << " y = " << y;
-		return 1;
-	}
 	for (uint32_t i = 0; i < point_num; i++)
 	{
 		auto point = generator->GeneratePoint();
