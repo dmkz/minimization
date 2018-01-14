@@ -212,9 +212,9 @@ OrthogonalityTest::RunTest()
 						return 1;
 					}
 				}
+				generator->Reset();
 			}
 			
-			generator->Reset();
 		}
 	}
 	
