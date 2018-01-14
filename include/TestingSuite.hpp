@@ -186,7 +186,7 @@ TestingSuite::WriteTestGroupConfiguration(tinyxml2::XMLElement* test_group)
 		{
 			OrthogonalityTest* new_test = new OrthogonalityTest();
 			orthogonality_test->QueryBoolAttribute("writeoutput", &new_test->write_output);
-			orthogonality_test->QueryUnsignedAttribute("dimension", &new_test->point_num);
+			orthogonality_test->QueryUnsignedAttribute("dimension", &new_test->dimension);
 			orthogonality_test->QueryUnsignedAttribute("b", &new_test->b);
 			orthogonality_test->QueryUnsignedAttribute("pointnum", &new_test->point_num);
 			if (new_generator_name == "joe-kuo")
