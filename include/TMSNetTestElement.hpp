@@ -36,20 +36,19 @@ UniquenessTest::RunTest()
     std::set<Real> s;
     for (int i = 0; i < dimension; i++)
     {
-        for (int j = 0; j < 65536; j++)
+        for (int j = 0; j < point_num; j++)
         {
-            s.insert(net_gen.GeneratePoint().coordinate[i]);
+			auto point = generator->GeneratePoint();
+            s.insert(point.coordinate[i]);
         }
-        if (s.size() < 65536)
+        if (s.size() < point_num)
         {
+			std::cout << "\nGenerator does not pass the test at dimension " << i << ", point " << j; 
             return 1;
         }
         s.clear();
     }
-	std::cout << "\n" << test_name << " UniquenessTest";
-	auto p = generator->GeneratePoint();
-	p = generator->GeneratePoint();
-	std::cout << p.coordinate[0] << p.coordinate[p.coordinate.size()-1];
+	
 	return 0;
 }
 
