@@ -86,7 +86,7 @@ IntegrationTest::SubcubeTest()
 		std::cout << "\nD: " << d << ", delta = " << result;
 		if (write_output)
 		{
-			output_stream << d << result;
+			output_stream << d << " " << result << "\n";
 		}
 		generator->Reset();
 	}
