@@ -33,7 +33,19 @@ public:
 int
 UniquenessTest::RunTest()
 {
-	// TODO
+	std::set<Real> s;
+    for (int i = 0; i < dimension; i++)
+    {
+        for (int j = 0; j < 65536; j++)
+        {
+            s.insert(net_gen.GeneratePoint().coordinate[i]);
+        }
+        if (s.size() == 65536)
+        {
+            return 1;
+        }
+        s.clear();
+    }
 	std::cout << "\n" << test_name << " UniquenessTest";
 	auto p = generator->GeneratePoint();
 	p = generator->GeneratePoint();
