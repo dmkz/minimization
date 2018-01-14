@@ -207,7 +207,7 @@ OrthogonalityTest::RunTest()
 				{
 					if (appearance[i] != lambda)
 					{	
-						std::cerr << "\nOrthogonality test(" << test_name << "):Wrong number of pair appearance: pair(" << i % b << ", " << i / b << ") appears " << appearance[i] << " times!!!";					
+						std::cerr << "\nOrthogonality test(" << test_name << "):Wrong number of pair " << j1 <<", "<< j2 << "(axis pair) appearance: pair(" << i % b << ", " << i / b << ") appears " << appearance[i] << " times!!!";					
 						std::cout << "\n" << test_name << " end";
 						return 1;
 					}
