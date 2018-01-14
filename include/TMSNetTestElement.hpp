@@ -181,7 +181,7 @@ OrthogonalityTest::RunTest()
 	{
 		for(uint32_t j1 = 0; j1 < point_num; j1++)
 		{
-			for(uint32_t j2 = 0; j2 < j1; j2++)
+			for(uint32_t j2 = j1 + 1; j2 < point_num; j2++)
 			{
 				std::vector<uint32_t> appearance(b_pow_r, 0u);
 				auto point = generator->GeneratePoint();
