@@ -12,7 +12,7 @@
 
 Статус сборки для worldfly/minimization/develop: ![alt text](https://travis-ci.org/worldfly/minimization.svg?branch=develop)
 
-## Инструкция по возможной сборке проекта на Windows
+## Инструкция по возможной сборке проекта на Windows 7 и выше
 
 В одном из вариантов сборки проекта на Windows предполагается наличие следующих утилит:
 * Утилита cmake
