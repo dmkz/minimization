@@ -10,7 +10,7 @@
 2. Hessian Free
 3. Nesterov
 
-Статус сборки для worldfly/minimization/develop: ![alt text](https://travis-ci.org/worldfly/minimization.svg?branch=develop)
+Статус сборки : [![Build Status](https://ci.worldfly.org/buildStatus/icon?job=Minimization-Container/Minimization-main)](https://ci.worldfly.org/job/Minimization-Container/job/Minimization-main/)
 
 ## Инструкция по возможной сборке проекта на Windows 7 и выше
 
@@ -42,3 +42,42 @@
     pacman -S mingw-w64-x86_64-gcc make mingw-w64-x86_64-cmake
 
 Процесс установки и обновления всех пакетов завершен. Чтобы собрать проект и запустить, можно выполнить скрипт compile.bat в директории проекта.
+
+## Инструкция по сборке на *nix
+
+Для сборки требуется:
+* cmake ( >= 3.1 )
+* GNU Make ( >= 3.81 )
+* gcc ( >= 7.2 )
+
+Сборка проекта:
+
+    cmake CMakeLists.txt
+    make
+
+
+Запуск проекта:
+
+    ./main
+
+## Интсрукция по сборке на Windows (вариант 2)
+
+> Протестировано на Windows Server 2016.
+
+Для сборки требуется:
+* cmake ( >= 3.1 )
+* Visual C++ Build Tools ( >= 2015 )
+* Windows 8.1 или Windows 10 SDK
+
+Сборка проекта в cmd:
+
+    setlocal enabledelayedexpansion
+    cmake CMakeLists.txt
+    "C:\Program Files (x86)\Microsoft Visual C++ Build Tools\vcbuildtools_msbuild.bat"
+    msbuild main.vcxproj
+    
+Запуск проекта в cmd:
+
+    Debug\main.exe
+    
+Для запуска проекта может потребоваться ```ucrtbased.dll```. Проблему можно решить, скопировав файл ```copy "C:\Program Files (x86)\Windows Kits\10\bin\x86\ucrt\ucrtbased.dll"``` в ```Debug\ucrtbased.dll```.
