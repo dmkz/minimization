@@ -1,28 +1,28 @@
 #include "math.hpp"
 
 // Апроксимация умножения градиента функции f в точке х на вектор dx
-// Погрешность O(||h*dx||^2), где h - выбранный шаг дифференцирования
+// Погрешность O(||h||^2*||dx||^3), где h - выбранный шаг дифференцирования
 ld grad_prod_vect(Function f, const Vector& x, const Vector& dx) {
     if (is_zero(dx)) {
         return 0;
     }
-    ld norm_dx = norm(dx);
-    ld h = 1e-4 / norm_dx;
+    // Подбор шага h таким образом, чтобы погрешность составила 1e-8:
+    ld h = std::sqrt(1e-8 / std::pow(norm(dx), 3.0));
 	return (1 / (2*h)) * (f(x + h * dx) - f(x - h * dx));
 }
 
 // Апроксимация умножения матрицы Гессе в точке x на вектор dx 
-// Погрешность O(||h*dx||^2)
+// Погрешность O(||h||^2*||dx||^3)
 Vector hess_prod_vect(Function f, const Vector& x, const Vector& dx) {
     if (is_zero(dx)) {
         return Vector((int)x.size(), 0);
     }
-    ld norm_dx = norm(dx);
-    ld h = 1e-4 / norm_dx;
+    // Подбор шага h таким образом, чтобы погрешность составила 1e-8:
+    ld h = std::sqrt(1e-8 / std::pow(norm(dx), 3.0));
 	return (1 / (2*h)) * (grad(f, x+h*dx) - grad(f, x-h*dx));
 }
 
-Vector conjugade_gradient(Matrix A, Vector b, ld c, Vector x) {
+Vector conjugade_gradient(Matrix A, Vector b, Vector x) {
     auto d = - (A * x + b);
     for (int i = 0; i < (int)x.size() && !is_zero(d); ++i) {
         ld alpha = -(dot(d, A*x+b)) / dot(d, A * d);
@@ -36,7 +36,7 @@ std::pair<Vector, int> slow_hessian_free(Function f, Vector x, int iter_limit) {
     int n = (int)x.size();
     int iterations = 0;
     for (iterations = 0; iterations < iter_limit; ++iterations) {
-        auto dx = conjugade_gradient(hess(f, x), grad(f, x), f(x), Vector(n, 0));
+        auto dx = conjugade_gradient(hess(f, x), grad(f, x), Vector(n, 0));
         if (is_zero(dx)) {
             break;
         }
