@@ -1,0 +1,47 @@
+<root>
+	<testgroup name="joe-kuo-6(new)">
+		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-6.21201.txt"/>
+		<!--<uniqueness  writeoutput="true" dimension="64" pointnum="65536"/>-->
+		<integration writeoutput="true" dimension="32" pointnum="16384">
+			<parameters function_key="subcube"/>
+		</integration>
+		<integration writeoutput="true" dimension="64" pointnum="32768">
+			<parameters function_key="subcube"/>
+		</integration>
+		<projection writeoutput="true" x="50" y="100" pointnum="1024"/>
+		<projection writeoutput="true" x="2" y="50" pointnum="4096"/>
+		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
+		<orthogonality writeoutput="true" dimension="32" b="2" pointnum="65536"/>
+		<orthogonality writeoutput="true" dimension="32" b="32" pointnum="65536"/>
+	</testgroup>
+	<testgroup name="joe-kuo-5(new)">
+		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-5.21201.txt"/>
+		<!--<uniqueness  writeoutput="true" dimension="64" pointnum="65536"/>-->
+		<integration writeoutput="true" dimension="32" pointnum="16384">
+			<parameters function_key="subcube"/>
+		</integration>
+		<integration writeoutput="true" dimension="64" pointnum="32768">
+			<parameters function_key="subcube"/>
+		</integration>
+		<projection writeoutput="true" x="50" y="100" pointnum="1024"/>
+		<projection writeoutput="true" x="2" y="50" pointnum="4096"/>
+		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
+		<orthogonality writeoutput="true" dimension="32" b="2" pointnum="65536"/>
+		<orthogonality writeoutput="true" dimension="32" b="32" pointnum="65536"/>
+	</testgroup>
+	<testgroup name="joe-kuo-7(new)">
+		<tmsnetgenerator name="joe-kuo" filename="new-joe-kuo-7.21201.txt"/>
+		<!--<uniqueness  writeoutput="true" dimension="64" pointnum="65536"/>-->
+		<integration writeoutput="true" dimension="32" pointnum="16384">
+			<parameters function_key="subcube"/>
+		</integration>
+		<integration writeoutput="true" dimension="64" pointnum="32768">
+			<parameters function_key="subcube"/>
+		</integration>
+		<projection writeoutput="true" x="50" y="100" pointnum="1024"/>
+		<projection writeoutput="true" x="2" y="50" pointnum="4096"/>
+		<projection writeoutput="true" x="50" y="8" pointnum="8192"/>
+		<orthogonality writeoutput="true" dimension="32" b="2" pointnum="65536"/>
+		<orthogonality writeoutput="true" dimension="32" b="32" pointnum="65536"/>
+	</testgroup>
+</root>
