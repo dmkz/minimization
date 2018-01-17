@@ -37,7 +37,7 @@ std::pair<Vector, int> slow_hessian_free(Function f, Vector x, int iter_limit) {
     int iterations = 0;
     for (iterations = 0; iterations < iter_limit; ++iterations) {
         auto dx = conjugade_gradient(hess(f, x), grad(f, x), Vector(n, 0));
-        if (is_zero(dx)) {
+        if (is_zero(dx) || std::abs(f(x) - f(x+dx)) < COMPARE_EPS) {
             break;
         }
         x += dx;
@@ -57,7 +57,7 @@ std::pair<Vector, int> hessian_free(Function f, Vector x, int iter_limit) {
             auto temp = hess_prod_vect(f, x, dx) + grad(f, x);
             d = -temp + dot(temp, hess_prod_vect(f, x, d)) / dot(d, hess_prod_vect(f, x, d)) * d;
         }
-        if (is_zero(dx)) {
+        if (is_zero(dx) || std::abs(f(x) - f(x+dx)) < COMPARE_EPS) {
             break;
         }
         x += dx;
