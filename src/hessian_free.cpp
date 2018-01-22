@@ -2,7 +2,7 @@
 
 // Апроксимация умножения градиента функции f в точке х на вектор dx
 // Погрешность O(||h||^2*||dx||^3), где h - выбранный шаг дифференцирования
-// Авторы: Козырев Дмитрий, Бадави Полина
+// Авторы: Козырев Дмитрий (реализация), Бадави Полина (теория)
 ld grad_prod_vect(Function f, const Vector& x, const Vector& dx) {
     if (is_zero(dx)) {
         return 0;
@@ -14,7 +14,7 @@ ld grad_prod_vect(Function f, const Vector& x, const Vector& dx) {
 
 // Апроксимация умножения матрицы Гессе в точке x на вектор dx 
 // Погрешность O(||h||^2*||dx||^3)
-// Авторы: Козырев Дмитрий, Бадави Полина
+// Авторы: Козырев Дмитрий (реализация), Бадави Полина (теория)
 Vector hess_prod_vect(Function f, const Vector& x, const Vector& dx) {
     if (is_zero(dx)) {
         return Vector((int)x.size(), 0);
@@ -24,7 +24,7 @@ Vector hess_prod_vect(Function f, const Vector& x, const Vector& dx) {
 	return (1 / (2*h)) * (grad(f, x+h*dx) - grad(f, x-h*dx));
 }
 
-// Авторы: Козырев Дмитрий, Бадави Полина
+// Авторы: Козырев Дмитрий (реализация), Бадави Полина (теория)
 Vector conjugade_gradient(Matrix A, Vector b, Vector x) {
     auto d = - (A * x + b);
     for (int i = 0; i < (int)x.size() && !is_zero(d); ++i) {
@@ -35,7 +35,7 @@ Vector conjugade_gradient(Matrix A, Vector b, Vector x) {
     return x;
 }
 
-// Авторы: Козырев Дмитрий, Бадави Полина
+// Авторы: Козырев Дмитрий (реализация), Бадави Полина (теория)
 std::pair<Vector, int> slow_hessian_free(Function f, Vector x, int iter_limit) {
     int n = (int)x.size();
     int iterations = 0;
@@ -49,7 +49,7 @@ std::pair<Vector, int> slow_hessian_free(Function f, Vector x, int iter_limit) {
     return {x, iterations};
 }
 
-// Авторы: Козырев Дмитрий, Бадави Полина
+// Авторы: Козырев Дмитрий (реализация), Бадави Полина (теория)
 std::pair<Vector, int> hessian_free(Function f, Vector x, int iter_limit) {
     int n = (int)x.size();
     int iterations;
