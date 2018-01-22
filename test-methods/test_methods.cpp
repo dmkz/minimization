@@ -3,6 +3,12 @@
 #include "bfgs.hpp"
 #include <fstream>
 
+/*
+    Тестирование методов отдельно.
+    Автор: Юрий Кондратов
+*/
+    
+
 // typedef Vector(*Method)(Function, Vector);
 
 std::ofstream fout_txt, fout_csv;

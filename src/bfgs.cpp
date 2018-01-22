@@ -1,5 +1,6 @@
 #include "bfgs.hpp"
 
+// Авторы: Михнев Денис, Грошева Екатерина
 Matrix out_pr(Vector& x, Vector& y) {
     int n = (int)x.size(); 
     Matrix res(n, Vector(n));
@@ -9,6 +10,7 @@ Matrix out_pr(Vector& x, Vector& y) {
     return res;
 }
 
+// Авторы: Михнев Денис, Грошева Екатерина
 Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
     int n = (int)x_cur.size();
     Vector s(n);
@@ -63,6 +65,7 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
     return res;
 }
 
+// Авторы: Михнев Денис, Грошева Екатерина
 ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit) {
     ld alpha0 = 1.0;
     Vector x_cur = x;
@@ -110,6 +113,7 @@ ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit) {
     return -1;
 }
 
+// Авторы: Михнев Денис, Грошева Екатерина
 std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
     int n = (int)start_point.size();
     Matrix B(n, Vector(n));

@@ -1,6 +1,7 @@
 #include "nesterov.hpp"
 
 // Метод Нестерова (возвращается результат - точка минимума и количество сделанных итераций)
+// Авторы: Петрухина Светлана, Кулага Иван
 std::pair<Vector, int> nesterov(Function f, Vector startingPoint, int iter_limit) {
     ld ro = 2.0;
 	ld teta = 1.1;

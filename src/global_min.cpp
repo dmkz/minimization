@@ -2,6 +2,7 @@
 #include <thread>
 #include <mutex>
 
+// Автор: Козырев Дмитрий
 std::vector<std::pair<ld, Vector>>
 calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	// Создаем вектор под ответ:
@@ -53,6 +54,7 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	return outData;
 }
 
+// Автор: Козырев Дмитрий
 std::vector<std::pair<ld, Vector>>
 find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>>& inData) {
 	// Создаем вектор под ответ:
@@ -114,6 +116,7 @@ find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>
 	
 }
 
+// Автор: Козырев Дмитрий
 std::vector<std::pair<ld, Vector>>
 find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
 	// Несколько проверок на входные данные:

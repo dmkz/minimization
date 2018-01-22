@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+    Библиотека со всей математикой. 
+    Автор: Дмитрий Козырев
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <vector>

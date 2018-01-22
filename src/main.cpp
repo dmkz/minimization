@@ -1,5 +1,10 @@
 #include "global_min.hpp"
 
+/*
+    Тестирование глобальной оптимизации.
+    Автор: Юрий Кондратов.
+*/
+
 #include <stdio.h>
 #include <iostream>
 #include <iomanip>
