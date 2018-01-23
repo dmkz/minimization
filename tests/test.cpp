@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "sobolseqgenerator.h"
+#include "sobolseqgenerator.hpp"
 
 TEST_CASE( "Sobol sequence generator basic test (pass)", "[single-file]")
 {

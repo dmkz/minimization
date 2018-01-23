@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sobolseqgenerator.h"
+#include "sobolseqgenerator.hpp"
 #include "math.hpp"
 #include "nesterov.hpp"
 #include "hessian_free.hpp"

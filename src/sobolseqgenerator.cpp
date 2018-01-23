@@ -4,14 +4,16 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
-#include "sobolseqgenerator.h"
+#include "sobolseqgenerator.hpp"
 
-int SobolSeqGenerator::Init()
+int 
+SobolSeqGenerator::Init()
 {
     return Init(1, 1, "sobol_net_default.txt");
 }
 
-int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
+int 
+SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
 {
     N = _N;
     D = _D;
@@ -21,9 +23,8 @@ int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
 
     std::ifstream infile(dir_file, std::ios::in);
     if (!infile) {
-		std::cout << "Не найден файл содержащий направляющие числа!\n";
+		std::cout << "\nDirection numbers file not found!" << "(" << dir_file << ")";
 		return -1;
-      
     }
     char buffer[1000];
     infile.getline(buffer,1000,'\n');
@@ -55,18 +56,19 @@ int SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
     return 0;
 }
 
-PointReal SobolSeqGenerator::GeneratePoint()
+PointReal 
+SobolSeqGenerator::GeneratePoint()
 {
     if (N == 0 || D == 0)
     {
-        std::cout << "Генератор сеток Соболева некорректно инициализирован! N = " << N << ", D = " << D;
+        std::cout << "Sobol sequence generator isnt initialized correctly! N = " << N << ", D = " << D;
         return PointReal();
     }
 
     if(current_point_number == N - 1)
 
     {
-        std::cout << "Генератор уже сгенерировал все N точек!";
+        std::cout << "Generator has already generated N points!";
         return PointReal();
     }
 
@@ -143,4 +145,11 @@ PointReal SobolSeqGenerator::GeneratePoint()
     }
 
     return final_result;
+}
+
+int
+SobolSeqGenerator::Reset()
+{
+	current_point_number = -1;
+	return 0;
 }

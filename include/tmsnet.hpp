@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 typedef long double Real;
 
 template<typename T> struct Point
@@ -46,9 +48,10 @@ struct NetPoint {
 class TMSNet
 {
 public:
+    virtual int Init() = 0;
+    virtual int Init(uint32_t _N, uint32_t _D, std::string dir_file) = 0;
+	virtual int Reset() = 0;
+	
     // Генерация одной точки
-    PointReal GeneratePoint()
-    {
-        return PointReal();
-    };
+    virtual PointReal GeneratePoint() = 0;
 };
