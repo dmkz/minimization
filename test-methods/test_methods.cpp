@@ -4,8 +4,8 @@
 #include <fstream>
 
 /*
-    Тестирование методов отдельно.
-    Автор: Юрий Кондратов
+    РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РјРµС‚РѕРґРѕРІ РѕС‚РґРµР»СЊРЅРѕ.
+    РђРІС‚РѕСЂ: Р®СЂРёР№ РљРѕРЅРґСЂР°С‚РѕРІ
 */
     
 
@@ -13,7 +13,7 @@
 
 std::ofstream fout_txt, fout_csv;
 
-// Тестовые функции
+// РўРµСЃС‚РѕРІС‹Рµ С„СѓРЅРєС†РёРё
 ld f1(const Vector& x) {
     return 1 + x[0] + x[1] - x[0] * x[1] + x[0] * x[0] + x[1] * x[1];
 }
@@ -197,16 +197,16 @@ void test_method(
                 best_id = curr_id;
             }
         }
-        fout_txt << "\tИз точки #" << i << " сходится к " << best_point.type << " #" << best_id
-            << " (итераций: " << std::setw(8) << res.second << ") ";
+        fout_txt << "\tРР· С‚РѕС‡РєРё #" << i << " СЃС…РѕРґРёС‚СЃСЏ Рє " << best_point.type << " #" << best_id
+            << " (РёС‚РµСЂР°С†РёР№: " << std::setw(8) << res.second << ") ";
         if (best_eps_f == 1e9) {
-            fout_txt << "все очень плохо :(\n";
+            fout_txt << "РІСЃРµ РѕС‡РµРЅСЊ РїР»РѕС…Рѕ :(\n";
         } else {
-            fout_txt << "с точностью " << std::fixed << std::setprecision(24) << std::setw(30) << best_eps_f << std::endl;
+            fout_txt << "СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ " << std::fixed << std::setprecision(24) << std::setw(30) << best_eps_f << std::endl;
         }
-        fout_txt << "\t\tНачальное приближение: " << p << std::endl;
-        fout_txt << "\t\t Предполагаемый ответ: " << best_point.x << std::endl;
-        fout_txt << "\t\t     Полученный ответ: " << x << std::endl << std::endl;
+        fout_txt << "\t\tРќР°С‡Р°Р»СЊРЅРѕРµ РїСЂРёР±Р»РёР¶РµРЅРёРµ: " << p << std::endl;
+        fout_txt << "\t\t РџСЂРµРґРїРѕР»Р°РіР°РµРјС‹Р№ РѕС‚РІРµС‚: " << best_point.x << std::endl;
+        fout_txt << "\t\t     РџРѕР»СѓС‡РµРЅРЅС‹Р№ РѕС‚РІРµС‚: " << x << std::endl << std::endl;
         fout_csv << id_test << ", " << p << "," << x << ", " << best_point.x << ", " << method_title << ";" << std::endl;
     }
 }
@@ -214,35 +214,35 @@ void test_method(
 void test1(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{-1, -1}, "Global Min"}};
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
-    fout_txt << "------------------ Тест 1 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 1 ------------------\n";
     test_method(method, f1, start_points, expected, 1, method_title);
 }
 
 void test2(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{ld(-46) / 47, ld(-106) / 47}, "Global Min"}};
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
-    fout_txt << "------------------ Тест 2 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 2 ------------------\n";
     test_method(method, f2, start_points, expected, 2, method_title);
 }
 
 void test3(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{ld(-19) / 2, -5}, "Global Min"}};
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
-    fout_txt << "------------------ Тест 3 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 3 ------------------\n";
     test_method(method, f3, start_points, expected, 3, method_title);
 }
 
 void test4(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{ld(-77900) / 39, ld(-14220)/13}, "Global Min"}};
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
-    fout_txt << "------------------ Тест 4 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 4 ------------------\n";
     test_method(method, f4, start_points, expected, 4, method_title);
 }
 
 void test5(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{-0.25, -0.25, -0.25}, "Global Min"}};
     auto start_points = Matrix{{-20, -20, -20}, {-20, -20, 20}, {-20, 20, -20}, {-20, 20, 20}, {20, -20, -20}, {20, -20, 20}, {20, 20, -20}, {20, 20, 20}, {0, 0, 0}};
-    fout_txt << "------------------ Тест 5 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 5 ------------------\n";
     test_method(method, f5, start_points, expected, 5, method_title);
 }
 
@@ -251,7 +251,7 @@ void test6(Method method, const std::string& method_title) {
         {{-0.582109, 0.525995}, "Global Min"}, {{0.582109, -0.525995}, "Global Min"}
     };
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0.5, 0.5}};
-    fout_txt << "------------------ Тест 6 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 6 ------------------\n";
     test_method(method, f6, start_points, expected, 6, method_title);
 }
 
@@ -260,7 +260,7 @@ void test7(Method method, const std::string& method_title) {
         {{-1.08789, -1.00318}, "Global Min"}, {{1.08789, 1.00318}, "Global Min"}
     };
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
-    fout_txt << "------------------ Тест 7 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 7 ------------------\n";
     test_method(method, f7, start_points, expected, 7, method_title);
 }
 
@@ -269,7 +269,7 @@ void test8(Method method, const std::string& method_title) {
         {{-1, -1}, "Global Min"}, {{0, 0}, "Global Min"}, {{1, 1}, "Global Min"}
     };
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
-    fout_txt << "------------------ Тест 8 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 8 ------------------\n";
     test_method(method, f8, start_points, expected, 8, method_title);
 }
 
@@ -278,7 +278,7 @@ void test9(Method method, const std::string& method_title) {
         {{-1.34777, -1.34777}, "Global Min"}, {{1.34777, 1.34777}, "Global Min"}, {{0, 0}, " Local Min"}
     };
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
-    fout_txt << "------------------ Тест 9 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 9 ------------------\n";
     test_method(method, f9, start_points, expected, 9, method_title);
 }
 
@@ -288,7 +288,7 @@ void test10(Method method, const std::string& method_title) {
         {{0, 0}, " Local Max"}, {{-0.39332, 0.39332}, " Local Min"}, {{0.39332, -0.39332}, " Local Min"}
     };
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0.5, 0.5}};
-    fout_txt << "------------------ Тест 10 -----------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 10 -----------------\n";
     test_method(method, f10, start_points, expected, 10, method_title);
 }
 
@@ -328,127 +328,127 @@ void test_Nesterov_n_Rosenbrock(Method method, int type, int Dimensions, int id_
 }
 
 void test11(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 11 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 11 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 1, 2, 11, method_title);
 }
 
 void test12(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 12 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 12 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 1, 3, 12, method_title);
 }
 
 void test13(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 13 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 13 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 1, 4, 13, method_title);
 }
 
 void test14(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 14 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 14 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 1, 5, 14, method_title);
 }
 
 void test15(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 15 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 15 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 1, 6, 15, method_title);
 }
 
 void test16(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 16 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 16 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 2, 2, 16, method_title);
 }
 
 void test17(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 17 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 17 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 2, 5, 17, method_title);
 }
 
 void test18(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 18 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 18 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 2, 10, 18, method_title);
 }
 
 void test19(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 19 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 19 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 2, 100, 19, method_title);
 }
 
 void test20(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 20 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 20 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 2, 1000, 20, method_title);
 }
 
 void test21(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 21 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 21 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 3, 2, 21, method_title);
 }
 
 void test22(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 22 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 22 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 3, 5, 22, method_title);
 }
 
 void test23(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 23 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 23 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 3, 10, 23, method_title);
 }
 
 void test24(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 24 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 24 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 3, 100, 24, method_title);
 }
 
 void test25(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 25 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 25 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 3, 1000, 25, method_title);
 }
 
 void test26(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 26 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 26 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 4, 2, 26, method_title);
 }
 
 void test27(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 27 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 27 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 4, 6, 27, method_title);
 }
 
 void test28(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 28 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 28 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 4, 10, 28, method_title);
 }
 
 void test29(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 29 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 29 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 4, 100, 29, method_title);
 }
 
 void test30(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 30 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 30 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 4, 1000, 30, method_title);
 }
 
 void test31(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 31 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 31 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 5, 2, 31, method_title);
 }
 
 void test32(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 32 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 32 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 5, 6, 32, method_title);
 }
 
 void test33(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 33 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 33 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 5, 10, 33, method_title);
 }
 
 void test34(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 34 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 34 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 5, 100, 34, method_title);
 }
 
 void test35(Method method, const std::string& method_title) {
-    fout_txt << "------------------ Тест 35 ------------------\n";
+    fout_txt << "------------------ РўРµСЃС‚ 35 ------------------\n";
     test_Nesterov_n_Rosenbrock(method, 5, 1000, 35, method_title);
 }
 
