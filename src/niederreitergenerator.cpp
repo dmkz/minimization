@@ -1,3 +1,7 @@
+/*
+ * Авторы изменений: Бураханова А., Золкин А.
+ */
+
 #include <iostream>
 #include "tms.h"
 #include "niederreitergenerator.hpp"

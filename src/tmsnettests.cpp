@@ -1,3 +1,7 @@
+/*
+ * Авторы: Бураханова А., Золкин А.
+ */
+
 #include "TestingSuite.hpp"
 
 int main (int argc, char* argv[])

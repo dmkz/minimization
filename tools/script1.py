@@ -1,3 +1,5 @@
+# Автор: Бураханова А.
+
 import matplotlib.pyplot as plt
 import fileinput
 import re

@@ -1,3 +1,7 @@
+/*
+ * Авторы: Бураханова А., Золкин А.
+ */
+
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
