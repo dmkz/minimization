@@ -1,6 +1,8 @@
 #include "hessian_free.hpp"
 #include "nesterov.hpp"
 #include "bfgs.hpp"
+#include "dfp.hpp"
+#include "powell.hpp"
 #include <fstream>
 
 /*
@@ -478,15 +480,15 @@ void Test(Method method, const std::string& method_title) {
     test23 (method, method_title);    std::cout << ", 23";  std::cout.flush();  fout_txt.flush();
     test24 (method, method_title);    std::cout << ", 24";  std::cout.flush();  fout_txt.flush();
     // test25 (method);       std::cout << ", 25";  std::cout.flush();  fout_txt.flush();
-    test26 (method, method_title);    std::cout << ", 26";  std::cout.flush();  fout_txt.flush();
-    test27 (method, method_title);    std::cout << ", 27";  std::cout.flush();  fout_txt.flush();
-    test28 (method, method_title);    std::cout << ", 28";  std::cout.flush();  fout_txt.flush();
-    test29 (method, method_title);    std::cout << ", 29";  std::cout.flush();  fout_txt.flush();
-    // test30 (method);       std::cout << ", 30";  std::cout.flush();  fout_txt.flush();
-    test31 (method, method_title);    std::cout << ", 31";  std::cout.flush();  fout_txt.flush();
-    test32 (method, method_title);    std::cout << ", 32";  std::cout.flush();  fout_txt.flush();
-    test33 (method, method_title);    std::cout << ", 33";  std::cout.flush();  fout_txt.flush();
-    test34 (method, method_title);    std::cout << ", 34";  std::cout.flush();  fout_txt.flush();
+    // test26 (method, method_title);    std::cout << ", 26";  std::cout.flush();  fout_txt.flush();
+    // test27 (method, method_title);    std::cout << ", 27";  std::cout.flush();  fout_txt.flush();
+    // test28 (method, method_title);    std::cout << ", 28";  std::cout.flush();  fout_txt.flush();
+    // test29 (method, method_title);    std::cout << ", 29";  std::cout.flush();  fout_txt.flush();
+    // // test30 (method);       std::cout << ", 30";  std::cout.flush();  fout_txt.flush();
+    // test31 (method, method_title);    std::cout << ", 31";  std::cout.flush();  fout_txt.flush();
+    // test32 (method, method_title);    std::cout << ", 32";  std::cout.flush();  fout_txt.flush();
+    // test33 (method, method_title);    std::cout << ", 33";  std::cout.flush();  fout_txt.flush();
+    // test34 (method, method_title);    std::cout << ", 34";  std::cout.flush();  fout_txt.flush();
     // test35 (method);       std::cout << ", 35";  std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
@@ -512,6 +514,22 @@ int main() {
     fout_txt.open("test_nesterov.txt");
     fout_txt << "Nesterov method:\n\n";
     Test(nesterov, "Nesterov");
+    fout_txt.close();
+    fout_csv.close();
+
+    std::cout << "-- Start DFP Method Tests. Results in test_dfp.txt" << std::endl;
+    std::cout << "-- Tests: ";
+    fout_txt.open("test_dfp.txt");
+    fout_txt << "DFP method:\n\n";
+    Test(dfp, "DFP");
+    fout_txt.close();
+    fout_csv.close();
+
+        std::cout << "-- Start Powell Method Tests. Results in test_powell.txt" << std::endl;
+    std::cout << "-- Tests: ";
+    fout_txt.open("test_powell.txt");
+    fout_txt << "Powell method:\n\n";
+    Test(powell, "Powell");
     fout_txt.close();
     fout_csv.close();
     return 0;

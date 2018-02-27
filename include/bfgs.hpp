@@ -2,14 +2,12 @@
 
 #include "math.hpp"
 
-// Авторы: Михнев Денис, Грошева Екатерина
-Matrix out_pr(Vector& x, Vector& y);
+// Авторы: Михнев Денис (реализация), Грошева Екатерина (теория)
 
-// Авторы: Михнев Денис, Грошева Екатерина
-Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv);
+Matrix out_pr_bfgs(Vector& x, Vector& y);
 
-// Авторы: Михнев Денис, Грошева Екатерина
-ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit);
+Matrix hes_upd_bfgs(Function f, Matrix& B, Vector& x_cur, Vector& x_prv);
 
-// Авторы: Михнев Денис, Грошева Екатерина
+ld search_alpha_bfgs(Function f, Vector& x, Vector& p, int iter_limit);
+
 std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit = 100);

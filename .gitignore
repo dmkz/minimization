@@ -11,6 +11,7 @@ test-methods/build/CMakeFiles/*
 build/tests/CMakeFiles/*
 *.cmake
 CMakeCache.txt
+Makefile
 
 # Prerequisites
 *.d

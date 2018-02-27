@@ -1,7 +1,9 @@
 #include "bfgs.hpp"
 
+
 // Авторы: Михнев Денис (реализация), Грошева Екатерина (теория)
-Matrix out_pr(Vector& x, Vector& y) {
+
+Matrix out_pr_bfgs(Vector& x, Vector& y) {
     int n = (int)x.size(); 
     Matrix res(n, Vector(n));
     for(int i = 0; i < n; ++i)
@@ -10,8 +12,7 @@ Matrix out_pr(Vector& x, Vector& y) {
     return res;
 }
 
-// Авторы: Михнев Денис (реализация), Грошева Екатерина (теория)
-Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
+Matrix hes_upd_bfgs(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
     int n = (int)x_cur.size();
     Vector s(n);
     for(int i = 0; i < n; ++i) {
@@ -25,7 +26,7 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
     }
     ld ro = 1.0/dot(y, s);
     Matrix C;
-    C = out_pr(s, y);
+    C = out_pr_bfgs(s, y);
     for(int i = 0; i < n; ++i) {
         for(int j = 0; j < n; ++j) {
             C[i][j] = -ro*C[i][j];
@@ -40,7 +41,7 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
             }
         }
     }
-    C = out_pr(y, s);
+    C = out_pr_bfgs(y, s);
     for(int i = 0; i < n; ++i) {
         for(int j = 0; j < n; ++j) {
             C[i][j] = -ro*C[i][j];
@@ -55,7 +56,7 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
             }
         }
     }
-    C = out_pr(s, s);
+    C = out_pr_bfgs(s, s);
     for(int i = 0; i < n; ++i) {
         for(int j = 0; j < n; ++j) {
             C[i][j] = ro*C[i][j];
@@ -65,8 +66,7 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
     return res;
 }
 
-// Авторы: Михнев Денис (реализация), Грошева Екатерина (теория)
-ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit) {
+ld search_alpha_bfgs(Function f, Vector& x, Vector& p, int iter_limit) {
     ld alpha0 = 1.0;
     Vector x_cur = x;
     for(size_t i = 0; i < x_cur.size(); ++i) {
@@ -113,7 +113,6 @@ ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit) {
     return -1;
 }
 
-// Авторы: Михнев Денис (реализация), Грошева Екатерина (теория)
 std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
     int n = (int)start_point.size();
     Matrix B(n, Vector(n));
@@ -123,7 +122,7 @@ std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
     ld alpha;
     for(int i = 0; i < n; ++i)
         t[i] = -t[i];
-    alpha = search_alpha(f, start_point, t, iter_limit);
+    alpha = search_alpha_bfgs(f, start_point, t, iter_limit);
 	if (alpha == -1) {
 	    return {start_point, 0};
     }
@@ -131,7 +130,7 @@ std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
     Vector x_cur = start_point;
     for(int i = 0; i < n; ++i)
         x_cur[i] += alpha*t[i];
-    B = hes_upd(f, B, x_cur, x_prv);   
+    B = hes_upd_bfgs(f, B, x_cur, x_prv);   
     Vector p(n);
     Vector cur_grad(n);
     cur_grad = grad(f, x_cur);
@@ -143,7 +142,7 @@ std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
                 p[i] -= B[i][j] * cur_grad[j];
             }
         }
-        alpha = search_alpha(f, x_cur, p, iter_limit);
+        alpha = search_alpha_bfgs(f, x_cur, p, iter_limit);
 		if (alpha == -1) {
 		    break;
         }
@@ -152,7 +151,7 @@ std::pair<Vector, int> bfgs(Function f, Vector start_point, int iter_limit) {
             x_cur[i] += alpha*p[i];
         if(is_zero(x_cur - x_prv))
             break;
-        B = hes_upd(f, B, x_cur, x_prv);
+        B = hes_upd_bfgs(f, B, x_cur, x_prv);
         cur_grad = grad(f, x_cur);
         ++itr_count;
     }
