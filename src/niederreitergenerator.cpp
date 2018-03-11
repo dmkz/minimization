@@ -3,10 +3,10 @@
  */
 
 #include <iostream>
-#include "tms.h"
+#include "tmsnet.hpp"
 #include "niederreitergenerator.hpp"
 
-using namespace std;
+// using namespace std;
 
 /*
 MAX_DIMENSION - макс размерность пространства
@@ -31,12 +31,12 @@ sub - результат деления
 */
 
 void NiederreiterGenerator::SETFLD(int qin) {
-    cout << "SETFLD" << endl;
+    std::cout << "SETFLD" << std::endl;
     int i, j;
-    if (qin <= 1 || qin > MAX_Q_VALUE) cout << "SETFLD: Bad value of Q";
+    if (qin <= 1 || qin > MAX_Q_VALUE) std::cout << "SETFLD: Bad value of Q";
     q = qin;
     p = q;
-    if (p == 0) cout << "SETFLD: There is no field of order" << q;
+    if (p == 0) std::cout << "SETFLD: There is no field of order" << q;
 
     for (i = 0; i < q; ++i)
         for (j = 0; j < q; ++j) {
@@ -56,7 +56,7 @@ void NiederreiterGenerator::PLYMUL(int *pa, int *pb, int *pc) {
     if (dega == -1 || degb == -1) degc = -1;
     else degc = dega + degb;
     if (degc > MAX_POLY_DEGREE)
-        cout << "PLYMUL: Degree of product exceeds MAXDEG" << endl;
+        std::cout << "PLYMUL: Degree of product exceeds MAXDEG" << std::endl;
     for (i = 0; i <= degc; ++i) {
         term = 0;
         for (j = max(0, i - dega); j <= min(degb, i); ++j)
@@ -292,7 +292,7 @@ void NiederreiterGenerator::INLO2(unsigned long dim, int skip) {
     int r, gray;
     dimen2 = dim;
     if (dimen2 <= 0 || dimen2 > MAX_DIMENSION) {
-        cout << "INLO2 : Bad dimension";
+        std::cout << "INLO2 : Bad dimension";
         return;
     }
 
@@ -312,7 +312,7 @@ void NiederreiterGenerator::INLO2(unsigned long dim, int skip) {
 
 void NiederreiterGenerator::GOLO2(double *quasi, vector< vector<double> > &bounds) {
     int r;
-    recip = pow(2, -NUMBER_OF_BITS);
+    recip = std::pow(2, -NUMBER_OF_BITS);
     for (unsigned long i = 0; i < dimen2; ++i) {
         quasi[i] = nextq2[i] * recip;
         vResult[ResultCounter][i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * quasi[i];

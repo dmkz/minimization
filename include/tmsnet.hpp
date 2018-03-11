@@ -15,9 +15,9 @@ template<typename T> struct Point
 
     Point();
 
-    Point(uint32_t _N);
+    Point(uint32_t N_);
 
-    Point(uint32_t _N, const std::vector<T>& _coordinate);
+    Point(uint32_t N_, const std::vector<T>& _coordinate);
 };
 
 template <typename T>
@@ -28,16 +28,16 @@ Point<T>::Point()
 }
 
 template <typename T>
-Point<T>::Point(uint32_t _N)
+Point<T>::Point(uint32_t N_)
 {
-    N = _N;
-	coordinate.resize(_N);
+    N = N_;
+	coordinate.resize(N_);
 }
 
 template <typename T>
-Point<T>::Point(uint32_t _N, const std::vector<T>& _coordinate)
+Point<T>::Point(uint32_t N_, const std::vector<T>& _coordinate)
 {
-    N = _N;
+    N = N_;
     coordinate = _coordinate;
 }
 
@@ -53,7 +53,7 @@ class TMSNet
 {
 public:
     virtual int Init() = 0;
-    virtual int Init(uint32_t _N, uint32_t _D, std::string dir_file) = 0;
+    virtual int Init(uint32_t N_, uint32_t D_, std::string dir_file) = 0;
 	virtual int Reset() = 0;
 	
     // Генерация одной точки

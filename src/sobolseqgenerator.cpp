@@ -13,14 +13,14 @@
 int 
 SobolSeqGenerator::Init()
 {
-    return Init(1, 1, "sobol_net_default.txt");
+    return Init(1, 1, "sobol_Net_default.txt");
 }
 
 int 
-SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
+SobolSeqGenerator::Init(uint32_t N_, uint32_t D_, std::string dir_file)
 {
-    N = _N;
-    D = _D;
+    N = N_;
+    D = D_;
     current_point_number = -1;
 
     L = (uint32_t)std::ceil(std::log(Real(N))/std::log(2.0L));
@@ -39,18 +39,18 @@ SobolSeqGenerator::Init(uint32_t _N, uint32_t _D, std::string dir_file)
     {
         dir_num_params.push_back(DirectionalNumbersParams());        
         // Чтение параметров из файла
-        unsigned _d, _s;
-        unsigned _a;
-        infile >> _d >> _s >> _a;
-        dir_num_params[j].d = _d;
-        dir_num_params[j].s = _s;
-        dir_num_params[j].a = _a;
+        unsigned D_, s_;
+        unsigned a_;
+        infile >> D_ >> s_ >> a_;
+        dir_num_params[j].d = D_;
+        dir_num_params[j].s = s_;
+        dir_num_params[j].a = a_;
         dir_num_params[j].m.push_back(1);
-        for (unsigned i = 1; i <= _s; i++)
+        for (unsigned i = 1; i <= s_; i++)
         {
-            unsigned _m;
-            infile >> _m;
-            dir_num_params[j].m.push_back(_m);
+            unsigned m_;
+            infile >> m_;
+            dir_num_params[j].m.push_back(m_);
         }
     }
 

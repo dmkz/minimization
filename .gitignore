@@ -1,18 +1,5 @@
 # Sergey Khokhlov
 
-# Temp input/output files
-output.txt
-input.txt
-
-# Ignored CMakeFiles
-CMakeFiles/*
-build/CMakeFiles/*
-test-methods/build/CMakeFiles/*
-build/tests/CMakeFiles/*
-*.cmake
-CMakeCache.txt
-Makefile
-
 # Prerequisites
 *.d
 

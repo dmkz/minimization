@@ -9,7 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <iomanip>
-#include "tmsnet.h"
+#include "tmsnet.hpp"
 
 class NiederreiterGenerator : public TMSNet
 {
