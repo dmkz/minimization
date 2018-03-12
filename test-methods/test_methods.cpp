@@ -510,15 +510,14 @@ int main() {
     fout_txt << "DFP method:\n\n";
     Test(dfp, "DFP");
     fout_txt.close();
-    fout_csv.close();
-    return 0;
+    
     std::cout << "-- Start Powell Method Tests. Results in test_powell.txt" << std::endl;
     std::cout << "-- Tests: ";
     fout_txt.open("test_powell.txt");
     fout_txt << "Powell method:\n\n";
     Test(powell, "Powell");
     fout_txt.close();
-    fout_csv.close();
+    
     
     std::cout << "-- Start Nesterov Method Tests. Results in test_nesterov.txt" << std::endl;
     std::cout << "-- Tests: ";
@@ -526,7 +525,7 @@ int main() {
     fout_txt << "Nesterov method:\n\n";
     Test(nesterov, "Nesterov");
     fout_txt.close();
-    fout_csv.close();
+    
     
     std::cout << "-- Start Hessian Free Method Tests. Results in test_hessianfree.txt" << std::endl;
     std::cout << "-- Tests: ";
@@ -534,7 +533,7 @@ int main() {
     fout_txt << "Hessian Free method:\n\n";
 	Test(hessian_free, "Hessian Free");
     fout_txt.close();
-    
+    fout_csv.close();
     
     return 0;
 }
