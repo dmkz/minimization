@@ -496,6 +496,7 @@ void Test(Method method, const std::string& method_title) {
 
 int main() {  
     fout_csv.open("test_result.csv");
+    
     std::cout << "-- Start BFGS Method Tests. Results in test_bfgs.txt" << std::endl;
     std::cout << "-- Tests: ";
     fout_txt.open("test_bfgs.txt");
@@ -510,7 +511,7 @@ int main() {
     Test(dfp, "DFP");
     fout_txt.close();
     fout_csv.close();
-    
+    return 0;
     std::cout << "-- Start Powell Method Tests. Results in test_powell.txt" << std::endl;
     std::cout << "-- Tests: ";
     fout_txt.open("test_powell.txt");

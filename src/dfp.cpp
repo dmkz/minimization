@@ -53,7 +53,7 @@ Real search_alpha(Function f, const Vector& x, const Vector& p, int iter_limit) 
 	Real phi_a0 = f(x_cur);
 	Real derphi0 = dot(grad(f, x), p);
 	Real phi0 = f(x);
-	if (phi_a0 < phi0 + 0.0001*alpha0*derphi0) {
+	if (phi_a0 < phi0 + 0.0001*alpha0*derphi0 + COMPARE_EPS) {
 		return alpha0;
 	}
 	Real alpha1 = -(derphi0)* alpha0*alpha0 / 2.0 / (phi_a0 - phi0 - derphi0 * alpha0);
@@ -61,10 +61,10 @@ Real search_alpha(Function f, const Vector& x, const Vector& p, int iter_limit) 
 		x_cur[i] = x[i] + alpha1*p[i];
 	}
 	Real phi_a1 = f(x_cur);
-	if (phi_a1 <= phi0 + 0.0001*alpha1*derphi0) {
+	if (phi_a1 <= phi0 + 0.0001*alpha1*derphi0 + COMPARE_EPS) {
 		return alpha1;
 	}
-	for (int iter = 0; iter < iter_limit && alpha1 > COMPARE_EPS; ++iter) {
+	for (int iter = 0; iter < iter_limit && alpha1 > 0; ++iter) {
 		Real factor = alpha0 * alpha0 * alpha1 * alpha1 * (alpha1 - alpha0);
 		Real a = alpha0 * alpha0 * (phi_a1 - phi0 - derphi0*alpha1) -
 			alpha1 * alpha1 * (phi_a0 - phi0 - derphi0*alpha0);
@@ -77,10 +77,10 @@ Real search_alpha(Function f, const Vector& x, const Vector& p, int iter_limit) 
 			x_cur[i] = x[i] + alpha2 * p[i];
 		}
 		Real phi_a2 = f(x_cur);
-		if (phi_a2 <= phi0 + 0.0001*alpha2*derphi0) {
+		if (phi_a2 <= phi0 + 0.0001*alpha2*derphi0 + COMPARE_EPS) {
 			return alpha2;
 		}
-		if ((alpha1 - alpha2) > alpha1 / 2.0 || (1 - alpha2 / alpha1) < 0.96) {
+		if ((alpha1 - alpha2) + COMPARE_EPS > alpha1 / 2.0 || (1 - alpha2 / alpha1) < 0.96 + COMPARE_EPS) {
 			alpha2 = alpha1 / 2.0;
 		}
 		alpha0 = alpha1;
@@ -88,6 +88,7 @@ Real search_alpha(Function f, const Vector& x, const Vector& p, int iter_limit) 
 		phi_a0 = phi_a1;
 		phi_a1 = phi_a2;
 	}
+    
 	return -1;
 }
 
@@ -133,7 +134,7 @@ void dfp(Function f, Vector start_point, BasicIterationObject* iter_object) {
 		alpha = search_alpha(f, x_cur, p, 100);
 		if (alpha == -1) {
 			break;
-		}
+		} 
 		x_prv = x_cur;
 		for (int i = 0; i < n; ++i)
 			x_cur[i] += alpha*p[i];
