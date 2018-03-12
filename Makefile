@@ -3,12 +3,15 @@ SRCS = src/bfgs.cpp src/main.cpp src/powell.cpp src/dfp.cpp src/math.cpp src/sob
 OBJS = $(SRCS:.cpp=.o)
 CXX ?= gcc
 CXXFLAGS ?= -pthread -Ofast -std=c++11 -Wall -Wextra -g -I"include"
+SUBDIRS := test-methods
 
-.PHONY: all clean
+.PHONY: all $(SUBDIRS) clean
 
-all: $(TARGET)
+all: $(TARGET) $(SUBDIRS)
 $(TARGET): $(OBJS)
 		$(CXX) -o $(TARGET) $(OBJS) $(CXXFLAGS)
+$(SUBDIRS):
+		$(MAKE) -C $@
  
 .c.o:
 		$(CXX) $(CXXFLAGS) -c $< -o $@
