@@ -223,7 +223,8 @@ std::pair<Vector, Vector> mnbrak(Real axInit, Real bxInit, Real func(const Real,
     }
     cx = bx + GOLD * (bx - ax);// Инициализация сx
     fc = func(cx, ncom, pcom_p, xicom_p, nrfunc); /* Вычисление значения функции в точке cx*/
-    while (fb > fc) {/* Вычисление значения переменной u с помощью параболической экстраполяции от ax,bx,cx. Переменная  TINY нужна для предотвращения возможного деления на ноль.*/
+    int iter = 0;
+    while (fb > fc && iter++ < 100) {/* Вычисление значения переменной u с помощью параболической экстраполяции от ax,bx,cx. Переменная  TINY нужна для предотвращения возможного деления на ноль.*/
         r = (bx - ax)*(fb - fc);
         q = (bx - cx)*(fb - fa);
         u = bx - ((bx - cx)*q - (bx - ax)*r) /

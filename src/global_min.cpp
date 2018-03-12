@@ -9,7 +9,7 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	std::vector<std::pair<Real, Vector>> outData(inData.size());
 	
 	// Количество ядер:
-	uint32_t nCores = std::thread::hardware_concurrency();
+	uint32_t nCores = std::max(1u, std::thread::hardware_concurrency());
 	
 	// Вектор из тредов:
 	std::vector<std::thread> t;
@@ -108,11 +108,11 @@ find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, cons
                 dfp(f, it.second, iter_obj);
                 auto x4 = iter_obj->get_x_curr();
                 auto f4 = iter_obj->get_f_curr();
-                /*
+                
                 powell(f, it.second, iter_obj);
                 auto x5 = iter_obj->get_x_curr();
                 auto f5 = iter_obj->get_f_curr();
-                */
+                
 				// Записываем ответ:
 				outWrite.lock();
 				outData[i] = std::min({
@@ -120,8 +120,8 @@ find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, cons
 					std::make_pair(f1, x1),
 					std::make_pair(f2, x2), 
 					std::make_pair(f3, x3), 
-                    std::make_pair(f4, x4) /*,
-                    std::make_pair(f5, x5) */
+                    std::make_pair(f4, x4),
+                    std::make_pair(f5, x5) 
 				});
 				outWrite.unlock();
 			}
