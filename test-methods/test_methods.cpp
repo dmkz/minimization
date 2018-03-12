@@ -10,108 +10,107 @@
     Автор: Юрий Кондратов
 */
     
-
-// typedef Vector(*Method)(Function, Vector);
+typedef void(*Method)(Function, Vector, BasicIterationObject*);
 
 std::ofstream fout_txt, fout_csv;
 
 // Тестовые функции
-ld f1(const Vector& x) {
+Real f1(const Vector& x) {
     return 1 + x[0] + x[1] - x[0] * x[1] + x[0] * x[0] + x[1] * x[1];
 }
 
-ld f2(const Vector& x) {
+Real f2(const Vector& x) {
     return 1 + 7 * x[0] + 5 * x[1] + 0.5 * x[0] * x[1] + 3 * x[0] * x[0] + x[1] * x[1];
 }
 
-ld f3(const Vector& x) {
+Real f3(const Vector& x) {
     return 100 + 7 * x[0] + 5 * x[1] - 10 * x[0] * x[1] + 3 * x[0] * x[0] + 10 * x[1] * x[1];
 }
 
-ld f4(const Vector& x) {
+Real f4(const Vector& x) {
     return 100 + 7 * x[0] + 5 * x[1] - 10.95 * x[0] * x[1] + 3 * x[0] * x[0] + 10 * x[1] * x[1];
 }
 
-ld f5(const Vector& x) {
+Real f5(const Vector& x) {
     return 1+x[0]+x[1]+x[2] + x[0] * x[1] + x[0] * x[2] + x[1] * x[2] + x[0] * x[0] + x[1] * x[1] + x[2] * x[2];
 }
 
-ld f6(const Vector& x) {
+Real f6(const Vector& x) {
     return 10 * std::pow(x[0], 4) + 15 * std::pow(x[1], 4) + 15 * x[0] * x[1];
 }
 
-ld f7(const Vector& v) {
-    ld x = v[0];
-    ld y = v[1];
+Real f7(const Vector& v) {
+    Real x = v[0];
+    Real y = v[1];
     return 10 * std::pow(x, 6) + 15 * std::pow(y, 6) - 20 * (std::pow(x, 3) * y + x * std::pow(y, 3));
 }
 
-ld f8(const Vector& v) {
+Real f8(const Vector& v) {
     auto x = v[0], y = v[1];
     return std::pow(x, 6) + std::pow(y, 6) - 2 * (std::pow(x, 3) * y + x * std::pow(y, 3)) + x*x + y*y;
 }
 
-ld f9(const Vector& v) {
+Real f9(const Vector& v) {
     auto x = v[0], y = v[1];
     return std::pow(x, 6) + std::pow(y, 6) - 3 * (std::pow(x, 3) * y + x * std::pow(y, 3)) + x*x + y*y;
 }
 
-ld f10(const Vector& v) {
+Real f10(const Vector& v) {
     auto x = v[0], y = v[1];
     return std::pow(x, 6) + std::pow(y, 6) - 2 * (std::pow(x, 3) * y + x * std::pow(y, 3)) + std::pow(x, 4) + std::pow(y, 4) - x*x - y*y;
 }
 
-ld f11(const Vector& v) {
-    ld fun = std::pow(v[0] - 1, 2) / 4;
+Real f11(const Vector& v) {
+    Real fun = std::pow(v[0] - 1, 2) / 4;
     for (unsigned int i=1; i < v.size(); ++i) {
         fun += std::pow(v[i] - 2 * std::pow(v[i-1], 2) + 1, 2);
     }
     return fun;
 }
 
-ld f12(const Vector &v) {
-    ld fun = std::pow(v[0] - 1, 2) / 4;
+Real f12(const Vector &v) {
+    Real fun = std::pow(v[0] - 1, 2) / 4;
     for (unsigned int i=1; i < v.size(); ++i) {
         fun += std::abs(v[i] - 2 * std::pow(v[i-1], 2) + 1);
     }
     return fun;
 }
 
-ld f13(const Vector &v) {
-    ld fun = std::abs(v[0] - 1) / 4;
+Real f13(const Vector &v) {
+    Real fun = std::abs(v[0] - 1) / 4;
     for (unsigned int i=1; i < v.size(); ++i) {
         fun += std::abs(v[i] - 2 * std::pow(v[i-1], 2) + 1);
     }
     return fun;
 }
 
-ld f14(const Vector &v) {
-    ld fun = 0;
+Real f14(const Vector &v) {
+    Real fun = 0;
     for (unsigned int i=1; i < v.size(); i += 2) {
         fun += 100 * std::pow(std::pow(v[i-1], 2) - v[i], 2) + std::pow(v[i-1] - 1, 2);
     }
     return fun;
 }
 
-ld f15(const Vector &v) {
-    ld fun = 0;
+Real f15(const Vector &v) {
+    Real fun = 0;
     for (unsigned int i=1; i < v.size(); i += 2) {
         fun += 10 * std::abs(std::pow(v[i-1], 2) - v[i]) + std::abs(v[i-1] - 1);
     }
     return fun;
 }
 
-ld f16(const Vector &v) {
-    ld fun = 0;
+Real f16(const Vector &v) {
+    Real fun = 0;
     for (int i=0; i < 20; ++i) {
         fun = std::max(fun, std::pow(v[i], 2));
     }
     return fun;
 }
 
-ld f17(const Vector &v) {
-    ld fun = 0;
-    ld g_fun, t_val;
+Real f17(const Vector &v) {
+    Real fun = 0;
+    Real g_fun, t_val;
     for (int i=0; i < 21; ++i) {
         t_val = 0.25 + 0.75 * i / 20;
         g_fun = std::abs(v[3] - std::pow(v[0] *
@@ -121,9 +120,9 @@ ld f17(const Vector &v) {
     return fun;
 }
 
-ld f18(const Vector &v) {
-    ld fun = 0;
-    ld g_fun, t_val;
+Real f18(const Vector &v) {
+    Real fun = 0;
+    Real g_fun, t_val;
     for (int i=0; i < 51; ++i) {
         t_val = 0.1 * i;
         g_fun = 0.5 * std::exp(-t_val) - std::exp(-2 * t_val) +
@@ -136,9 +135,9 @@ ld f18(const Vector &v) {
     return fun;
 }
 
-ld f19(const Vector &v) {
-    ld fun = 0;
-    ld g_fun;
+Real f19(const Vector &v) {
+    Real fun = 0;
+    Real g_fun;
     for (int i = 0; i < 50; ++i) {
         g_fun = 0;
         for (int j=0; j < 50; ++j) {
@@ -150,11 +149,11 @@ ld f19(const Vector &v) {
     return fun;
 }
 
-ld f20(const Vector &v) {
-    ld g_fun = 1e-8 * std::pow(v[0], 2) + std::pow(v[2], 2) + 4 * std::pow(v[3], 2) +
+Real f20(const Vector &v) {
+    Real g_fun = 1e-8 * std::pow(v[0], 2) + std::pow(v[2], 2) + 4 * std::pow(v[3], 2) +
                std::pow(v[5], 2) + std::pow(v[6], 2) + std::pow(v[7], 2) +
                std::pow(v[8], 2) + std::pow(v[9], 2);
-    ld fun = std::exp(g_fun + 2 * std::pow(v[1], 2));
+    Real fun = std::exp(g_fun + 2 * std::pow(v[1], 2));
     fun = std::max(fun, std::exp(g_fun - 2 * std::pow(v[1], 2)));
     return fun;
 }
@@ -177,12 +176,14 @@ void test_method(
     const int id_test,
     const std::string& method_title
 ) {
-    const int ITERATIONS_LIMIT = 1000;
     for (int i = 0; i < (int)start_points.size(); ++i) {
         const auto & p = start_points[i];
-        auto res = method(f, p, ITERATIONS_LIMIT);
-        const auto& x = res.first;
-        auto f_test = f(x);
+        BasicIterationObject iter_object;
+        method(f, p, &iter_object);
+        const auto x = iter_object.get_x_curr();
+        auto f_test =  iter_object.get_f_curr();
+        auto iter_counter = iter_object.get_iter_counter();
+        
         auto best_eps_f = 1e9;
         auto best_eps_x = 1e9;
         auto best_point = expected.front();
@@ -200,7 +201,7 @@ void test_method(
             }
         }
         fout_txt << "\tИз точки #" << i << " сходится к " << best_point.type << " #" << best_id
-            << " (итераций: " << std::setw(8) << res.second << ") ";
+            << " (итераций: " << std::setw(8) << iter_counter << ") ";
         if (best_eps_f == 1e9) {
             fout_txt << "все очень плохо :(\n";
         } else {
@@ -221,21 +222,21 @@ void test1(Method method, const std::string& method_title) {
 }
 
 void test2(Method method, const std::string& method_title) {
-    auto expected = std::vector<ControlPoint>{{{ld(-46) / 47, ld(-106) / 47}, "Global Min"}};
+    auto expected = std::vector<ControlPoint>{{{Real(-46) / 47, Real(-106) / 47}, "Global Min"}};
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
     fout_txt << "------------------ Тест 2 ------------------\n";
     test_method(method, f2, start_points, expected, 2, method_title);
 }
 
 void test3(Method method, const std::string& method_title) {
-    auto expected = std::vector<ControlPoint>{{{ld(-19) / 2, -5}, "Global Min"}};
+    auto expected = std::vector<ControlPoint>{{{Real(-19) / 2, -5}, "Global Min"}};
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
     fout_txt << "------------------ Тест 3 ------------------\n";
     test_method(method, f3, start_points, expected, 3, method_title);
 }
 
 void test4(Method method, const std::string& method_title) {
-    auto expected = std::vector<ControlPoint>{{{ld(-77900) / 39, ld(-14220)/13}, "Global Min"}};
+    auto expected = std::vector<ControlPoint>{{{Real(-77900) / 39, Real(-14220)/13}, "Global Min"}};
     auto start_points = Matrix{{-20, -20}, {-20, 20}, {20, -20}, {20, 20}, {0, 0}};
     fout_txt << "------------------ Тест 4 ------------------\n";
     test_method(method, f4, start_points, expected, 4, method_title);
@@ -493,7 +494,7 @@ void Test(Method method, const std::string& method_title) {
     std::cout << std::endl;
 }
 
-int main() {      
+int main() {  
     fout_csv.open("test_result.csv");
     std::cout << "-- Start BFGS Method Tests. Results in test_bfgs.txt" << std::endl;
     std::cout << "-- Tests: ";
@@ -502,12 +503,21 @@ int main() {
     Test(bfgs, "BFGS");
     fout_txt.close();
     
-    std::cout << "-- Start Hessian Free Method Tests. Results in test_hessianfree.txt" << std::endl;
+    std::cout << "-- Start DFP Method Tests. Results in test_dfp.txt" << std::endl;
     std::cout << "-- Tests: ";
-    fout_txt.open("test_hessianfree.txt");
-    fout_txt << "Hessian Free method:\n\n";
-	Test(hessian_free, "Hessian Free");
+    fout_txt.open("test_dfp.txt");
+    fout_txt << "DFP method:\n\n";
+    Test(dfp, "DFP");
     fout_txt.close();
+    fout_csv.close();
+    
+    std::cout << "-- Start Powell Method Tests. Results in test_powell.txt" << std::endl;
+    std::cout << "-- Tests: ";
+    fout_txt.open("test_powell.txt");
+    fout_txt << "Powell method:\n\n";
+    Test(powell, "Powell");
+    fout_txt.close();
+    fout_csv.close();
     
     std::cout << "-- Start Nesterov Method Tests. Results in test_nesterov.txt" << std::endl;
     std::cout << "-- Tests: ";
@@ -516,21 +526,14 @@ int main() {
     Test(nesterov, "Nesterov");
     fout_txt.close();
     fout_csv.close();
-
-    std::cout << "-- Start DFP Method Tests. Results in test_dfp.txt" << std::endl;
+    
+    std::cout << "-- Start Hessian Free Method Tests. Results in test_hessianfree.txt" << std::endl;
     std::cout << "-- Tests: ";
-    fout_txt.open("test_dfp.txt");
-    fout_txt << "DFP method:\n\n";
-    Test(dfp, "DFP");
+    fout_txt.open("test_hessianfree.txt");
+    fout_txt << "Hessian Free method:\n\n";
+	Test(hessian_free, "Hessian Free");
     fout_txt.close();
-    fout_csv.close();
-
-        std::cout << "-- Start Powell Method Tests. Results in test_powell.txt" << std::endl;
-    std::cout << "-- Tests: ";
-    fout_txt.open("test_powell.txt");
-    fout_txt << "Powell method:\n\n";
-    Test(powell, "Powell");
-    fout_txt.close();
-    fout_csv.close();
+    
+    
     return 0;
 }

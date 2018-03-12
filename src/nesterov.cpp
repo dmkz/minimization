@@ -1,32 +1,37 @@
 #include "nesterov.hpp"
 
-// Метод Нестерова (возвращается результат - точка минимума и количество сделанных итераций)
+// Метод Нестерова
 // Авторы: Петрухина Светлана, Кулага Иван
-std::pair<Vector, int> nesterov(Function f, Vector startingPoint, int iter_limit) {
-    ld ro = 2.0;
-	ld teta = 1.1;
-	ld alfa = 1.0;
+void nesterov(Function f, Vector startingPoint, BasicIterationObject* iter_object) {
+// f - указатель на целевую функцию
+// startingPoint - начальное приближение
+// iter_object - объект итерации
+// Результат работы метода будет лежать в объекте итерации
+
+    Real ro = 2.0;
+	Real teta = 1.1;
+	Real alfa = 1.0;
 
 	Vector v = startingPoint;
 	Vector x = startingPoint;
 	Vector xNext = startingPoint;
 	Vector y = startingPoint;
-	ld alfaNext = 0.0;
-	ld A = 0;
-
-    Vector xPrev = startingPoint; //Переменная для хранения x(i-1)
-	ld fPrev = 0; //Переменная для хранения f(x(i-1))
-	ld fCurrent = 0; //Перменная для хранения f(x(i))
-	Vector xCurrent = startingPoint;  //Переменная для хранения x(i)
+	Real alfaNext = 0.0;
+	Real A = 0;
     
-    int iterations = 0; //Переменная для хранения номера итерации
-	while (iterations < iter_limit) {
+    // Инициализируем начальной точкой объект контроля итераций:
+    iter_object->set_x_curr(x);
+    iter_object->set_f_curr(f(x));
+    iter_object->set_iter_counter(0);
+    iter_object->set_method_title("Nesterov");
+    
+	do {
 		while (true) {
 			alfaNext = alfa + std::sqrt(alfa*alfa + 2 * alfa*A);
 			y = (A / (A + alfaNext)) * x + (alfaNext / (A + alfaNext)) * v;
 			xNext = y - alfa * grad(f, y);
-			ld temp1 = f(xNext);
-			ld temp2 = (f(y) + dot(grad(f, y), xNext - y) + 1 / (2 * alfa) *  std::pow(norm(xNext - y), 2));
+			Real temp1 = f(xNext);
+			Real temp2 = (f(y) + dot(grad(f, y), xNext - y) + 1 / (2 * alfa) *  std::pow(norm(xNext - y), 2));
 			if (temp1 - temp2 <= COMPARE_EPS)
 				break;
 			alfa = alfa / ro;
@@ -34,13 +39,7 @@ std::pair<Vector, int> nesterov(Function f, Vector startingPoint, int iter_limit
 		v = v - alfaNext * (grad(f, xNext));
 		A += alfaNext;
 		alfaNext = teta * alfa;
-        ++iterations;
-        
-        //Запись значений x(i). x(i-1), f(x(i)), f(x(i-1))
-		xPrev = xCurrent;
-		fPrev = fCurrent;
-		xCurrent = xNext;
-		fCurrent = f(xCurrent);
-	}
-	return {xNext, iterations};
+
+        iter_object->next_iteration(xNext, f(xNext));
+	} while (!iter_object->is_stopped());
 }

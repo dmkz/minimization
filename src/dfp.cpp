@@ -25,7 +25,7 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
 	}
 	Vector by(n);
 	by = B * y;
-	ld ro = 1.0 / dot(by, y);
+	Real ro = 1.0 / dot(by, y);
 	Matrix A(n, Vector(n));
 	Vector ytB(n);
 	for (int i = 0; i < n; i++)
@@ -44,39 +44,39 @@ Matrix hes_upd(Function f, Matrix& B, Vector& x_cur, Vector& x_prv) {
 	return res;
 }
 
-ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit) {
-	ld alpha0 = 1.0;
+Real search_alpha(Function f, const Vector& x, const Vector& p, int iter_limit) {
+	Real alpha0 = 1.0;
 	Vector x_cur = x;
 	for (size_t i = 0; i < x_cur.size(); ++i) {
 		x_cur[i] += alpha0*p[i];
 	}
-	ld phi_a0 = f(x_cur);
-	ld derphi0 = dot(grad(f, x), p);
-	ld phi0 = f(x);
+	Real phi_a0 = f(x_cur);
+	Real derphi0 = dot(grad(f, x), p);
+	Real phi0 = f(x);
 	if (phi_a0 < phi0 + 0.0001*alpha0*derphi0) {
 		return alpha0;
 	}
-	ld alpha1 = -(derphi0)* alpha0*alpha0 / 2.0 / (phi_a0 - phi0 - derphi0 * alpha0);
+	Real alpha1 = -(derphi0)* alpha0*alpha0 / 2.0 / (phi_a0 - phi0 - derphi0 * alpha0);
 	for (size_t i = 0; i < x_cur.size(); ++i) {
 		x_cur[i] = x[i] + alpha1*p[i];
 	}
-	ld phi_a1 = f(x_cur);
+	Real phi_a1 = f(x_cur);
 	if (phi_a1 <= phi0 + 0.0001*alpha1*derphi0) {
 		return alpha1;
 	}
 	for (int iter = 0; iter < iter_limit && alpha1 > COMPARE_EPS; ++iter) {
-		ld factor = alpha0 * alpha0 * alpha1 * alpha1 * (alpha1 - alpha0);
-		ld a = alpha0 * alpha0 * (phi_a1 - phi0 - derphi0*alpha1) -
+		Real factor = alpha0 * alpha0 * alpha1 * alpha1 * (alpha1 - alpha0);
+		Real a = alpha0 * alpha0 * (phi_a1 - phi0 - derphi0*alpha1) -
 			alpha1 * alpha1 * (phi_a0 - phi0 - derphi0*alpha0);
 		a = a / factor;
-		ld b = pow(-alpha0, 3) * (phi_a1 - phi0 - derphi0*alpha1) +
-			pow(alpha1, 3) * (phi_a0 - phi0 - derphi0*alpha0);
+		Real b = std::pow(-alpha0, 3) * (phi_a1 - phi0 - derphi0*alpha1) +
+			std::pow(alpha1, 3) * (phi_a0 - phi0 - derphi0*alpha0);
 		b = b / factor;
-		ld alpha2 = (-b + sqrt(fabs(b*b - 3 * a * derphi0))) / (3.0*a);
+		Real alpha2 = (-b + std::sqrt(std::abs(b*b - 3 * a * derphi0))) / (3.0*a);
 		for (size_t i = 0; i < x_cur.size(); ++i) {
 			x_cur[i] = x[i] + alpha2 * p[i];
 		}
-		ld phi_a2 = f(x_cur);
+		Real phi_a2 = f(x_cur);
 		if (phi_a2 <= phi0 + 0.0001*alpha2*derphi0) {
 			return alpha2;
 		}
@@ -91,18 +91,29 @@ ld search_alpha(Function f, Vector& x, Vector& p, int iter_limit) {
 	return -1;
 }
 
-std::pair<Vector, int> dfp(Function f, Vector start_point, int iter_limit) {
+void dfp(Function f, Vector start_point, BasicIterationObject* iter_object) {
+// f - указатель на целевую функцию
+// start_point - начальное приближение
+// iter_object - объект итерации
+// Результат работы метода будет лежать в объекте итерации
+
+    // Инициализируем начальной точкой объект контроля итераций:
+    iter_object->set_x_curr(start_point);
+    iter_object->set_f_curr(f(start_point));
+    iter_object->set_iter_counter(0);
+    iter_object->set_method_title("DFP");    
+ 
 	int n = (int)start_point.size();
 	Matrix B(n, Vector(n));
 	Vector t = grad(f, start_point);
 	for (int i = 0; i < n; ++i)
 		B[i][i] = 1;
-	ld alpha;
+	Real alpha;
 	for (int i = 0; i < n; ++i)
 		t[i] = -t[i];
-	alpha = search_alpha(f, start_point, t, iter_limit);
+	alpha = search_alpha(f, start_point, t, 100);
 	if (alpha == -1) {
-		return { start_point, 0 };
+		return;
 	}
 	Vector x_prv = start_point;
 	Vector x_cur = start_point;
@@ -112,26 +123,24 @@ std::pair<Vector, int> dfp(Function f, Vector start_point, int iter_limit) {
 	Vector p(n);
 	Vector cur_grad(n);
 	cur_grad = grad(f, x_cur);
-	int itr_count = 0;
-	while (itr_count < iter_limit) {
+	do {
 		Vector p(n);
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
 				p[i] -= B[i][j] * cur_grad[j];
 			}
 		}
-		alpha = search_alpha(f, x_cur, p, iter_limit);
+		alpha = search_alpha(f, x_cur, p, 100);
 		if (alpha == -1) {
 			break;
 		}
 		x_prv = x_cur;
 		for (int i = 0; i < n; ++i)
 			x_cur[i] += alpha*p[i];
-		if (is_zero(x_cur - x_prv))
-			break;
+		
+        iter_object->next_iteration(x_cur, f(x_cur));
+        
 		B = hes_upd(f, B, x_cur, x_prv);
 		cur_grad = grad(f, x_cur);
-		++itr_count;
-	}
-	return { x_cur, itr_count };
+	} while (!iter_object->is_stopped());
 }

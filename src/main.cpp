@@ -19,115 +19,115 @@
 #define M_PI_2 1.57079632679489661923
 
 // Тестовые функции:
-ld f1(const Vector& x) {
+Real f1(const Vector& x) {
     return 1 + x[0] + x[1] - x[0] * x[1] + x[0] * x[0] + x[1] * x[1];
 }
 
-ld f2(const Vector& x) {
+Real f2(const Vector& x) {
     return 1 + 7 * x[0] + 5 * x[1] + 0.5 * x[0] * x[1] + 3 * x[0] * x[0] + x[1] * x[1];
 }
 
-ld f3(const Vector& x) {
+Real f3(const Vector& x) {
     return 100 + 7 * x[0] + 5 * x[1] - 10 * x[0] * x[1] + 3 * x[0] * x[0] + 10 * x[1] * x[1];
 }
 
-ld f4(const Vector& x) {
+Real f4(const Vector& x) {
     return 100 + 7 * x[0] + 5 * x[1] - 10.95 * x[0] * x[1] + 3 * x[0] * x[0] + 10 * x[1] * x[1];
 }
 
-ld f5(const Vector& x) {
+Real f5(const Vector& x) {
     return 1+x[0]+x[1]+x[2] + x[0] * x[1] + x[0] * x[2] + x[1] * x[2] + x[0] * x[0] + x[1] * x[1] + x[2] * x[2];
 }
 
-ld f6(const Vector& x) {
+Real f6(const Vector& x) {
     return 10 * std::pow(x[0], 4) + 15 * std::pow(x[1], 4) + 15 * x[0] * x[1];
 }
 
-ld f7(const Vector& v) {
-    ld x = v[0];
-    ld y = v[1];
+Real f7(const Vector& v) {
+    Real x = v[0];
+    Real y = v[1];
     return 10 * std::pow(x, 6) + 15 * std::pow(y, 6) - 20 * (std::pow(x, 3) * y + x * std::pow(y, 3));
 }
 
-ld f8(const Vector& v) {
+Real f8(const Vector& v) {
     auto x = v[0], y = v[1];
     return std::pow(x, 6) + std::pow(y, 6) - 2 * (std::pow(x, 3) * y + x * std::pow(y, 3)) + x*x + y*y;
 }
 
-ld f9(const Vector& v) {
+Real f9(const Vector& v) {
     auto x = v[0], y = v[1];
     return std::pow(x, 6) + std::pow(y, 6) - 3 * (std::pow(x, 3) * y + x * std::pow(y, 3)) + x*x + y*y;
 }
 
-ld f10(const Vector& v) {
+Real f10(const Vector& v) {
     auto x = v[0], y = v[1];
     return std::pow(x, 6) + std::pow(y, 6) - 2 * (std::pow(x, 3) * y + x * std::pow(y, 3)) + std::pow(x, 4) + std::pow(y, 4) - x*x - y*y;
 }
 
-ld f11(const Vector& v) {
-    ld fun = std::pow(v[0] - 1, 2) / 4;
+Real f11(const Vector& v) {
+    Real fun = std::pow(v[0] - 1, 2) / 4;
     for (unsigned int i=1; i < v.size(); ++i) {
         fun += std::pow(v[i] - 2 * std::pow(v[i-1], 2) + 1, 2);
     }
     return fun;
 }
 
-ld f12(const Vector &v) {
-    ld fun = std::pow(v[0] - 1, 2) / 4;
+Real f12(const Vector &v) {
+    Real fun = std::pow(v[0] - 1, 2) / 4;
     for (unsigned int i=1; i < v.size(); ++i) {
         fun += std::abs(v[i] - 2 * std::pow(v[i-1], 2) + 1);
     }
     return fun;
 }
 
-ld f13(const Vector &v) {
-    ld fun = std::abs(v[0] - 1) / 4;
+Real f13(const Vector &v) {
+    Real fun = std::abs(v[0] - 1) / 4;
     for (unsigned int i=1; i < v.size(); ++i) {
         fun += std::abs(v[i] - 2 * std::pow(v[i-1], 2) + 1);
     }
     return fun;
 }
 
-ld f14(const Vector &v) {
-    ld fun = 0;
+Real f14(const Vector &v) {
+    Real fun = 0;
     for (unsigned int i=1; i < v.size(); i += 2) {
         fun += 100 * std::pow(std::pow(v[i-1], 2) - v[i], 2) + std::pow(v[i-1] - 1, 2);
     }
     return fun;
 }
 
-ld f15(const Vector &v) {
-    ld fun = 0;
+Real f15(const Vector &v) {
+    Real fun = 0;
     for (unsigned int i=1; i < v.size(); i += 2) {
         fun += 10 * std::abs(std::pow(v[i-1], 2) - v[i]) + std::abs(v[i-1] - 1);
     }
     return fun;
 }
 
-ld f16(const Vector &v) {
-    ld fun = 0;
+Real f16(const Vector &v) {
+    Real fun = 0;
     for (unsigned int i=0; i < v.size(); ++i) {
         fun += std::pow(v[i], 2);
     }
     return fun;
 }
 
-ld f17(const Vector &v) {
-    ld fun = 10 * v.size();
+Real f17(const Vector &v) {
+    Real fun = 10 * v.size();
     for (unsigned int i=0; i < v.size(); ++i) {
         fun += std::pow(v[i] - 10 * std::cos(2 * M_PI * v[i]), 2);
     }
     return fun;
 }
 
-ld f18(const Vector &v) {
+Real f18(const Vector &v) {
     return std::pow(std::pow(v[0], 2) + v[1] - 11, 2) + std::pow(std::pow(v[1], 2) + v[0] - 7, 2);
 }
 
-ld f19(const Vector &v) {
+Real f19(const Vector &v) {
     const int b[] = {8, 18, 44, 144};
-    ld fun = 0;
-    ld g_fun;
+    Real fun = 0;
+    Real g_fun;
     for (int i = 0; i < 4; ++i) {
         g_fun = 0;
         for (int j = 0; j < 4; ++j) {
@@ -140,16 +140,16 @@ ld f19(const Vector &v) {
     return fun;
 }
 
-ld f20(const Vector &v) {
+Real f20(const Vector &v) {
     return std::pow(v[1] - 5.1 / (4 * M_PI_2) * std::pow(v[0], 2) + 5 * v[0] / M_PI - 6, 2) +
            10 * (1 - 1 / (8 * M_PI)) * std::cos(v[0]) + 10;
 }
 
-ld f21(const Vector &v) {
+Real f21(const Vector &v) {
     return std::sin(v[0] + v[1]) + std::pow(v[0] - v[1], 2) - 1.5 * v[0] + 2.5 * v[1] + 1;
 }
 
-ld f22(const Vector &v) {
+Real f22(const Vector &v) {
     return 0.26 * (std::pow(v[0], 2) + std::pow(v[1], 2)) - 0.48 * v[0] * v[1];
 }
 
@@ -157,7 +157,8 @@ void test(std::string title, Function f, uint32_t dim, uint32_t nBestPoints, uin
     std::cout << "-- " << title << std::endl; 
     std::cout.flush();
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
-	for (auto & rec : find_absmin(f, dim, nBestPoints, nAllPoints, min, max)) {
+    BasicIterationObject iter_obj;
+	for (auto & rec : find_absmin(f, &iter_obj, dim, nBestPoints, nAllPoints, min, max)) {
 		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second << '}' << std::endl;
 	}
     fout.flush();
@@ -386,7 +387,7 @@ int main() {
 	test8 (fout);
 	test9 (fout);
 	test10(fout);
-	test21(fout);
+	test11(fout);
 	test12(fout);
 	test13(fout);
 	test14(fout);
@@ -411,13 +412,13 @@ int main() {
 	test33(fout);
 	test34(fout);
 	test35(fout);
-	test36(fout);
+	test36(fout); /*
 	test37(fout);
 	test38(fout);
 	test39(fout);
 	test40(fout);
 	test41(fout);
-	test42(fout); /*
+	test42(fout); 
 	test43(fout);
 	test44(fout);
 	test45(fout);

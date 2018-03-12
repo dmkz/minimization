@@ -7,9 +7,9 @@
 
 /*
 // Математические константы:
-const ld M_E = std::exp(1.0L);
-const ld M_PI = std::acos(-1.0L);
-const ld M_PI_2 = M_PI / 2.0L;
+const Real M_E = std::exp(1.0L);
+const Real M_PI = std::acos(-1.0L);
+const Real M_PI_2 = M_PI / 2.0L;
 */
 
 // Операторы вывода в поток:
@@ -28,18 +28,18 @@ std::ostream& operator<<(std::ostream& os, const Matrix& m) {
 }
 
 // Операция умножения вектора на число и различные ее вариации:
-Vector& operator*=(Vector& v, const ld value) {
+Vector& operator*=(Vector& v, const Real value) {
 	for (auto & it : v) {
 		it *= value;
 	}
 	return v;
 }
 
-Vector operator*(const ld value, Vector v) {
+Vector operator*(const Real value, Vector v) {
 	return v *= value;
 }
 
-Vector operator*(Vector v, const ld value) {
+Vector operator*(Vector v, const Real value) {
 	return v *= value;
 }
 
@@ -70,9 +70,9 @@ Vector operator-(Vector v1, const Vector& v2) {
 }
 
 // Скалярное произведение векторов:
-ld dot(const Vector& v1, const Vector& v2) {
+Real dot(const Vector& v1, const Vector& v2) {
     assert(v1.size() == v2.size());
-	ld sum = 0;
+	Real sum = 0;
 	for (int i = 0; i < (int)v1.size(); ++i) {
 		sum += v1[i] * v2[i];
 	}
@@ -80,7 +80,7 @@ ld dot(const Vector& v1, const Vector& v2) {
 }
 
 // Норма вектора:
-ld norm(const Vector& v) {
+Real norm(const Vector& v) {
     return std::sqrt(dot(v, v));
 }
 
@@ -113,7 +113,7 @@ Vector id_vect(int size, int i) {
 }
 
 // Явное взятие градиента от функции:
-Vector grad(Function f, const Vector& point, const ld h) {
+Vector grad(Function f, const Vector& point, const Real h) {
 	int n = (int)point.size();
 	Vector right = point;
 	Vector left = point;
@@ -133,7 +133,7 @@ Vector grad(Function f, const Vector& point, const ld h) {
 
 // Явное вычисление матрицы Гессе (слишком затратно, годится только для проверки результатов)
 // в точке x с шагом h и погрешностью O(h)
-Matrix hess(Function f, const Vector& x, const ld h) {
+Matrix hess(Function f, const Vector& x, const Real h) {
 	int n = (int)x.size();
 	Matrix ans(n, Vector(n));
 	for (int i = 0; i < n; ++i)

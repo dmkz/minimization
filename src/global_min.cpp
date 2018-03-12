@@ -3,10 +3,10 @@
 #include <mutex>
 
 // Автор: Козырев Дмитрий
-std::vector<std::pair<ld, Vector>>
+std::vector<std::pair<Real, Vector>>
 calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	// Создаем вектор под ответ:
-	std::vector<std::pair<ld, Vector>> outData(inData.size());
+	std::vector<std::pair<Real, Vector>> outData(inData.size());
 	
 	// Количество ядер:
 	uint32_t nCores = std::thread::hardware_concurrency();
@@ -55,25 +55,31 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 }
 
 // Автор: Козырев Дмитрий
-std::vector<std::pair<ld, Vector>>
-find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>>& inData) {
+std::vector<std::pair<Real, Vector>>
+find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, const std::vector<std::pair<Real, Vector>>& inData) {
 	// Создаем вектор под ответ:
-	std::vector<std::pair<ld, Vector>> outData(inData.size());
+	std::vector<std::pair<Real, Vector>> outData(inData.size());
 	
 	// Количество ядер:
-	uint32_t nCores = std::thread::hardware_concurrency();
+	uint32_t nCores = std::max(1u, std::thread::hardware_concurrency());
 	
 	// Вектор из тредов:
 	std::vector<std::thread> t;
 	
+    // Вектор из объектов итераций:
+    std::vector<BasicIterationObject*> iteration_objects(nCores);
+    for (auto &it : iteration_objects) {
+        it = iter_object->new_object();
+    }
+    
 	// Мьютексы на чтение и запись:
 	std::mutex inRead, outWrite;
 	
 	uint32_t globalIndex = 0;
 	
 	// Создаем столько тредов, сколько ядер:
-	for (uint32_t i = 0; i < nCores; i++) {
-		t.push_back(std::thread([&] {
+	for (uint32_t thread_id = 0; thread_id < nCores; thread_id++) {
+		t.push_back(std::thread([&, iter_obj = iteration_objects[thread_id]] {
 			while (1) {
 				inRead.lock();
 				uint32_t i = globalIndex;
@@ -87,17 +93,35 @@ find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>
 				inRead.unlock();
 				
 				// После чтения вызываем методы минимизации:
-				auto x1 = bfgs(f, it.second, 1000).first;
-				auto x2 = hessian_free(f, it.second, 1000).first;
-				auto x3 = nesterov(f, it.second, 1000).first;
-				
+				bfgs(f, it.second, iter_obj);
+                auto x1 = iter_obj->get_x_curr();
+				auto f1 = iter_obj->get_f_curr();
+                
+                hessian_free(f, it.second, iter_obj);
+				auto x2 = iter_obj->get_x_curr();
+                auto f2 = iter_obj->get_f_curr();
+                
+                nesterov(f, it.second, iter_obj);
+				auto x3 = iter_obj->get_x_curr();
+                auto f3 = iter_obj->get_f_curr();
+                
+                dfp(f, it.second, iter_obj);
+                auto x4 = iter_obj->get_x_curr();
+                auto f4 = iter_obj->get_f_curr();
+                /*
+                powell(f, it.second, iter_obj);
+                auto x5 = iter_obj->get_x_curr();
+                auto f5 = iter_obj->get_f_curr();
+                */
 				// Записываем ответ:
 				outWrite.lock();
 				outData[i] = std::min({
 					it,
-					std::make_pair(f(x1), x1),
-					std::make_pair(f(x2), x2), 
-					std::make_pair(f(x3), x3)
+					std::make_pair(f1, x1),
+					std::make_pair(f2, x2), 
+					std::make_pair(f3, x3), 
+                    std::make_pair(f4, x4) /*,
+                    std::make_pair(f5, x5) */
 				});
 				outWrite.unlock();
 			}
@@ -110,6 +134,11 @@ find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>
 		t[i].join();
 	}
 	
+    // Очищаем память от объектов итераций
+    for (auto &it : iteration_objects) {
+        delete it;
+    }
+    
 	assert(globalIndex == inData.size());
 	
 	return outData;
@@ -117,8 +146,8 @@ find_local_mins_with_threads(Function f, const std::vector<std::pair<ld, Vector>
 }
 
 // Автор: Козырев Дмитрий
-std::vector<std::pair<ld, Vector>>
-find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
+std::vector<std::pair<Real, Vector>>
+find_absmin(Function f, BasicIterationObject* iter_object, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
 	// Несколько проверок на входные данные:
 	assert(dim > 0u && dim == min.size() && dim == max.size());
 	assert(nBestPoints <= nAllPoints && nBestPoints > 0u);
@@ -136,7 +165,7 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 	const uint32_t GROUP_SIZE = 1024u;
 	
 	// Формирование списка лучших кандидатов
-	std::set<std::pair<ld, Vector>> candidates;
+	std::set<std::pair<Real, Vector>> candidates;
 	
 	// Сначала складываем точки группами по GROUP_SIZE:
 	std::vector<Vector> group;
@@ -164,13 +193,13 @@ find_absmin(Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints,
 	
 	// ----- Второй этап: запуск алгоритмов поиска локального минимума из выбранных точек -----
 	// Подготовка (перекладываем точки из set в vector - возможен рост скорости при последовательном размещении в памяти точек):
-	std::vector<std::pair<ld, Vector>> temp;
+	std::vector<std::pair<Real, Vector>> temp;
 	for (auto & it : candidates) {
 		temp.push_back(it);
 	}
 	
 	// Многопоточная обработка кандидатов:
-	auto answer = find_local_mins_with_threads(f, temp);
+	auto answer = find_local_mins_with_threads(f, iter_object, temp);
 	
 	// Итоговая сортировка всех найденных точек по неубыванию значения функции в них:
 	std::sort(answer.begin(), answer.end());
