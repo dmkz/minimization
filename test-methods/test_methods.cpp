@@ -106,9 +106,11 @@ Real f18(const Vector &v) {
 }
 
 Real f19(const Vector &v) {
-    return std::pow(v[0] * v[1] - v[0] + 1.5, 2) +
-           std::pow(v[0] * v[1] * v[1] - v[0] + 2.25, 2) +
-           std::pow(v[0] * std::pow(v[2], 3) - v[0] + 2.625, 2);
+    Real x = v[0], y = v[1];
+    Real a = (1.5-x*(1-y));
+    Real b = (2.25-x*(1-y*y));
+    Real c = (2.625-x*(1-y*y*y));
+    return a*a+b*b+c*c;
 }
 
 Real f20(const Vector &v) {
@@ -371,7 +373,7 @@ void test18(Method method, const std::string& method_title) {
 }
 
 void test19(Method method, const std::string& method_title) {
-    auto start_points = gen_start_points(2, -5, 5);
+    auto start_points = gen_start_points(2, -0.5, 0.5);
     auto expected = std::vector<ControlPoint>{
         {{3, 0.5}, "Global Min"}
     };
