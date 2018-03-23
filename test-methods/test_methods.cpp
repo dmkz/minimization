@@ -371,7 +371,7 @@ void test18(Method method, const std::string& method_title) {
 }
 
 void test19(Method method, const std::string& method_title) {
-    auto start_points = gen_start_points(2, -10, 10);
+    auto start_points = gen_start_points(2, -5, 5);
     auto expected = std::vector<ControlPoint>{
         {{3, 0.5}, "Global Min"}
     };
@@ -598,7 +598,7 @@ void Test(Method method, const std::string& method_title) {
 //    test17 (method, method_title);    std::cout << ", 17";  std::cout.flush();  fout_txt.flush();
     test18 (method, method_title);    std::cout << ", 18";  std::cout.flush();  fout_txt.flush();
     test19 (method, method_title);    std::cout << ", 19";  std::cout.flush();  fout_txt.flush();
-    test19 (method, method_title);    std::cout << ", 20";  std::cout.flush();  fout_txt.flush();
+    test20 (method, method_title);    std::cout << ", 20";  std::cout.flush();  fout_txt.flush();
     test21 (method, method_title);    std::cout << ", 21";  std::cout.flush();  fout_txt.flush();
     test22 (method, method_title);    std::cout << ", 22";  std::cout.flush();  fout_txt.flush();
     test23 (method, method_title);    std::cout << ", 23";  std::cout.flush();  fout_txt.flush();
