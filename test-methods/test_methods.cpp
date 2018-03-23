@@ -61,7 +61,8 @@ Real f10(const Vector& v) {
 }
 
 Real f11(const Vector &v) {
-    return std::pow(std::pow(v[0], 2) + v[1] - 11, 2) + std::pow(std::pow(v[1], 2) + v[0] - 7, 2);
+    Real x = v[0], y = v[1];
+    return (x*x + y - 11)*(x*x + y - 11) + (y*y + x - 7)*(y*y + x - 7);
 }
 
 Real f12(const Vector &v) {
@@ -107,17 +108,13 @@ Real f18(const Vector &v) {
 
 Real f19(const Vector &v) {
     Real x = v[0], y = v[1];
-    Real a = (1.5-x*(1-y));
-    Real b = (2.25-x*(1-y*y));
-    Real c = (2.625-x*(1-y*y*y));
-    return a*a+b*b+c*c;
+    return (1.5-x*(1-y))*(1.5-x*(1-y))+(2.25-x*(1-y*y))*(2.25-x*(1-y*y))+(2.625-x*(1-y*y*y))*(2.625-x*(1-y*y*y));
 }
 
 Real f20(const Vector &v) {
-    return std::pow(v[0] - 1, 2) + 100 * std::pow(v[0] * v[0] - v[1], 2) +
-           10.1 * std::pow(v[2] - 1, 2) + std::pow(v[2] - 1, 2) +
-           90 * std::pow(v[2] * v[2] - v[3], 2) + 10.1 * std::pow(v[3] - 1, 2) +
-           19.8 * (v[3] - 1) * (v[1] - 1);
+// Не имеет глобального минимума - не использовать.
+    Real x1 = v[0], x2 = v[1], x3 = v[2], x4 = v[3];
+    return 100*(x2-x1*x1)*(x2-x1*x1)+(1-x1)*(1-x1)+90*(x4-x3*x3)*(x4-x3*x3)+(1-x3)*(1-x3)*(1-x3)+10.1*(x2-1)*(x2-1)+(x4-1)*(x4-1)+19.8*(x2-1)*(x4-1);
 }
 
 Real f21(const Vector &v) {
@@ -131,12 +128,13 @@ Real f23(const Vector &v) {
     return 100 * std::pow(v[1] - std::pow(v[0], 3), 2) + std::pow(1 - v[0], 2);
 }
 Real f24(const Vector &v) {
-    return v[0] + 10 * v[1] + 5 * std::pow(v[3] - v[2], 2) +
-           std::pow(v[1] - 2 * v[2], 4) + 10 * std::pow(v[0] - v[3], 4);
+    Real x1 = v[0], x2 = v[1], x3 = v[2], x4 = v[3];
+    return std::pow((x1 + 10 * x2),2) + 5 * std::pow((x4-x3),2)+ std::pow((x2 - 2 * x3),4) + std::pow(10 * (x1 - x4),4);
 }
 Real f25(const Vector &v) {
-    return std::pow(v[0] * v[0] - v[1], 4) + 100 * std::pow(v[1] - v[2], 6) +
-           std::pow(std::tan(v[2]-v[3]), 4) + std::pow(v[0], 8) + std::pow(v[3] - 1, 2);
+    Real x1 = v[0], x2 = v[1], x3 = v[2], x4 = v[3];
+    return std::pow(x1*x1 - x2+1, 4) + 100 * std::pow(x2-x3, 6) +
+           std::pow(std::tan(x3-x4), 4) + std::pow(x1, 8) + std::pow(x4 - 1, 2);
 }
 
 Real f26(const Vector &v) {
@@ -346,8 +344,9 @@ void test10(Method method, const std::string& method_title) {
 
 void test11(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{
-        {{-1, -1}, "Global Min"}, {{1, 1}, "Global Min"},
-        {{0, 0}, " Local Max"}, {{-0.39332, 0.39332}, " Local Min"}, {{0.39332, -0.39332}, " Local Min"}
+        {{3, 2}, "Global Min"}, {{-3.77931, -3.28319}, "Global Min"},
+        {{-2.80512, 3.13131}, "Global Min"}, {{3.58443, -1.84813}, "Global Min"},
+        {{-0.270845, -0.923039}, " Local Max"}
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 11 -----------------\n";
@@ -382,7 +381,10 @@ void test19(Method method, const std::string& method_title) {
 }
 
 void test20(Method method, const std::string& method_title) {
-    auto start_points = gen_start_points(4, -10, 10);
+    auto start_points = Matrix{{-3,-1,-3,-1}};
+    for (auto & it : gen_start_points(4, -0.5, 0.5)) {
+        start_points.push_back(it);
+    }
     auto expected = std::vector<ControlPoint>{
         {{1, 1, 1, 1}, "Global Min"}
     };
@@ -421,7 +423,10 @@ void test24(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{
         {{0, 0, 0, 0}, "Global Min"}
     };
-    auto start_points = gen_start_points(4, -5, 5);
+    auto start_points = Matrix{{-3,-1,0,1}};
+    for (auto& it : gen_start_points(4, -5, 5)) {
+        start_points.push_back(it);
+    }
     fout_txt << "------------------ Тест 24-----------------\n";
     test_method(method, f24, start_points, expected, 24, method_title);
 }
@@ -430,8 +435,11 @@ void test25(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{
         {{0, 1, 1, 1}, "Global Min"}
     };
-//    auto start_points = Matrix{{1, 2, 2, 2});
-    auto start_points = gen_start_points(4, -5, 5);
+    auto start_points = Matrix{{1, 2, 2, 2}};
+    for (auto & it : gen_start_points(4, -5, 5)) {
+        start_points.push_back(it);
+    }
+    
     fout_txt << "------------------ Тест 25 -----------------\n";
     test_method(method, f25, start_points, expected, 25, method_title);
 }
@@ -600,7 +608,7 @@ void Test(Method method, const std::string& method_title) {
 //    test17 (method, method_title);    std::cout << ", 17";  std::cout.flush();  fout_txt.flush();
     test18 (method, method_title);    std::cout << ", 18";  std::cout.flush();  fout_txt.flush();
     test19 (method, method_title);    std::cout << ", 19";  std::cout.flush();  fout_txt.flush();
-    test20 (method, method_title);    std::cout << ", 20";  std::cout.flush();  fout_txt.flush();
+    // test20 (method, method_title);    std::cout << ", 20";  std::cout.flush();  fout_txt.flush();
     test21 (method, method_title);    std::cout << ", 21";  std::cout.flush();  fout_txt.flush();
     test22 (method, method_title);    std::cout << ", 22";  std::cout.flush();  fout_txt.flush();
     test23 (method, method_title);    std::cout << ", 23";  std::cout.flush();  fout_txt.flush();
