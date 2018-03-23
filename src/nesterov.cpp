@@ -26,7 +26,8 @@ void nesterov(Function f, Vector startingPoint, BasicIterationObject* iter_objec
     iter_object->set_method_title("Nesterov");
     
 	do {
-		for (int iter=0; iter < 100; ++iter) {
+		//for (int iter=0; iter < 100; ++iter) {
+        while (true) {
 			alfaNext = alfa + std::sqrt(alfa*alfa + 2 * alfa*A);
 			y = (A / (A + alfaNext)) * x + (alfaNext / (A + alfaNext)) * v;
 			xNext = y - alfa * grad(f, y);
