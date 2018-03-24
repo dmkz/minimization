@@ -2,11 +2,11 @@
 
 // Метод Нестерова
 // Авторы: Петрухина Светлана, Кулага Иван
-void nesterov(Function f, Vector startingPoint, BasicIterationObject* iter_object) {
+IterationData nesterov(Function f, Vector startingPoint, const StopCondition& stop_condition) {
 // f - указатель на целевую функцию
 // startingPoint - начальное приближение
-// iter_object - объект итерации
-// Результат работы метода будет лежать в объекте итерации
+// stop_condition - критерий остановы
+// Результат работы метода будет лежать в структуре данных о последней итерации
 
     Real ro = 2.0;
 	Real teta = 1.1;
@@ -19,11 +19,12 @@ void nesterov(Function f, Vector startingPoint, BasicIterationObject* iter_objec
 	Real alfaNext = 0.0;
 	Real A = 0;
     
-    // Инициализируем начальной точкой объект контроля итераций:
-    iter_object->set_x_curr(x);
-    iter_object->set_f_curr(f(x));
-    iter_object->set_iter_counter(0);
-    iter_object->set_method_title("Nesterov");
+    // Инициализируем начальной точкой структуру данных итерации:
+    IterationData iter_data;
+    iter_data.x_curr = x;
+    iter_data.f_curr = f(x);
+    iter_data.iter_counter = 0;
+    iter_data.method_title = "Nesterov";
     
 	do {
 		//for (int iter=0; iter < 100; ++iter) {
@@ -41,6 +42,7 @@ void nesterov(Function f, Vector startingPoint, BasicIterationObject* iter_objec
 		A += alfaNext;
 		alfaNext = teta * alfa;
 
-        iter_object->next_iteration(xNext, f(xNext));
-	} while (!iter_object->is_stopped());
+        iter_data.next(xNext, f(xNext));
+	} while (!stop_condition(iter_data));
+    return iter_data;
 }

@@ -12,7 +12,7 @@
 #include <iostream>
 #include <cmath>
 #include "math.hpp"
-#include "iteration_object.hpp"
+#include "StopCondition.hpp"
 
 Real brent(const Real ax, const Real bx, const Real cx, Real f(const Real, int, Vector *, Vector *, Function),
 	const Real tol, int ncom, Vector *pcom_p, Vector *xicom_p, Function);
@@ -23,8 +23,8 @@ std::pair<Vector, Vector> linmin(Vector &pInit, Vector &xiInit, Function func);
 
 std::pair<Vector, Vector> mnbrak(Real axInit, Real bxInit, Real func(const Real, int, Vector *, Vector *, Function), int ncom, Vector *pcom_p, Vector *xicom_p, Function);
       
-void powell(Function func, Vector p, BasicIterationObject* iter_object);
+IterationData powell(Function func, Vector p, const StopCondition& stop_condition = default_stop_condition);
 // func - указатель на целевую функцию
 // p - начальное приближение
-// iter_object - объект итерации
-// Результат работы метода будет лежать в объекте итерации
+// stop_condition - критерий остановы
+// Результат работы метода будет лежать в структуре данных о последней итерации

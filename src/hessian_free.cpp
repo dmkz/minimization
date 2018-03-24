@@ -1,37 +1,41 @@
 #include "hessian_free.hpp"
 
 // Авторы: Козырев Дмитрий (реализация), Бадави Полина (теория)
-void slow_hessian_free(Function f, Vector x, BasicIterationObject* iter_object) {
+IterationData slow_hessian_free(Function f, Vector x, const StopCondition& stop_condition) {
 // f - указатель на целевую функцию
 // x - начальное приближение
-// iter_object - объект итерации
-// Результат работы метода будет лежать в объекте итерации
+// stop_condition - критерий остановы
+// Результат работы метода будет лежать в структуре данных о последней итерации
 
-    // Инициализируем начальной точкой объект контроля итераций:
-    iter_object->set_x_curr(x);
-    iter_object->set_f_curr(f(x));
-    iter_object->set_iter_counter(0);
-    iter_object->set_method_title("Slow Hessian Free");
+    
+// Инициализируем начальной точкой структуру данных итерации:
+    IterationData iter_data;
+    iter_data.x_curr = x;
+    iter_data.f_curr = f(x);
+    iter_data.iter_counter = 0;
+    iter_data.method_title = "Slow Hessian Free";
     
     const int n = (int)x.size();
     do {
         x += conjugade_gradient(hess(f, x), grad(f, x), Vector(n, 0));
-        iter_object->next_iteration(x, f(x));
-    } while (!iter_object->is_stopped());
+        iter_data.next(x, f(x));
+    } while (!stop_condition(iter_data));
+    return iter_data;
 }
 
 // Авторы: Козырев Дмитрий (реализация), Бадави Полина (теория)
-void hessian_free(Function f, Vector x, BasicIterationObject* iter_object) {
+IterationData hessian_free(Function f, Vector x, const StopCondition& stop_condition) {
 // f - указатель на целевую функцию
 // x - начальное приближение
-// iter_object - объект итерации
+// stop_condition - критерий остановы
 // Результат работы метода будет лежать в объекте итерации
 
-    // Инициализируем начальной точкой объект контроля итераций:
-    iter_object->set_x_curr(x);
-    iter_object->set_f_curr(f(x));
-    iter_object->set_iter_counter(0);
-    iter_object->set_method_title("Hessian Free");
+// Инициализируем начальной точкой структуру данных итерации:
+    IterationData iter_data;
+    iter_data.x_curr = x;
+    iter_data.f_curr = f(x);
+    iter_data.iter_counter = 0;
+    iter_data.method_title = "Hessian Free";
     
     const int n = (int)x.size();
     do {
@@ -46,8 +50,9 @@ void hessian_free(Function f, Vector x, BasicIterationObject* iter_object) {
             d = -temp + dot(temp, hess_prod_vect_f_x_d) / dot(d, hess_prod_vect_f_x_d) * d;
         }
         x += dx;
-        iter_object->next_iteration(x, f(x));
-    } while (!iter_object->is_stopped());
+        iter_data.next(x, f(x));
+    } while (!stop_condition(iter_data));
+    return iter_data;
 }
 
 // Апроксимация умножения градиента функции f в точке х на вектор dx

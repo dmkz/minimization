@@ -3,6 +3,62 @@
 
 // Авторы: Михнев Денис (реализация), Грошева Екатерина (теория)
 
+IterationData bfgs(Function f, Vector start_point, const StopCondition& stop_condition) {
+// f - указатель на целевую функцию
+// start_point - начальное приближение
+// stop_condition - критерий остановы
+// Результат работы метода будет лежать в структуре данных о последней итерации
+
+// Инициализируем начальной точкой структуру данных итерации:
+    IterationData iter_data;
+    iter_data.x_curr = start_point;
+    iter_data.f_curr = f(start_point);
+    iter_data.iter_counter = 0;
+    iter_data.method_title = "BFGS";      
+    
+    int n = (int)start_point.size();
+    Matrix B(n, Vector(n));
+    Vector t = grad(f, start_point);
+    for(int i = 0; i < n; ++i)
+        B[i][i] = 1;
+    Real alpha;
+    for(int i = 0; i < n; ++i)
+        t[i] = -t[i];
+    alpha = search_alpha_bfgs(f, start_point, t, 100);
+	if (alpha == -1) {
+	    return iter_data;
+    }
+    Vector x_prv = start_point;
+    Vector x_cur = start_point;
+    for(int i = 0; i < n; ++i)
+        x_cur[i] += alpha*t[i];
+    B = hes_upd_bfgs(f, B, x_cur, x_prv);   
+    Vector p(n);
+    Vector cur_grad(n);
+    cur_grad = grad(f, x_cur);
+    do {
+        Vector p(n);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                p[i] -= B[i][j] * cur_grad[j];
+            }
+        }
+        alpha = search_alpha_bfgs(f, x_cur, p, 100);
+		if (alpha == -1) {
+		    break;
+        }
+        x_prv = x_cur;
+        x_cur += alpha * p;
+        
+        iter_data.next(x_cur, f(x_cur));
+        
+        B = hes_upd_bfgs(f, B, x_cur, x_prv);
+        cur_grad = grad(f, x_cur);
+        
+    } while (!stop_condition(iter_data));
+    return iter_data;
+}
+
 Matrix out_pr_bfgs(Vector& x, Vector& y) {
     int n = (int)x.size(); 
     Matrix res(n, Vector(n));
@@ -111,58 +167,4 @@ Real search_alpha_bfgs(Function f, Vector& x, Vector& p, int iter_limit) {
         phi_a1 = phi_a2;
     }
     return -1;
-}
-
-void bfgs(Function f, Vector start_point, BasicIterationObject* iter_object) {
-// f - указатель на целевую функцию
-// start_point - начальное приближение
-// iter_object - объект итерации
-// Результат работы метода будет лежать в объекте итерации
-
-    // Инициализируем начальной точкой объект контроля итераций:
-    iter_object->set_x_curr(start_point);
-    iter_object->set_f_curr(f(start_point));
-    iter_object->set_iter_counter(0);
-    iter_object->set_method_title("BFGS");    
-    
-    int n = (int)start_point.size();
-    Matrix B(n, Vector(n));
-    Vector t = grad(f, start_point);
-    for(int i = 0; i < n; ++i)
-        B[i][i] = 1;
-    Real alpha;
-    for(int i = 0; i < n; ++i)
-        t[i] = -t[i];
-    alpha = search_alpha_bfgs(f, start_point, t, 100);
-	if (alpha == -1) {
-	    return;
-    }
-    Vector x_prv = start_point;
-    Vector x_cur = start_point;
-    for(int i = 0; i < n; ++i)
-        x_cur[i] += alpha*t[i];
-    B = hes_upd_bfgs(f, B, x_cur, x_prv);   
-    Vector p(n);
-    Vector cur_grad(n);
-    cur_grad = grad(f, x_cur);
-    do {
-        Vector p(n);
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                p[i] -= B[i][j] * cur_grad[j];
-            }
-        }
-        alpha = search_alpha_bfgs(f, x_cur, p, 100);
-		if (alpha == -1) {
-		    break;
-        }
-        x_prv = x_cur;
-        x_cur += alpha * p;
-        
-        iter_object->next_iteration(x_cur, f(x_cur));
-        
-        B = hes_upd_bfgs(f, B, x_cur, x_prv);
-        cur_grad = grad(f, x_cur);
-        
-    } while (!iter_object->is_stopped());
 }

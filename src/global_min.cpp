@@ -56,7 +56,7 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 
 // Автор: Козырев Дмитрий
 std::vector<std::pair<Real, Vector>>
-find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, const std::vector<std::pair<Real, Vector>>& inData) {
+find_local_mins_with_threads(Function f, const StopCondition& stop_condition, const std::vector<std::pair<Real, Vector>>& inData) {
 	// Создаем вектор под ответ:
 	std::vector<std::pair<Real, Vector>> outData(inData.size());
 	
@@ -65,12 +65,6 @@ find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, cons
 	
 	// Вектор из тредов:
 	std::vector<std::thread> t;
-	
-    // Вектор из объектов итераций:
-    std::vector<BasicIterationObject*> iteration_objects(nCores);
-    for (auto &it : iteration_objects) {
-        it = iter_object->new_object();
-    }
     
 	// Мьютексы на чтение и запись:
 	std::mutex inRead, outWrite;
@@ -79,7 +73,7 @@ find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, cons
 	
 	// Создаем столько тредов, сколько ядер:
 	for (uint32_t thread_id = 0; thread_id < nCores; thread_id++) {
-		t.push_back(std::thread([&, iter_obj = iteration_objects[thread_id]] {
+		t.push_back(std::thread([&] {
 			while (1) {
 				inRead.lock();
 				uint32_t i = globalIndex;
@@ -93,25 +87,25 @@ find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, cons
 				inRead.unlock();
 				
 				// После чтения вызываем методы минимизации:
-				bfgs(f, it.second, iter_obj);
-                auto x1 = iter_obj->get_x_curr();
-				auto f1 = iter_obj->get_f_curr();
+				auto iter_data = bfgs(f, it.second, stop_condition);
+                auto x1 = iter_data.x_curr;
+				auto f1 = iter_data.f_curr;
                 
-                hessian_free(f, it.second, iter_obj);
-				auto x2 = iter_obj->get_x_curr();
-                auto f2 = iter_obj->get_f_curr();
+                iter_data = hessian_free(f, it.second, stop_condition);
+				auto x2 = iter_data.x_curr;
+                auto f2 = iter_data.f_curr;
                 
-                nesterov(f, it.second, iter_obj);
-				auto x3 = iter_obj->get_x_curr();
-                auto f3 = iter_obj->get_f_curr();
+                iter_data = nesterov(f, it.second, stop_condition);
+				auto x3 = iter_data.x_curr;
+                auto f3 = iter_data.f_curr;
                 
-                dfp(f, it.second, iter_obj);
-                auto x4 = iter_obj->get_x_curr();
-                auto f4 = iter_obj->get_f_curr();
+                iter_data = dfp(f, it.second, stop_condition);
+                auto x4 = iter_data.x_curr;
+                auto f4 = iter_data.f_curr;
                 
-                powell(f, it.second, iter_obj);
-                auto x5 = iter_obj->get_x_curr();
-                auto f5 = iter_obj->get_f_curr();
+                iter_data = powell(f, it.second, stop_condition);
+                auto x5 = iter_data.x_curr;
+                auto f5 = iter_data.f_curr;
                 
 				// Записываем ответ:
 				outWrite.lock();
@@ -133,11 +127,6 @@ find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, cons
 	for (uint32_t i = 0; i < nCores; ++i) {
 		t[i].join();
 	}
-	
-    // Очищаем память от объектов итераций
-    for (auto &it : iteration_objects) {
-        delete it;
-    }
     
 	assert(globalIndex == inData.size());
 	
@@ -147,7 +136,7 @@ find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, cons
 
 // Автор: Козырев Дмитрий
 std::vector<std::pair<Real, Vector>>
-find_absmin(Function f, BasicIterationObject* iter_object, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
+find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
 	// Несколько проверок на входные данные:
 	assert(dim > 0u && dim == min.size() && dim == max.size());
 	assert(nBestPoints <= nAllPoints && nBestPoints > 0u);
@@ -199,7 +188,7 @@ find_absmin(Function f, BasicIterationObject* iter_object, uint32_t dim, uint32_
 	}
 	
 	// Многопоточная обработка кандидатов:
-	auto answer = find_local_mins_with_threads(f, iter_object, temp);
+	auto answer = find_local_mins_with_threads(f, stop_condition, temp);
 	
 	// Итоговая сортировка всех найденных точек по неубыванию значения функции в них:
 	std::sort(answer.begin(), answer.end());

@@ -1,12 +1,12 @@
 #pragma once
 
 #include "math.hpp"
-#include "iteration_object.hpp"
+#include "StopCondition.hpp"
 
 // Метод Нестерова (возвращается результат - точка минимума и количество сделанных итераций)
 // Авторы: Петрухина Светлана, Кулага Иван
-void nesterov(Function f, Vector startingPoint, BasicIterationObject* iter_object);
+IterationData nesterov(Function f, Vector startingPoint, const StopCondition& stop_condition = default_stop_condition);
 // f - указатель на целевую функцию
 // startingPoint - начальное приближение
-// iter_object - объект итерации
-// Результат работы метода будет лежать в объекте итерации
+// stop_condition - критерий остановы
+// Результат работы метода будет лежать в структуре данных о последней итерации

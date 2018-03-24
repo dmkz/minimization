@@ -1,1 +1,0 @@
-g++ -pthread -Ofast -std=c++11 -Wall -Wextra -g -I"include"   -c -o src/powell.o src/powell.cpp
