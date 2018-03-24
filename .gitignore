@@ -1,5 +1,4 @@
-.idea
-.DS_Store
+# Sergey Khokhlov
 
 # Prerequisites
 *.d
@@ -33,3 +32,12 @@
 *.exe
 *.out
 *.app
+
+
+.idea
+.DS_Store
+\.vscode/launch\.json
+
+bin/out_min\.txt
+bin/out\.txt
+bin/CMakeFiles/
