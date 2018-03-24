@@ -157,8 +157,7 @@ void test(std::string title, Function f, uint32_t dim, uint32_t nBestPoints, uin
     std::cout << "-- " << title << std::endl; 
     std::cout.flush();
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
-    BasicIterationObject iter_obj;
-	for (auto & rec : find_absmin(f, &iter_obj, dim, nBestPoints, nAllPoints, min, max)) {
+	for (auto & rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
 		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second << '}' << std::endl;
 	}
     fout.flush();

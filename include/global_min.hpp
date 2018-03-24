@@ -7,7 +7,7 @@
 #include "bfgs.hpp"
 #include "dfp.hpp"
 #include "powell.hpp"
-#include "iteration_object.hpp"
+#include "StopCondition.hpp"
 
 #include <vector>
 #include <set>
@@ -23,9 +23,9 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData);
 // Второй этап: запуск методов локальной минимизации в попытках улучшить результат: 
 // Автор: Козырев Дмитрий
 std::vector<std::pair<Real, Vector>>
-find_local_mins_with_threads(Function f, BasicIterationObject* iter_object, const std::vector<std::pair<Real, Vector>>& inData);
+find_local_mins_with_threads(Function f, const StopCondition& stop_condition, const std::vector<std::pair<Real, Vector>>& inData);
 
 // Основная функция поиска абсолютных минимумов:
 // Автор: Козырев Дмитрий
 std::vector<std::pair<Real, Vector>>
-find_absmin(Function f, BasicIterationObject* iter_object, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max);
+find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max);

@@ -1,10 +1,10 @@
 #include "powell.hpp"
 
-void powell(Function func, Vector p, BasicIterationObject* iter_object) {
+IterationData powell(Function func, Vector p, const StopCondition& stop_condition) {
 // func - указатель на целевую функцию
 // p - начальное приближение
-// iter_object - объект итерации
-// Результат будет лежать в объекте итерации
+// stop_condition - критерий остановы
+// Результат работы метода будет лежать в структуре данных о последней итерации
     
     int i, j, ibig; //переменные для циклов
     Real del, fp, fptt, t; // del-дельта , fp и fptt - ф-ция в р и рtt
@@ -21,11 +21,12 @@ void powell(Function func, Vector p, BasicIterationObject* iter_object) {
     Vector pt(n), ptt(n), xit(n);
     Real fret = func(p);// fret - хранит значение функции в точке p
     
-    // Инициализируем начальной точкой объект контроля итераций:
-    iter_object->set_x_curr(p);
-    iter_object->set_f_curr(fret);
-    iter_object->set_iter_counter(0);
-    iter_object->set_method_title("Powell");
+    // Инициализируем начальной точкой структуру данных итерации:
+    IterationData iter_data;
+    iter_data.x_curr = p;
+    iter_data.f_curr = fret;
+    iter_data.iter_counter = 0;
+    iter_data.method_title = "Powell";
     
     pt = p; //сохраняем начальную точку
     
@@ -55,7 +56,7 @@ void powell(Function func, Vector p, BasicIterationObject* iter_object) {
         fptt = func(ptt); // значение функции в новой точке
         
         // Переходим к следующей итерации:
-        iter_object->next_iteration(ptt, fptt);
+        iter_data.next(ptt, fptt);
         
         if (fptt < fp) {
             t = 2.0*(fp - 2.0*fret + fptt)*SQR(fp - fret - del) - del * SQR(fp - fptt);
@@ -70,7 +71,8 @@ void powell(Function func, Vector p, BasicIterationObject* iter_object) {
                 }
             }
         }
-    } while (!iter_object->is_stopped()); // Проверяем условие останова
+    } while (!stop_condition(iter_data)); // Проверяем условие останова
+    return iter_data;
 }
 
 

@@ -1,5 +1,5 @@
 TARGET = main
-SRCS = test_methods.cpp ../src/iteration_object.cpp ../src/math.cpp ../src/powell.cpp ../src/hessian_free.cpp ../src/nesterov.cpp ../src/bfgs.cpp ../src/dfp.cpp
+SRCS = test_methods.cpp ../src/StopCondition.cpp ../src/math.cpp ../src/powell.cpp ../src/hessian_free.cpp ../src/nesterov.cpp ../src/bfgs.cpp ../src/dfp.cpp
 OBJS = $(SRCS:.cpp=.o)
 CXX ?= gcc
 CXXFLAGS ?= -pthread -Ofast -std=c++14 -Wall -Wextra -fmax-errors=2 -I"../include"
