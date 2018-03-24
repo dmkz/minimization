@@ -264,6 +264,7 @@ void test1(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{-1, -1}, "Global Min"}};
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 1 ------------------\n";
+    fout_txt << "01. Гладкая функция: f(x,y) = 1+x+y-xy+x^2+y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f1, start_points, expected, 1, method_title);
 }
 
@@ -271,6 +272,7 @@ void test2(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{Real(-46) / 47, Real(-106) / 47}, "Global Min"}};
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 2 ------------------\n";
+    fout_txt << "02. Гладкая функция: f(x,y) = 1+7x+5y+0.5xy+3x^2+y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f2, start_points, expected, 2, method_title);
 }
 
@@ -278,6 +280,7 @@ void test3(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{Real(-19) / 2, -5}, "Global Min"}};
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 3 ------------------\n";
+    fout_txt << "03. Гладкая функция: f(x,y) = 100+7x+5y-10xy+3x^2+10y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f3, start_points, expected, 3, method_title);
 }
 
@@ -285,6 +288,7 @@ void test4(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{Real(-77900) / 39, Real(-14220)/13}, "Global Min"}};
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 4 ------------------\n";
+    fout_txt << "04. Гладкая функция: f(x,y) = 100+7x+5y-10.95xy+3x^2+10y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f4, start_points, expected, 4, method_title);
 }
 
@@ -292,6 +296,7 @@ void test5(Method method, const std::string& method_title) {
     auto expected = std::vector<ControlPoint>{{{-0.25, -0.25, -0.25}, "Global Min"}};
     auto start_points = gen_start_points(3, -5, 5);
     fout_txt << "------------------ Тест 5 ------------------\n";
+    fout_txt << "05. Гладкая функция: f(x,y,z) = 1+x+y+z+xy+xz+yz+x^2+y^2+z^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f5, start_points, expected, 5, method_title);
 }
 
@@ -301,6 +306,7 @@ void test6(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 6 ------------------\n";
+    fout_txt << "06. Гладкая функция: f(x,y) = 10x^4+15y^4+15xy, имеющая два глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f6, start_points, expected, 6, method_title);
 }
 
@@ -310,6 +316,7 @@ void test7(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 7 ------------------\n";
+    fout_txt << "07. Гладкая функция: f(x,y) = 10x^6+15y^6-20x^3y+xy^3, имеющая два глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f7, start_points, expected, 7, method_title);
 }
 
@@ -320,6 +327,7 @@ void test8(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 8 ------------------\n";
+    fout_txt << "08. Гладкая функция: f(x,y) = x^6+y^6-2(x^3y+xy^3)+x^2+y^2, имеющая три глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f8, start_points, expected, 8, method_title);
 }
 
@@ -329,6 +337,7 @@ void test9(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 9 ------------------\n";
+    fout_txt << "09. Гладкая функция: f(x,y) = x^6+y^6-3(x^3y+xy^3)+x^2+y^2, имеющая два глобальных минимума и один локальный. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f9, start_points, expected, 9, method_title);
 }
 
@@ -339,6 +348,7 @@ void test10(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 10 -----------------\n";
+    fout_txt << "10. Гладкая функция: f(x,y) = x^6+y^6-2(x^3y+xy^3)+x^4+y^4-x^2-y^2, имеющая два глобальных минимума и два локальных. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f10, start_points, expected, 10, method_title);
 }
 
@@ -350,6 +360,7 @@ void test11(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 11 -----------------\n";
+    fout_txt << "11. Гладкая функция Химмельблау: f(x,y) = (x^2+y-11)^2+(x+y^2-7)^2, имеющая четыре глобальных минимума и один локальный. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f11, start_points, expected, 11, method_title);
 }
 
@@ -359,6 +370,7 @@ void test15(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -10, 10);
     fout_txt << "------------------ Тест 15 -----------------\n";
+    fout_txt << "15. Гладкая функция Матиаса: f(x,y)=0.26(x^2+y^2)-0.48xy, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f15, start_points, expected, 15, method_title);
 }
 
@@ -368,6 +380,7 @@ void test18(Method method, const std::string& method_title) {
         {{-0.029896, 0}, "Global Min"}
     };
     fout_txt << "------------------ Тест 18 -----------------\n";
+    fout_txt << "18. Гладкая функция Зеттла: f(x,y)=x/4+(x^2-2x+y^2)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f18, start_points, expected, 18, method_title);
 }
 
@@ -377,6 +390,7 @@ void test19(Method method, const std::string& method_title) {
         {{3, 0.5}, "Global Min"}
     };
     fout_txt << "------------------ Тест 19 -----------------\n";
+    fout_txt << "19. Гладкая функция Биля: f(x,y)=(xy-x+1.5)^2+(xy^2-x+2.25)^2+(x*y^3-x+2.625)^2, имеющая два глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f19, start_points, expected, 19, method_title);
 }
 
@@ -486,6 +500,7 @@ void test27_2(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 27_2 -----------------\n";
+    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f27, start_points, expected, 27, method_title);
 }
 
@@ -495,6 +510,7 @@ void test27_4(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(4, -5, 5);
     fout_txt << "------------------ Тест 27_4 -----------------\n";
+    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f27, start_points, expected, 27, method_title);
 }
 
@@ -504,6 +520,7 @@ void test27_8(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(8, -5, 5);
     fout_txt << "------------------ Тест 27_8 -----------------\n";
+    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f27, start_points, expected, 27, method_title);
 }
 
@@ -513,6 +530,7 @@ void test27_12(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(12, -5, 5);
     fout_txt << "------------------ Тест 27_12 -----------------\n";
+    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f27, start_points, expected, 27, method_title);
 }
 
@@ -522,6 +540,7 @@ void test28_2(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(2, -5, 5);
     fout_txt << "------------------ Тест 28_2 -----------------\n";
+    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f28, start_points, expected, 28, method_title);
 }
 
@@ -531,6 +550,7 @@ void test28_4(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(4, -5, 5);
     fout_txt << "------------------ Тест 28_4 -----------------\n";
+    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f28, start_points, expected, 28, method_title);
 }
 
@@ -540,6 +560,7 @@ void test28_8(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(8, -5, 5);
     fout_txt << "------------------ Тест 28_8 -----------------\n";
+    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f28, start_points, expected, 28, method_title);
 }
 
@@ -549,6 +570,7 @@ void test28_12(Method method, const std::string& method_title) {
     };
     auto start_points = gen_start_points(12, -5, 5);
     fout_txt << "------------------ Тест 28_12 -----------------\n";
+    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     test_method(method, f28, start_points, expected, 28, method_title);
 }
 
