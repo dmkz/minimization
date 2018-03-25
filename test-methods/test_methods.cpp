@@ -716,6 +716,8 @@ void Test(Method method) {
 }
 
 int main() {
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+
     std::cout << std::endl;
     std::cout << "-- Start BFGS Method Tests. Results in test_bfgs.txt" << std::endl;
     std::cout << "-- Tests: ";
