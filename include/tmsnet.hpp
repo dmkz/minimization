@@ -5,6 +5,10 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <cassert>
 
 typedef long double Real;
 
