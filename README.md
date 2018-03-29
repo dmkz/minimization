@@ -4,6 +4,7 @@
 
 ## Виды сеток:
 * Sobol
+* NiederreiterBaseTwo
 
 ## Алгоритмы локальной минимизации:
 1. BFGS
