@@ -1,3 +1,7 @@
+/*
+ * Авторы: Бураханова А., Золкин А., Казарян М., Хохлов С., Малоенко С.
+ */
+
 #include "NiederreiterBaseTwo.hpp"
 #include <cmath>
 #include <iostream>
