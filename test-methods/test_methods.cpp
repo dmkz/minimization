@@ -7,7 +7,7 @@
 
 /*
     Тестирование методов отдельно.
-    Автор: Юрий Кондратов, Бураханова А.
+    Автор: Юрий Кондратов, Бураханова А., Казарян М.
 */
 
 typedef IterationData(*Method)(Function, Vector, const StopCondition&);
