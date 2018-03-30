@@ -7,7 +7,7 @@ IterationData nesterov(Function f, Vector startingPoint, const StopCondition& st
 // startingPoint - начальное приближение
 // stop_condition - критерий остановы
 // Результат работы метода будет лежать в структуре данных о последней итерации
-
+    
     Real ro = 2.0;
 	Real teta = 1.1;
 	Real alfa = 1.0;
@@ -28,7 +28,11 @@ IterationData nesterov(Function f, Vector startingPoint, const StopCondition& st
     
 	do {
 		for (int local_iter=0; local_iter < 100; ++local_iter) {
-        //while (true) {
+            // alfaNext^2 = 2 * alfa * (A + alfaNext)
+            // alfaNext^2 - 2 * alfa * (A + alfaNext) = 0
+            // alfaNext^2 - 2 * alfa * alfaNext - 2 * alfa * A = 0
+            // D = 4 * alfa * alfa + 8 * alfa * A = 4*(alfa * alfa + 2 * alfa * A)
+            // alfaNext1 = alfa + sqrt(alfa*alfa + 2 * alfa * A)
 			alfaNext = alfa + std::sqrt(alfa*alfa + 2 * alfa*A);
 			y = (A / (A + alfaNext)) * x + (alfaNext / (A + alfaNext)) * v;
 			xNext = y - alfa * grad(f, y);
@@ -41,8 +45,12 @@ IterationData nesterov(Function f, Vector startingPoint, const StopCondition& st
 		v = v - alfaNext * (grad(f, xNext));
 		A += alfaNext;
 		alfaNext = teta * alfa;
-
+        /*
+        if (dot(y-xNext,xNext-x) > 0) {
+            xNext = x; v = x; A = 0;
+        } */
         iter_data.next(xNext, f(xNext));
+        
 	} while (!stop_condition(iter_data));
     return iter_data;
 }
