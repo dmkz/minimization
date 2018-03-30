@@ -1,6 +1,6 @@
 /*
  * Авторы: Бураханова А., Золкин А., Казарян М., Хохлов С., Малоенко С.
- * Генератор сетоr Нидеррайтера, использующий поле F2
+ * Генератор сеток Нидеррайтера, использующий поле F2
  * Файл: NiederreiterBaseTwo.cpp
 */
 
@@ -109,36 +109,15 @@ int NiederreiterBaseTwo::Init(uint32_t dimension_, int64_t seed_) {
     return 0;
 }
 
-//****************************************************************************80
-
 void NiederreiterBaseTwo::setfld2()
 
-//****************************************************************************80
+//  Цель:
 //
-//  Purpose:
+//    SETFLD2 генерирует арифметические таблицы(сложение, умножение, вычитание) для конечного поля порядка 2.
 //
-//    SETFLD2 sets up arithmetic tables for the finite field of order 2.
+//  Параметры:
 //
-//  Discussion:
-//
-//    SETFLD2 sets up addition, multiplication, and subtraction tables 
-//    for the finite field of order QIN.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    29 March 2003
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
+//	  На вход 
 //    Input, int64_t ADD[2][2], MUL[2][2], SUB[2][2], the addition, multiplication, 
 //    and subtraction tables, mod 2.
 //
@@ -169,9 +148,6 @@ void NiederreiterBaseTwo::setfld2()
 
   return;
 }
-//****************************************************************************80
-
-//****************************************************************************80
 
 void NiederreiterBaseTwo::plymul2 (
     int64_t pa_deg, int64_t pa[MAXDEG+1], 
