@@ -702,7 +702,7 @@ void test32(Method method)
 	fout_txt << "----------------------------------- Тест 32 -----------------------------------\n\n";
     fout_txt << "32. Гладкая функция: f(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f31, example_stop_condition, start_points, expected);
+    test_method(method, f32, example_stop_condition, start_points, expected);
 	
 }
 
