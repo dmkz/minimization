@@ -826,7 +826,7 @@ void test36(Method method) {
 	std::vector<std::vector<Real>> start_points = {{3, 5.5}, {1.5, -3}, {0, -5}, {-1, 1.5}};
 	
 	fout_txt << "----------------------------------- Тест 36 -----------------------------------\n\n";
-    fout_txt << "36. Гладкая функция Price 4: f(x,y) = (2*x^3*y-y^3)^2+(6x-y^2+y)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "36. Гладкая функция Price04: f(x,y) = (2*x^3*y-y^3)^2+(6x-y^2+y)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f36, example_stop_condition, start_points, expected);
 }
@@ -981,7 +981,7 @@ void Test(Method method) {
 	test33_4(method);  std::cout << ", 33_4"; std::cout.flush();  fout_txt.flush();
 	test34(method);  std::cout << ", 34"; std::cout.flush();  fout_txt.flush();
     test35(method);  std::cout << ", 35"; std::cout.flush();  fout_txt.flush();
-	test36(method);  std::cout << ", 35"; std::cout.flush();  fout_txt.flush();
+	test36(method);  std::cout << ", 36"; std::cout.flush();  fout_txt.flush();
     test37(method);  std::cout << ", 37"; std::cout.flush();  fout_txt.flush();
     test38(method);  std::cout << ", 38"; std::cout.flush();  fout_txt.flush();
     test39(method);  std::cout << ", 39"; std::cout.flush();  fout_txt.flush();
