@@ -189,6 +189,19 @@ Real f32(const Vector &x){
 	return (100*sqrt(abs(x[1]-0.01*x[0]*x[0]))+0.01*abs(x[0]+10));
 }
 
+Real f33(const Vector &v)
+{
+	Real fun = 0, fun1 = 0, fun2 = 0;
+	
+	for (unsigned int i = 1; i < v.size(); i++)
+	{
+		fun1 = fun1 + std::cos(5* M_PI*v[i]);
+		fun2 = fun2 + v[i]*v[i];
+	}
+	fun = 0.1*fun1 - fun2;
+	return fun;
+}
+
 struct ControlPoint {
     Vector x;
     std::string type;
@@ -706,6 +719,18 @@ void test32(Method method)
 	
 }
 
+void test33(Method method)
+{
+	auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
+	auto start_points = gen_start_points(2, -5, 5);
+	
+	fout_txt << "----------------------------------- Тест 33 -----------------------------------\n\n";
+    fout_txt << "33. Негладкая функция: f(x,y) = 0.1*sum(cos(5*pi*x(i)))-sum(x(i)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f33, example_stop_condition, start_points, expected);
+	
+}
+
 void Test(Method method) {
     test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
     test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
@@ -753,7 +778,8 @@ void Test(Method method) {
     test30_8(method);   std::cout << ", 30_8";  std::cout.flush();  fout_txt.flush();
     test30_12(method);  std::cout << ", 30_12"; std::cout.flush();  fout_txt.flush();
 	test31(method);  std::cout << ", 31_2"; std::cout.flush();  fout_txt.flush();
-	test32(method);  std::cout << ", 31_2"; std::cout.flush();  fout_txt.flush();
+	test32(method);  std::cout << ", 32"; std::cout.flush();  fout_txt.flush();
+	test33(method);  std::cout << ", 33"; std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
 
