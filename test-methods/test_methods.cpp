@@ -180,6 +180,11 @@ Real f30(const Vector &v) {
     return fun;
 }
 
+Real f31(const Vector &x){
+	return (1+std::pow((x[0]+x[1]+1),2)*(19-14*x[0]+3*x[0]*x[0] - 14*x[1] + 6*x[0]*x[1]+3*x[1]*x[1]))*
+	(30+std::pow((2*x[0]-3*x[1]),2)*(18-32*x[0]+12*x[0]*x[0]+48*x[1]-36*x[0]*x[1]+27*x[1]*x[1]));
+}
+
 struct ControlPoint {
     Vector x;
     std::string type;
@@ -666,6 +671,18 @@ void test30_12(Method method) {
     test_method(method, f30, example_stop_condition, start_points, expected);
 }
 
+void test31(Method method)
+{
+	auto expected = std::vector<ControlPoint>
+	{
+        {{0, -1}, "Global Min"}};
+    auto start_points = gen_start_points(2, -5, 5);
+    fout_txt << "----------------------------------- Тест 31 -----------------------------------\n\n";
+    fout_txt << "31. Гладкая функция: f(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)], имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f31, example_stop_condition, start_points, expected);
+}
+
 void Test(Method method) {
     test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
     test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
@@ -712,6 +729,7 @@ void Test(Method method) {
     test30_4(method);   std::cout << ", 30_4";  std::cout.flush();  fout_txt.flush();
     test30_8(method);   std::cout << ", 30_8";  std::cout.flush();  fout_txt.flush();
     test30_12(method);  std::cout << ", 30_12"; std::cout.flush();  fout_txt.flush();
+	test31(method);  std::cout << ", 31_2"; std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
 
