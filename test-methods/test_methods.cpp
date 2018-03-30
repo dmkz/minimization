@@ -865,16 +865,15 @@ void test38(Method method) {
 
 void test39(Method method) {
     auto expected = std::vector<ControlPoint>{
-        {{-3.14, 12.275}, "Global Min"},
-        {{3.14, 2.275}, "Global Min"},
+        {{-M_PI, 12.275}, "Global Min"},
+        {{M_PI, 2.275}, "Global Min"},
         {{9.42478, 2.475}, "Global Min"}
     };
     std::vector<std::vector<Real>> start_points = {
-        {-5, 10},
-        {0, 15}
+        {-5, 0}, {10, 0}, {-5, 15}, {10, 15}
     };
     fout_txt << "----------------------------------- Тест 39 -----------------------------------\n\n";
-    fout_txt << "39. Гладкая функция: f(x,y) = (-1.275*x1^2/3.14^2+5*x1/3.14+x2-6)^2 + (10-5/(4*3.14))*cos(x1)+10, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "39. Гладкая функция: f(x,y) = (-1.275*x1^2/pi^2+5*x1/pi+x2-6)^2 + (10-5/(4*pi))*cos(x1)+10, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f39, example_stop_condition, start_points, expected);
 }
