@@ -193,7 +193,7 @@ Real f33(const Vector &v)
 {
 	Real fun = 0, fun1 = 0, fun2 = 0;
 	
-	for (unsigned int i = 1; i < v.size(); i++)
+	for (unsigned int i = 0; i < v.size(); i++)
 	{
 		fun1 = fun1 + std::cos(5* M_PI*v[i]);
 		fun2 = fun2 + v[i]*v[i];
