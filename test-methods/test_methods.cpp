@@ -227,12 +227,12 @@ Real f38(const Vector &v) {
 
 // Branin01
 Real f39(const Vector &v) {
-    return std::pow((-1.275*std::pow(v[0],2)/std::pow(3.14,2)+5*v[0]/3.14+v[1]-6),2) + (10-5/(4*3.14))*std::cos(v[0])+10;
+    return std::pow((-1.275*std::pow(v[0],2)/std::pow(M_PI,2)+5*v[0]/M_PI+v[1]-6),2) + (10-5/(4*M_PI))*std::cos(v[0])+10;
 }
 
 // Branin02
 Real f40(const Vector &v) {
-    return std::pow((-1.275*std::pow(v[0],2)/std::pow(3.14,2)+5*v[0]/3.14+v[1]-6),2) + (10-5/(4*3.14))*std::cos(v[0])*std::cos(v[1])+std::log(std::pow(v[0],2) + std::pow(v[1],2) + 1)+10;
+    return std::pow((-1.275*std::pow(v[0],2)/std::pow(M_PI,2)+5*v[0]/M_PI+v[1]-6),2) + (10-5/(4*M_PI))*std::cos(v[0])*std::cos(v[1])+std::log(std::pow(v[0],2) + std::pow(v[1],2) + 1)+10;
 }
 
 // Bukin02
@@ -882,9 +882,11 @@ void test40(Method method) {
     auto expected = std::vector<ControlPoint>{
         {{-3.2, 12.53}, "Global Min"}
     };
-    auto start_points = gen_start_points(2, -5, 15);
+    std::vector<std::vector<Real>> start_points = {
+        {-2, -2}, {-2, 11}, {10, -2}, {10, 10}
+    };
     fout_txt << "----------------------------------- Тест 40 -----------------------------------\n\n";
-    fout_txt << "40. Гладкая функция: f(x,y) = (-1.275*x1^2/3.14^2+5*x1/3.14+x2-6)^2 + (10-5/(4*3.14))*cos(x1)*cos(x2)+log(x1^2+x2^2+1)+10, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "40. Гладкая функция: f(x,y) = (-1.275*x1^2/M_PI^2+5*x1/M_PI+x2-6)^2 + (10-5/(4*M_PI))*cos(x1)*cos(x2)+log(x1^2+x2^2+1)+10, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f40, example_stop_condition, start_points, expected);
 }
