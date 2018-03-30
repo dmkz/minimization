@@ -719,12 +719,24 @@ void test32(Method method)
 	
 }
 
-void test33(Method method)
+void test33_2(Method method)
 {
 	auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
 	auto start_points = gen_start_points(2, -1, 1);
 	
-	fout_txt << "----------------------------------- Тест 33 -----------------------------------\n\n";
+	fout_txt << "----------------------------------- Тест 33_2 -----------------------------------\n\n";
+    fout_txt << "33. Негладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f33, example_stop_condition, start_points, expected);
+	
+}
+
+void test33_4(Method method)
+{
+	auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
+	auto start_points = gen_start_points(4, -1, 1);
+	
+	fout_txt << "----------------------------------- Тест 33_4 -----------------------------------\n\n";
     fout_txt << "33. Негладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f33, example_stop_condition, start_points, expected);
@@ -779,7 +791,8 @@ void Test(Method method) {
     test30_12(method);  std::cout << ", 30_12"; std::cout.flush();  fout_txt.flush();
 	test31(method);  std::cout << ", 31_2"; std::cout.flush();  fout_txt.flush();
 	test32(method);  std::cout << ", 32"; std::cout.flush();  fout_txt.flush();
-	test33(method);  std::cout << ", 33"; std::cout.flush();  fout_txt.flush();
+	test33_2(method);  std::cout << ", 33_2"; std::cout.flush();  fout_txt.flush();
+	test33_4(method);  std::cout << ", 33_4"; std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
 
