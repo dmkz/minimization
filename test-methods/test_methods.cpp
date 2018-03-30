@@ -673,9 +673,14 @@ void test30_12(Method method) {
 
 void test31(Method method)
 {
-	auto expected = std::vector<ControlPoint>
-	{
-        {{0, -1}, "Global Min"},{{-3.0/5, -2.0/5}, " Local Min"}, {{6.0/5, 4.0/5}, " Local Min"}, {{9.0/5,1.0/5}, " Local Min"}};
+	
+	auto expected = std::vector<ControlPoint>{
+        {{     0,     -1}, "Global Min"},
+        {{ 4.0/5,  1.0/5}, "Local Max"},
+        {{-3.0/5, -2.0/5}, "Local Min"},
+        {{ 6.0/5,  4.0/5}, "Local Min"},
+        {{ 9.0/5,  1.0/5}, "Local Min"}
+    };
     //auto start_points = gen_start_points(2, -5, 5);
 	std::vector<std::vector<Real>> start_points = {{1,1},{0.25,-0.125},{0.5,-1.5},{0,-1.2}};
 
