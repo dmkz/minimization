@@ -710,7 +710,7 @@ void test32(Method method)
 {
 	auto expected = std::vector<ControlPoint>{{{-10, 1}, "Global Min"}};
 	//auto start_points = gen_start_points(2, -5, 5);
-	std::vector<std::vector<Real>> start_points = {{-11, 0},{-5, 15},{-20, -5},{-10.5, -1.2}};
+	std::vector<std::vector<Real>> start_points = {{-11, 0},{-15, 3},{-15, -3},{-10.5, -1.2}};
 	
 	fout_txt << "----------------------------------- Тест 32 -----------------------------------\n\n";
     fout_txt << "32. Негладкая функция: f(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
