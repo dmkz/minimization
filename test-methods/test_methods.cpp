@@ -675,8 +675,9 @@ void test31(Method method)
 {
 	auto expected = std::vector<ControlPoint>
 	{
-        {{0, -1}, "Global Min"}};
-    auto start_points = gen_start_points(2, -5, 5);
+        {{0, -1}, "Global Min"},{{-3/5, -2/5}, " Local Min"},{{6/5, 4/5}, " Local Min"},{{9/5,1/5}, " Local Min"}};
+    //auto start_points = gen_start_points(2, -5, 5);
+	std::vector<std::vector<Real>> start_points = {{1,0.5},{0.2,-0.1},{0.5,-1.5},{-0.2,-0.75}};
     fout_txt << "----------------------------------- Тест 31 -----------------------------------\n\n";
     fout_txt << "31. Гладкая функция: f(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)], имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
