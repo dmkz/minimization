@@ -673,14 +673,19 @@ void test30_12(Method method) {
 
 void test31(Method method)
 {
-	auto expected = std::vector<ControlPoint>
-	{
-        {{0, -1}, "Global Min"}};
+	auto expected = std::vector<ControlPoint>{
+        {{     0,     -1}, "Global Min"},
+        {{ 4.0/5,  1.0/5}, "Local Max"},
+        {{-3.0/5, -2.0/5}, "Local Min"},
+        {{ 6.0/5,  4.0/5}, "Local Min"},
+        {{ 9.0/5,  1.0/5}, "Local Min"}
+    };
     //auto start_points = gen_start_points(2, -5, 5);
     std::vector<std::vector<Real>> start_points = {
         { 0.5,  1.0}, // x =  0.5, y =  1.0
         { 0.0, -1.2}, // x =  0.0, y = -1.2
-        {-0.5, -1.0}  // x = -0.5, y = -1.0
+        {-0.5, -1.0},  // x = -0.5, y = -1.0
+        { 0.5, -1.5}
     };
     fout_txt << "----------------------------------- Тест 31 -----------------------------------\n\n";
     fout_txt << "31. Гладкая функция: f(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)], имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
