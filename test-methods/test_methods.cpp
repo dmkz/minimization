@@ -206,6 +206,10 @@ Real f34(const Vector &x){
 	return (100*(x[1]-0.01*x[0]*x[0]+1)+0.01*(x[0]+10)*(x[0]+10));
 }
 
+Real f35(const Vector& v){
+    assert(v.size() == 2u);
+    return abs(v[0]*v[0]+v[1]*v[1]+v[0]*v[1])+abs(sin(v[0]))+abs(sin(v[1]));
+}
 
 struct ControlPoint {
     Vector x;
@@ -763,6 +767,17 @@ void test34(Method method)
     test_method(method, f31, example_stop_condition, start_points, expected);
 }
 
+void test35(Method method) {
+    // BartelsConn |x1^2+x2^2+x1*x2|+|sin(x1)|+|sin(x2)|
+    auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
+	auto start_points = gen_start_points(2, -5, 5);
+	
+	fout_txt << "----------------------------------- Тест 35 -----------------------------------\n\n";
+    fout_txt << "35. Негладкая функция BartelsConn: f(x,y) = |x^2+y^2+x*y|+|sin(x)|+|sin(y)|, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f35, example_stop_condition, start_points, expected);
+}
+
 void Test(Method method) {
     test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
     test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
@@ -814,6 +829,7 @@ void Test(Method method) {
 	test33_2(method);  std::cout << ", 33_2"; std::cout.flush();  fout_txt.flush();
 	test33_4(method);  std::cout << ", 33_4"; std::cout.flush();  fout_txt.flush();
 	test34(method);  std::cout << ", 34"; std::cout.flush();  fout_txt.flush();
+    test35(method);  std::cout << ", 35"; std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
 
