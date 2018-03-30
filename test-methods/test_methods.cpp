@@ -211,6 +211,10 @@ Real f35(const Vector& v){
     return abs(v[0]*v[0]+v[1]*v[1]+v[0]*v[1])+abs(sin(v[0]))+abs(sin(v[1]));
 }
 
+Real f36(const Vector &x){
+	return std::pow((2*std::pow(x[0],3)*x[1]-std::pow(x[1],3)),2)+std::pow((6*x[0]-x[1]*x[1]+x[1]),2);
+}
+
 // ThreeHumpCamel
 Real f37(const Vector &v) {
     return (2*std::pow(v[0], 2) - 1.05 * std::pow(v[0], 4) + std::pow(v[0], 6)/6 + v[0]*v[1] + std::pow(v[1],2));
@@ -746,7 +750,7 @@ void test31(Method method)
 	std::vector<std::vector<Real>> start_points = {{1, 1},{0.25, -0.125},{0.5, -1.5},{0, -1.2}};
 
     fout_txt << "----------------------------------- Тест 31 -----------------------------------\n\n";
-    fout_txt << "31. Гладкая функция: f(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)], имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "31. Гладкая функция Голдштейна-Прайса: f(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)], имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f31, example_stop_condition, start_points, expected);
 }
@@ -761,7 +765,7 @@ void test32(Method method)
 	std::vector<std::vector<Real>> start_points = {{-15, -3}, {-15, 3}, {-5, -3}, {-5, 3}, {-10.5, 1.5}};
 	
 	fout_txt << "----------------------------------- Тест 32 -----------------------------------\n\n";
-    fout_txt << "32. Негладкая функция: f(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "32. Негладкая функция Букин06: f(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f32, example_stop_condition, start_points, expected);
 	
@@ -773,7 +777,7 @@ void test33_2(Method method)
 	auto start_points = gen_start_points(2, -1, 1);
 	
 	fout_txt << "----------------------------------- Тест 33_2 -----------------------------------\n\n";
-    fout_txt << "33. Гладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "33. Гладкая функция Cosine Mixture: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f33, example_stop_condition, start_points, expected);
 	
@@ -785,7 +789,7 @@ void test33_4(Method method)
 	auto start_points = gen_start_points(4, -1, 1);
 	
 	fout_txt << "----------------------------------- Тест 33_4 -----------------------------------\n\n";
-    fout_txt << "33. Гладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "33. Гладкая функция Cosine Mixture: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f33, example_stop_condition, start_points, expected);
 	
@@ -798,7 +802,7 @@ void test34(Method method)
 	//std::vector<std::vector<Real>> start_points = {{-11, -3},{-10, 0.125},{-12, -1.5},{-15, 3}};
     std::vector<std::vector<Real>> start_points = {{-15, -3}, {-15, 3}, {-5, -3}, {-5, 3}, {-10.5, 1.5}};
     fout_txt << "----------------------------------- Тест 34 -----------------------------------\n\n";
-    fout_txt << "34. Гладкая функция: f(x,y) = 100*(x[1]-0.01*x[0]*x[0]+1)^2+0.01*(x[0]+10)*(x[0]+10), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "34. Гладкая функция Букин02: f(x,y) = 100*(x[1]-0.01*x[0]*x[0]+1)^2+0.01*(x[0]+10)*(x[0]+10), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f34, example_stop_condition, start_points, expected);
 }
@@ -813,6 +817,18 @@ void test35(Method method) {
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f35, example_stop_condition, start_points, expected);
 }
+
+void test36(Method method) {
+    auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}, {{2, 4}, "Global Min"}, {{1.464, -2.506}, "Global Min"}};
+	//auto start_points = gen_start_points(2, -5, 5);
+	std::vector<std::vector<Real>> start_points = {{3, 5.5}, {1.5, -3}, {0, -5}, {-1, 1.5}};
+	
+	fout_txt << "----------------------------------- Тест 36 -----------------------------------\n\n";
+    fout_txt << "36. Гладкая функция Price 4: f(x,y) = (2*x^3*y-y^3)^2+(6x-y^2+y)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f36, example_stop_condition, start_points, expected);
+}
+
 
 void test37(Method method) {
     auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
@@ -950,6 +966,7 @@ void Test(Method method) {
 	test33_4(method);  std::cout << ", 33_4"; std::cout.flush();  fout_txt.flush();
 	test34(method);  std::cout << ", 34"; std::cout.flush();  fout_txt.flush();
     test35(method);  std::cout << ", 35"; std::cout.flush();  fout_txt.flush();
+	test36(method);  std::cout << ", 35"; std::cout.flush();  fout_txt.flush();
     test37(method);  std::cout << ", 37"; std::cout.flush();  fout_txt.flush();
     test38(method);  std::cout << ", 38"; std::cout.flush();  fout_txt.flush();
     test39(method);  std::cout << ", 39"; std::cout.flush();  fout_txt.flush();
