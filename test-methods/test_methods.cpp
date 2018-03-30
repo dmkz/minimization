@@ -203,7 +203,7 @@ Real f33(const Vector &v)
 }
 
 Real f34(const Vector &x){
-	return (100*(x[1]-0.01*x[0]*x[0]+1)+0.01*(x[0]+10)*(x[0]+10));
+	return (100*std::pow(x[1]-0.01*x[0]*x[0]+1, 2)+0.01*(x[0]+10)*(x[0]+10));
 }
 
 Real f35(const Vector& v){
@@ -759,12 +759,12 @@ void test34(Method method)
 {	
 	auto expected = std::vector<ControlPoint>{{{-10,0}, "Global Min"}};
 	//auto start_points = gen_start_points(2, -5, 5);
-	std::vector<std::vector<Real>> start_points = {{-11, -3},{-10, 0.125},{-12, -1.5},{-15, 3}};
-
+	//std::vector<std::vector<Real>> start_points = {{-11, -3},{-10, 0.125},{-12, -1.5},{-15, 3}};
+    std::vector<std::vector<Real>> start_points = {{-15, -3}, {-15, 3}, {-5, -3}, {-5, 3}, {-10.5, 1.5}};
     fout_txt << "----------------------------------- Тест 34 -----------------------------------\n\n";
-    fout_txt << "34. Гладкая функция: f(x,y) = 100*(x[1]-0.01*x[0]*x[0]+1)+0.01*(x[0]+10)*(x[0]+10), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "34. Гладкая функция: f(x,y) = 100*(x[1]-0.01*x[0]*x[0]+1)^2+0.01*(x[0]+10)*(x[0]+10), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f31, example_stop_condition, start_points, expected);
+    test_method(method, f34, example_stop_condition, start_points, expected);
 }
 
 void test35(Method method) {
