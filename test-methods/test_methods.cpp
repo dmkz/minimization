@@ -831,10 +831,14 @@ void test36(Method method) {
 
 
 void test37(Method method) {
-    auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
-    auto start_points = gen_start_points(2, -5, 5);
+    auto expected = std::vector<ControlPoint>{
+        {{0, 0}, "Global Min"},
+        {{-1.74755, 0.873776}, " Local Min"},
+        {{1.74755, -0.873776}, " Local Min"}
+    };
+    auto start_points = gen_start_points(2, -1, 1);
     fout_txt << "----------------------------------- Тест 37 -----------------------------------\n\n";
-    fout_txt << "37. Гладкая функция: f(x,y) = (2x^2 -1.05x^4 + x^6/6 + xy) + y^2), имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "37. Гладкая функция: f(x,y) = (2x^2 -1.05x^4 + x^6/6 + xy) + y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f37, example_stop_condition, start_points, expected);
 }
@@ -842,9 +846,17 @@ void test37(Method method) {
 void test38(Method method) {
     auto expected = std::vector<ControlPoint>{
         {{-0.0898, 0.7126}, "Global Min"},
-        {{0.0898, -0.7126}, "Global Min"}
+        {{0.0898, -0.7126}, "Global Min"},
+        {{-1.70361,  0.796084}, " Local Min"},
+        {{ -1.6071, -0.568651}, " Local Min"},
+        {{  1.6071,  0.568651}, " Local Min"},
+        {{ 1.70361, -0.796084}, " Local Min"},
+        {{-1.23023, -0.162335}, " Local Max"},
+        {{ 1.23023,  0.162335}, " Local Max"}
     };
-    auto start_points = gen_start_points(2, -3, 3);
+    std::vector<std::vector<Real>> start_points = {
+        {0,0}, {1,1}, {-1, -1}, {-2, 0}, {0, 2}
+    };
     fout_txt << "----------------------------------- Тест 38 -----------------------------------\n\n";
     fout_txt << "38. Гладкая функция: f(x,y) = (4-2.1*x1^2+x1^4/3)*x1^2+x1*x2+(-4+4*x2^2)*x2^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
