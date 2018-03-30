@@ -198,7 +198,7 @@ Real f33(const Vector &v)
 		fun1 = fun1 + std::cos(5* M_PI*v[i]);
 		fun2 = fun2 + v[i]*v[i];
 	}
-	fun = 0.1*fun1 - fun2;
+	fun = (-0.1)*fun1 + fun2;
 	return fun;
 }
 
@@ -722,7 +722,7 @@ void test32(Method method)
 void test33(Method method)
 {
 	auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
-	auto start_points = gen_start_points(2, -5, 5);
+	auto start_points = gen_start_points(2, -1, 1);
 	
 	fout_txt << "----------------------------------- Тест 33 -----------------------------------\n\n";
     fout_txt << "33. Негладкая функция: f(x,y) = 0.1*sum(cos(5*pi*x(i)))-sum(x(i)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
