@@ -728,7 +728,7 @@ void test33_2(Method method)
 	auto start_points = gen_start_points(2, -1, 1);
 	
 	fout_txt << "----------------------------------- Тест 33_2 -----------------------------------\n\n";
-    fout_txt << "33. Негладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "33. Гладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f33, example_stop_condition, start_points, expected);
 	
@@ -736,11 +736,11 @@ void test33_2(Method method)
 
 void test33_4(Method method)
 {
-	auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
+	auto expected = std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}};
 	auto start_points = gen_start_points(4, -1, 1);
 	
 	fout_txt << "----------------------------------- Тест 33_4 -----------------------------------\n\n";
-    fout_txt << "33. Негладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "33. Гладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f33, example_stop_condition, start_points, expected);
 	
