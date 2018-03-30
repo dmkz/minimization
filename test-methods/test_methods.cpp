@@ -725,7 +725,7 @@ void test33(Method method)
 	auto start_points = gen_start_points(2, -1, 1);
 	
 	fout_txt << "----------------------------------- Тест 33 -----------------------------------\n\n";
-    fout_txt << "33. Негладкая функция: f(x,y) = 0.1*sum(cos(5*pi*x(i)))-sum(x(i)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "33. Негладкая функция: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f33, example_stop_condition, start_points, expected);
 	
