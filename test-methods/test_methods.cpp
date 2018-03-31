@@ -270,6 +270,11 @@ Real f45(const Vector& v) {
     return (1-8*x+7*x*x-7.0/3*x*x*x+1.0/4*x*x*x*x)*y*y*std::exp(-y*y);
 }
 
+// El-Attar-Vidyasagar-Dutta
+Real f46(const Vector &x){
+	return std::pow((x[0]*x[0]+x[1]-10),2)+std::pow((x[0]+x[1]*x[1]-7),2)+std::pow((x[0]*x[0]+std::pow(x[1],3)-1),2);
+}
+
 struct ControlPoint {
     Vector x;
     std::string type;
@@ -979,6 +984,17 @@ void test45(Method method) {
     test_method(method, f45, example_stop_condition, start_points, expected);
 }
 
+void test46(Method method) {
+    auto expected = std::vector<ControlPoint>{{{2.842503, 1.920175}, "Global Min"}};
+	//auto start_points = gen_start_points(2, -5, 5);
+	std::vector<std::vector<Real>> start_points = {{3, 2}, {1.5, 0}, {0.154, 0.126}, {-1, 1.5}};
+	
+	fout_txt << "----------------------------------- Тест 46 -----------------------------------\n\n";
+    fout_txt << "46. Гладкая функция El-Attar-Vidyasagar-Dutta: f(x,y) = (x^2+y-10)^2+(x+y^2-7)^2+(x^2+y^3-1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f46, example_stop_condition, start_points, expected);
+}
+
 void Test(Method method) {
     test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
     test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
@@ -1041,6 +1057,7 @@ void Test(Method method) {
     test43(method);  std::cout << ", 43"; std::cout.flush();  fout_txt.flush();
     test44(method);  std::cout << ", 44"; std::cout.flush();  fout_txt.flush();
     test45(method);  std::cout << ", 45"; std::cout.flush();  fout_txt.flush();
+	test46(method);  std::cout << ", 46"; std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
 
