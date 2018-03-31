@@ -1,8 +1,8 @@
 TARGET = main
-SRCS = test_NiederreiterBaseTwo.cpp ../src/NiederreiterBaseTwo.cpp
+SRCS = test.cpp ../src/sobolseqgenerator.cpp
 OBJS = $(SRCS:.cpp=.o)
 CXX ?= gcc
-CXXFLAGS ?= -pthread -Ofast -std=c++14 -Wall -Wextra -fmax-errors=2 -I"../include"
+CXXFLAGS ?= -Ofast -std=c++14 -Wall -Wextra -fmax-errors=2 -I"../include" -I"."
 
 .PHONY: all clean
 

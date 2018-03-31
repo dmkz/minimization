@@ -56,8 +56,11 @@ struct NetPoint {
 class TMSNet
 {
 public:
+	virtual ~TMSNet() {};
+
     virtual int Init() = 0;
-    virtual int Init(uint32_t N_, uint32_t D_, std::string dir_file) = 0;
+    virtual int Init(uint32_t D_) = 0;
+    virtual int Init(uint32_t D_, uint32_t N_) = 0;
 	virtual int Reset() = 0;
 	
     // Генерация одной точки

@@ -2,22 +2,43 @@
  * Авторы: Бураханова А., Золкин А.
  */
 
+#include "sobolseqgenerator.hpp"
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <string>
-#include "sobolseqgenerator.hpp"
+
+#define DEFAULT_FILE "new-joe-kuo-6.21201.txt"
+
 
 int 
 SobolSeqGenerator::Init()
 {
-    return Init(1, 1, "sobol_Net_default.txt");
+    return Init(1, 1, DEFAULT_FILE);
 }
 
 int 
-SobolSeqGenerator::Init(uint32_t N_, uint32_t D_, std::string dir_file)
+SobolSeqGenerator::Init(uint32_t D_)
+{
+	return Init(D_, std::pow(2, D_), DEFAULT_FILE);
+}
+
+int 
+SobolSeqGenerator::Init(uint32_t D_, uint32_t N_)
+{
+	return Init(D_, N_, DEFAULT_FILE);
+}
+
+int 
+SobolSeqGenerator::Init(uint32_t D_, std::string dir_file)
+{
+	return Init(D_, std::pow(2, D_), dir_file);
+}
+
+int 
+SobolSeqGenerator::Init(uint32_t D_, uint32_t N_, std::string dir_file)
 {
     N = N_;
     D = D_;
@@ -72,17 +93,18 @@ SobolSeqGenerator::GeneratePoint()
     if(current_point_number == N - 1)
 
     {
-        std::cout << "Generator has already generated N points!";
+        std::cout << "Generator has already generated " << N << " points!";
         return PointReal();
     }
 
-    current_point_number += 1;
-
+	current_point_number += 1;
+	
     if(current_point_number == 0)
     {
         last_generated_point = PointUnsigned(D, std::vector<uint32_t>(D, 0));
         return PointReal(D, std::vector<Real>(D, 0));
     }
+	
 	
     PointUnsigned result_point = PointUnsigned(D);
 
@@ -95,7 +117,7 @@ SobolSeqGenerator::GeneratePoint()
         C++;
     }
 	
-    // Вычислить направляюoее число V, умноженное на pow(2,32)
+    // Вычислить направляющее число V, умноженное на pow(2,32)
     uint32_t V_first = 1 << (32u-C);
 
     // Вычислить первую координату, умноженную на pow(2,32)
