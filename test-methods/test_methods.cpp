@@ -1062,6 +1062,7 @@ void print_results_per_methods() { // Вывод информации о тес�
     files.clear(); // Очистка контейнера с файлами
 }
 
+// Подсчет рейтинга методов:
 void calc_score() {
     std::map<std::string, int> score;
     
@@ -1081,7 +1082,7 @@ void calc_score() {
     std::cout << "Methods score:\n";
     int i = 1;
     for (auto it = table.rbegin(); it != table.rend(); ++it) {
-        std::cout << "\t" << std::setw(4) << i++ << std::setw(4) << it->first << std::setw(16) << it->second << std::endl;
+        std::cout << std::setw(8) << i++ << std::setw(8) << it->first << std::setw(16) << it->second << std::endl;
     }
     std::cout << std::endl;
 }
