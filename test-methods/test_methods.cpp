@@ -281,6 +281,17 @@ Real f47(const Vector &x)
 	return -sin(2*x[0]-0.5*M_PI)-3*cos(x[1])-0.5*x[0];
 }
 
+//Alpine 1
+Real f48(const Vector &v)
+{
+	Real fun = 0;
+	
+	for (unsigned int i = 1; i < v.size(); i++)
+	{
+		fun = fun + std::abs(v[i]*sin(v[i])+0.1*v[i]);
+	}
+	return fun;
+}
 struct ControlPoint {
     Vector x;
     std::string type;
@@ -1015,6 +1026,17 @@ void test47(Method method) {
     test_method(method, f47, example_stop_condition, start_points, expected);
 }
 
+void test48(Method method) {
+    auto expected = std::vector<ControlPoint>{{{0,0}, "Global Min"}};
+	auto start_points = gen_start_points(2, -5, 5);
+	//std::vector<std::vector<Real>> start_points = {{3.5, -2.5}, {5, 0}, {4.125, -0.125}, {3.5, -1.5}};
+	
+	fout_txt << "----------------------------------- Тест 48 -----------------------------------\n\n";
+    fout_txt << "48. Гладкая функция Alpine01: f(x,y) = sum(x(i)*sin(x(i))+0.1x(i)), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f48, example_stop_condition, start_points, expected);
+}
+
 void Test(Method method) {
     test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
     test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
@@ -1079,6 +1101,7 @@ void Test(Method method) {
     test45(method);  std::cout << ", 45"; std::cout.flush();  fout_txt.flush();
 	test46(method);  std::cout << ", 46"; std::cout.flush();  fout_txt.flush();
 	test47(method);  std::cout << ", 47"; std::cout.flush();  fout_txt.flush();
+	test48(method);  std::cout << ", 48"; std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
 
