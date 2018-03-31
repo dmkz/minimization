@@ -2,7 +2,7 @@ TARGET = main
 SRCS = test_NiederreiterBaseTwo.cpp ../src/NiederreiterBaseTwo.cpp
 OBJS = $(SRCS:.cpp=.o)
 CXX ?= gcc
-CXXFLAGS ?= -pthread -Ofast -std=c++14 -Wall -Wextra -fmax-errors=2 -I"../include"
+CXXFLAGS ?= -pthread -Ofast -std=c++14 -Wall -Wextra -fmax-errors=2 -I"../include" -I"."
 
 .PHONY: all clean
 
