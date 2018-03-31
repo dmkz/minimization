@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <string>
 #include <map>
+#include <set>
 
 /*
     Тестирование методов отдельно.
@@ -975,6 +976,7 @@ int find_point_to_converge(Function f, const Vector& x, const std::vector<Contro
 }
 
 std::map<std::string, std::ofstream> files; // Файлы для вывода для каждого метода отдельно!
+std::map<std::string, std::string> method_to_filename; // Получение по названию метода имени файла
 
 void run_tests() { // Запуск тестирования с сохранением результата
     for (auto & t : Tests) { // Проход по всем тестам
@@ -1008,6 +1010,7 @@ void run_tests() { // Запуск тестирования с сохранен�
                     char buf[50];
                     sprintf(buf, "test %s.txt", r.method_title.c_str());
                     for (char* it = buf; *it != '\0'; ++it) *it = (*it == ' ') ? ('-') : (*it);
+                    method_to_filename[r.method_title] = buf;
                     files[r.method_title].open(buf);
                 }
             }
@@ -1016,11 +1019,11 @@ void run_tests() { // Запуск тестирования с сохранен�
 }
 
 void print_results_per_methods() { // Вывод информации о тестировании методов для каждого метода отдельно!
-    for (auto & it  files) // В каждый файл выводим название метода
+    for (auto & it : files) // В каждый файл выводим название метода
         it.second << it.first << "\n\n";
     
     for (auto & t : Tests) { // Проход по всем тестам
-        for (auto & it  files) { // Запись первоначальной информации о тесте в каждый файл
+        for (auto & it : files) { // Запись первоначальной информации о тесте в каждый файл
             it.second << std::string(48, '-') << " " << t.id << " " << std::string(48, '-') << std::endl << std::endl;
             it.second << t.description_f << "\nПодробнее в документе \"Тестовые функции\"\n\n";
             it.second << "Условие остановы: " << t.description_stop_condition << "\n\n";
@@ -1048,7 +1051,39 @@ void print_results_per_methods() { // Вывод информации о тес�
             }
         }
     }
-    for (auto& it  files) it.second.close(); // Закрытие файлов
+    for (auto& it : files) it.second.close(); // Закрытие файлов
+    
+    // Вывод сопроводительной информации об успешном записи файлов в консоль:
+    std::cout << "\nResults of separate testing of minimization methods are located in the files:\n";
+    for (auto& it : files) {
+        std::cout << "\t* " << method_to_filename[it.first] << std::endl;
+    }
+    std::cout << std::endl;
+    files.clear(); // Очистка контейнера с файлами
+}
+
+void calc_score() {
+    std::map<std::string, int> score;
+    
+    // Подсчет рейтинга и вывод на экран
+    for (auto t : Tests)
+        for (auto & r : t.result) {
+            score[r[0].method_title] += 3;
+            score[r[1].method_title] += 2;
+            score[r[2].method_title] += 1;
+        }
+    
+    std::set<std::pair<int, std::string>> table;
+    for (const auto & it : score) {
+        table.insert({it.second, it.first});
+    }
+    
+    std::cout << "Methods score:\n";
+    int i = 1;
+    for (auto it = table.rbegin(); it != table.rend(); ++it) {
+        std::cout << "\t" << std::setw(4) << i++ << std::setw(4) << it->first << std::setw(16) << it->second << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 
@@ -1056,6 +1091,7 @@ int main() {
     prepare_tests();
     run_tests();
     print_results_per_methods();
+    calc_score();
     
     return 0;
 }
