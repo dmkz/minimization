@@ -547,21 +547,21 @@ void prepare_tests() {
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 25:
-    Tests.push_back(Test{
-        "Test 25, dim 04", f25, "Гладкая функция: f(x,y,z,t) = (x^2-y+1)^4+100(y-z)^6+tg^4(z-t)+x^8+(t-1)^2.", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
-        std::vector<ControlPoint>{{{0, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			auto start_points = Matrix{{1, 2, 2, 2}};
-        } /* стартовые точки */, {} /* пустой вектор результатов */
-    });
+  //  Tests.push_back(Test{
+     //   "Test 25, dim 04", f25, "Гладкая функция: f(x,y,z,t) = (x^2-y+1)^4+100(y-z)^6+tg^4(z-t)+x^8+(t-1)^2.", // Номер теста, функция, ее описание
+      //  example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+      //  std::vector<ControlPoint>{{{0, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+     //   {
+	//		Matrix{{1, 2, 2, 2}}
+     //   } /* стартовые точки */, //{} /* пустой вектор результатов */
+   // });
 	// Добавление теста 26_2:
     Tests.push_back(Test{
         "Test 26, dim 02", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(2, -5, 5);
+			gen_start_points(2, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_4:
@@ -570,7 +570,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(4, -5, 5);
+			gen_start_points(4, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_8:
@@ -579,7 +579,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(8, -5, 5);
+			 gen_start_points(8, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_12:
@@ -588,7 +588,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(12, -5, 5);
+			 gen_start_points(12, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_2:
@@ -597,7 +597,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(2, -5, 5);
+			gen_start_points(2, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_4:
@@ -606,7 +606,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(4, -5, 5);
+			 gen_start_points(4, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_8:
@@ -615,7 +615,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(8, -5, 5);
+			gen_start_points(8, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_12:
@@ -624,7 +624,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(12, -5, 5);
+			 gen_start_points(12, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_2:
@@ -633,7 +633,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(2, -5, 5);
+			 gen_start_points(2, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_4:
@@ -642,7 +642,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(4, -5, 5);
+			 gen_start_points(4, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_8:
@@ -651,7 +651,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(8, -5, 5);
+			 gen_start_points(8, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_12:
@@ -660,7 +660,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(12, -5, 5);
+			 gen_start_points(12, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	//Добавление теста 29
@@ -671,7 +671,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(2, -5, 5);
+			 gen_start_points(2, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_4:
@@ -680,7 +680,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0,0,0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(4, -5, 5);
+			gen_start_points(4, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_8:
@@ -689,7 +689,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(8, -5, 5);
+			 gen_start_points(8, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_12:
@@ -698,7 +698,7 @@ void prepare_tests() {
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
         {
-			 auto start_points = gen_start_points(12, -5, 5);
+			gen_start_points(12, -5, 5)
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 31:
