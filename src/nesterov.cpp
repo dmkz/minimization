@@ -27,8 +27,8 @@ IterationData nesterov(Function f, Vector startingPoint, const StopCondition& st
     iter_data.method_title = "Nesterov";
     
 	do {
-		//for (int iter=0; iter < 100; ++iter) {
-        while (true) {
+		for (int local_iter=0; local_iter < 100; ++local_iter) {
+        //while (true) {
 			alfaNext = alfa + std::sqrt(alfa*alfa + 2 * alfa*A);
 			y = (A / (A + alfaNext)) * x + (alfaNext / (A + alfaNext)) * v;
 			xNext = y - alfa * grad(f, y);

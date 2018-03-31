@@ -64,75 +64,18 @@ Real f10(const Vector& v) {
     return std::pow(x, 6) + std::pow(y, 6) - 2 * (std::pow(x, 3) * y + x * std::pow(y, 3)) + std::pow(x, 4) + std::pow(y, 4) - x*x - y*y;
 }
 
-Real f11(const Vector& v) {
-    Real fun = std::pow(v[0] - 1, 2) / 4;
-    for (unsigned int i=1; i < v.size(); ++i) {
-        fun += std::pow(v[i] - 2 * std::pow(v[i-1], 2) + 1, 2);
-    }
-    return fun;
-}
-
-Real f12(const Vector &v) {
-    Real fun = std::pow(v[0] - 1, 2) / 4;
-    for (unsigned int i=1; i < v.size(); ++i) {
-        fun += std::abs(v[i] - 2 * std::pow(v[i-1], 2) + 1);
-    }
-    return fun;
-}
-
-Real f13(const Vector &v) {
-    Real fun = std::abs(v[0] - 1) / 4;
-    for (unsigned int i=1; i < v.size(); ++i) {
-        fun += std::abs(v[i] - 2 * std::pow(v[i-1], 2) + 1);
-    }
-    return fun;
-}
-
-Real f14(const Vector &v) {
-    Real fun = 0;
-    for (unsigned int i=1; i < v.size(); i += 2) {
-        fun += 100 * std::pow(std::pow(v[i-1], 2) - v[i], 2) + std::pow(v[i-1] - 1, 2);
-    }
-    return fun;
-}
-
-Real f15(const Vector &v) {
-    Real fun = 0;
-    for (unsigned int i=1; i < v.size(); i += 2) {
-        fun += 10 * std::abs(std::pow(v[i-1], 2) - v[i]) + std::abs(v[i-1] - 1);
-    }
-    return fun;
-}
-
-Real f16(const Vector &v) {
-    Real fun = 0;
-    for (unsigned int i=0; i < v.size(); ++i) {
-        fun += std::pow(v[i], 2);
-    }
-    return fun;
-}
-
-Real f17(const Vector &v) {
-    Real fun = 10 * v.size();
-    for (unsigned int i=0; i < v.size(); ++i) {
-        fun += std::pow(v[i] - 10 * std::cos(2 * M_PI * v[i]), 2);
-    }
-    return fun;
-}
-
-Real f18(const Vector &v) {
+Real f11(const Vector &v) {
     return std::pow(std::pow(v[0], 2) + v[1] - 11, 2) + std::pow(std::pow(v[1], 2) + v[0] - 7, 2);
 }
 
-Real f19(const Vector &v) {
+Real f12(const Vector &v) {
     const int b[] = {8, 18, 44, 144};
     Real fun = 0;
     Real g_fun;
     for (int i = 0; i < 4; ++i) {
         g_fun = 0;
         for (int j = 0; j < 4; ++j) {
-            g_fun += 1;
-            g_fun *= v[i];
+            g_fun += std::pow(v[j], i);
         }
         g_fun -= b[i];
         fun += std::pow(g_fun, 2);
@@ -140,23 +83,126 @@ Real f19(const Vector &v) {
     return fun;
 }
 
-Real f20(const Vector &v) {
+Real f13(const Vector &v) {
     return std::pow(v[1] - 5.1 / (4 * M_PI_2) * std::pow(v[0], 2) + 5 * v[0] / M_PI - 6, 2) +
            10 * (1 - 1 / (8 * M_PI)) * std::cos(v[0]) + 10;
 }
 
-Real f21(const Vector &v) {
+Real f14(const Vector &v) {
     return std::sin(v[0] + v[1]) + std::pow(v[0] - v[1], 2) - 1.5 * v[0] + 2.5 * v[1] + 1;
 }
 
-Real f22(const Vector &v) {
+Real f15(const Vector &v) {
     return 0.26 * (std::pow(v[0], 2) + std::pow(v[1], 2)) - 0.48 * v[0] * v[1];
 }
 
+Real f16(const Vector &v) {
+    //Keane
+    return -(std::pow(std::sin(v[0] - v[1]), 2) * std::pow(std::sin(v[0] + v[1]), 2)) / std::sqrt(v[0] * v[0] + v[1] *v[1]);
+}
+
+Real f17(const Vector &v) {
+    //SchmidtVetters
+    return 1 / (1 + std::pow(v[0] - v[1], 2)) + std::sin((M_PI * v[1] + v[2]) / 2) +
+           std::exp(std::pow((v[0] + v[1]) / v[1] - 2, 2));
+}
+
+Real f18(const Vector &v) {
+    //Zettl
+    return v[0] / 4 + std::pow(v[0] * v[0] - 2 * v[0] + v[1] * v[1], 2);
+}
+
+Real f19(const Vector &v) {
+    // Beale
+    return std::pow(v[0] * v[1] - v[0] + 1.5, 2) +
+           std::pow(v[0] * v[1] * v[1] - v[0] + 2.25, 2) +
+           std::pow(v[0] * std::pow(v[2], 3) - v[0] + 2.625, 2);
+}
+
+Real f20(const Vector &v) {
+    // Colville
+    return std::pow(v[0] - 1, 2) + 100 * std::pow(v[0] * v[0] - v[1], 2) +
+           10.1 * std::pow(v[2] - 1, 2) + std::pow(v[2] - 1, 2) +
+           90 * std::pow(v[2] * v[2] - v[3], 2) + 10.1 * std::pow(v[3] - 1, 2) +
+           19.8 * (v[3] - 1) * (v[1] - 1);
+}
+
+Real f21(const Vector &v) {
+    // II
+    return std::pow(v[0] * v[0] - v[1], 2) + std::pow(1 - v[0], 2);
+}
+
+Real f22(const Vector &v) {
+    // III
+    return std::pow(v[0] * v[0] - v[1], 2) + 100 * std::pow(1 - v[0], 2);
+}
+Real f23(const Vector &v) {
+    // IV
+    return 100 * std::pow(v[1] - std::pow(v[0], 3), 2) + std::pow(1 - v[0], 2);
+}
+Real f24(const Vector &v) {
+    //  VII
+    return v[0] + 10 * v[1] + 5 * std::pow(v[3] - v[2], 2) +
+           std::pow(v[1] - 2 * v[2], 4) + 10 * std::pow(v[0] - v[3], 4);
+}
+Real f25(const Vector &v) {
+    // VIII f_min(0,1,1,1+-pi*n)=0
+    return std::pow(v[0] * v[0] - v[1], 4) + 100 * std::pow(v[1] - v[2], 6) +
+           std::pow(std::tan(v[2]-v[3]), 4) + std::pow(v[0], 8) + std::pow(v[3] - 1, 2);
+}
+
+Real f26(const Vector &v) {
+    Real fun = 0;
+    for (unsigned int i=0; i < v.size(); ++i) {
+        fun += std::pow(v[i], 2);
+    }
+    return fun;
+}
+
+Real f27(const Vector& v) {
+    Real fun = std::pow(v[0] - 1, 2) / 4;
+    for (unsigned int i=1; i < v.size(); ++i) {
+        fun += std::pow(v[i] - 2 * std::pow(v[i-1], 2) + 1, 2);
+    }
+    return fun;
+}
+
+Real f28(const Vector &v) {
+    Real fun = 0;
+    for (unsigned int i=1; i < v.size(); i += 2) {
+        fun += 100 * std::pow(std::pow(v[i-1], 2) - v[i], 2) + std::pow(v[i-1] - 1, 2);
+    }
+    return fun;
+}
+
+Real f29(const Vector &v) {
+    // Bohachevsky
+    Real fun = 0;
+    for (unsigned int i=0; i < v.size() - 1; i++) {
+        fun += v[i] * v[i] + 2 * v[i+1] * v[i+1] -0.3 * std::cos(3 * M_PI * v[i]) -
+               0.4 * std::cos(4 * M_PI * v[i+1]) + 0.7;
+    }
+    return fun;
+}
+
+Real f30(const Vector &v) {
+    // Cigar problem
+    // Медленный спуск
+    Real fun = 0;
+    for (unsigned int i=1; i < v.size(); i++) {
+        fun += v[i] * v[i];
+    }
+    fun *= 1000000;
+    fun += v[0] * v[0];
+    return fun;
+}
+
+
 void test(std::string title, Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max, std::ofstream& fout) {
-    std::cout << "-- " << title << std::endl; 
+    std::cout << "-- " << title << std::endl;
     std::cout.flush();
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
+    
 	for (auto & rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
 		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second << '}' << std::endl;
 	}
@@ -180,7 +226,7 @@ void test4(std::ofstream& fout) {
 }
 
 void test5(std::ofstream& fout) {
-	test("Test  5", f5, 3, 5, 32, Vector(3, -5), Vector(3, 5), fout);
+	test("Test  5", f5, 3, 5, 64, Vector(3, -5), Vector(3, 5), fout);
 }
 
 void test6(std::ofstream& fout) {
@@ -204,163 +250,147 @@ void test10(std::ofstream& fout) {
 }
 
 void test11(std::ofstream& fout) {
-    test("Test 11", f18, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 11", f11, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test12(std::ofstream& fout) {
-    test("Test 12", f20, 2, 5, 32, {-5, 0}, {10, 15}, fout);
+    test("Test 12", f12, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test13(std::ofstream& fout) {
-    test("Test 13", f21, 2, 10, 32, {-1.5, -3}, {4, 4}, fout);
+    test("Test 13", f13, 2, 10, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test14(std::ofstream& fout) {
-    test("Test 14", f22, 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
+    test("Test 14", f14, 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test15(std::ofstream& fout) {
-    test("Test 15", f11, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 15", f15, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test16(std::ofstream& fout) {
-    test("Test 16", f12, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 16", f16, 2, 5, 32, Vector(2, 0), Vector(2, 10), fout);
 }
 
 void test17(std::ofstream& fout) {
-    test("Test 17", f13, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 17", f17, 3, 5, 64, Vector(3, 0), Vector(3, 10), fout);
 }
 
 void test18(std::ofstream& fout) {
-    test("Test 18", f14, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 18", f18, 2, 5, 32, Vector(2, -1), Vector(2, 5), fout);
 }
 
 void test19(std::ofstream& fout) {
-    test("Test 19", f15, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 19", f19, 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test20(std::ofstream& fout) {
-    test("Test 20", f16, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 20", f20, 4, 5, 128, Vector(4, -10), Vector(4, 10), fout);
 }
 
 void test21(std::ofstream& fout) {
-    test("Test 21", f17, 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 21", f21, 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test22(std::ofstream& fout) {
-    test("Test 22", f19, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 22", f22, 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test23(std::ofstream& fout) {
-    test("Test 23", f11, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 23", f23, 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test24(std::ofstream& fout) {
-    test("Test 24", f12, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 24", f24, 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test25(std::ofstream& fout) {
-    test("Test 25", f13, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 25", f25, 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
-void test26(std::ofstream& fout) {
-    test("Test 26", f14, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+void test26_2(std::ofstream& fout) {
+    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
-void test27(std::ofstream& fout) {
-    test("Test 27", f15, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+void test26_4(std::ofstream& fout) {
+    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
-void test28(std::ofstream& fout) {
-    test("Test 28", f16, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+void test26_8(std::ofstream& fout) {
+    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
-void test29(std::ofstream& fout) {
-    test("Test 29", f17, 4, 20, 128, Vector(4, -5), Vector(4, 5), fout);
+void test26_12(std::ofstream& fout) {
+    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
-void test30(std::ofstream& fout) {
-    test("Test 30", f11, 10, 5, 2048, Vector(10, -5), Vector(10, 5), fout);
+
+void test27_2(std::ofstream& fout) {
+    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
-void test31(std::ofstream& fout) {
-    test("Test 31", f12, 10, 5, 2048, Vector(10, -5), Vector(10, 5), fout);
+void test27_4(std::ofstream& fout) {
+    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
-void test32(std::ofstream& fout) {
-    test("Test 32", f13, 10, 5, 2048, Vector(10, -5), Vector(10, 5), fout);
+void test27_8(std::ofstream& fout) {
+    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
-void test33(std::ofstream& fout) {
-    test("Test 33", f14, 10, 5, 2048, Vector(10, -5), Vector(10, 5), fout);
+void test27_12(std::ofstream& fout) {
+    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
-void test34(std::ofstream& fout) {
-    test("Test 34", f15, 10, 5, 2048, Vector(10, -5), Vector(10, 5), fout);
+
+void test28_2(std::ofstream& fout) {
+    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
-void test35(std::ofstream& fout) {
-    test("Test 35", f16, 10, 5, 2048, Vector(10, -5), Vector(10, 5), fout);
+void test28_4(std::ofstream& fout) {
+    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
-void test36(std::ofstream& fout) {
-    test("Test 36", f17, 10, 50, 2048, Vector(10, -5), Vector(10, 5), fout);
+void test28_8(std::ofstream& fout) {
+    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
-void test37(std::ofstream& fout) {
-    test("Test 37", f11, 20, 5, 1024u * 1024u, Vector(20, -5), Vector(20, 5), fout);
+void test28_12(std::ofstream& fout) {
+    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
-void test38(std::ofstream& fout) {
-    test("Test 38", f12, 20, 5, 1024u * 1024u, Vector(20, -5), Vector(20, 5), fout);
+
+void test29_2(std::ofstream& fout) {
+    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
-void test39(std::ofstream& fout) {
-    test("Test 39", f13, 20, 5, 1024u * 1024u, Vector(20, -5), Vector(20, 5), fout);
+void test29_4(std::ofstream& fout) {
+    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
-void test40(std::ofstream& fout) {
-    test("Test 40", f14, 20, 5, 1024u * 1024u, Vector(20, -5), Vector(20, 5), fout);
+void test29_8(std::ofstream& fout) {
+    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
-void test41(std::ofstream& fout) {
-    test("Test 41", f15, 20, 5, 1024u * 1024u, Vector(20, -5), Vector(20, 5), fout);
+void test29_12(std::ofstream& fout) {
+    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
-void test42(std::ofstream& fout) {
-    test("Test 42", f16, 20, 5, 1024u * 1024u, Vector(20, -5), Vector(20, 5), fout);
+
+void test30_2(std::ofstream& fout) {
+    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
-void test43(std::ofstream& fout) {
-    test("Test 43", f17, 20, 50, 1024u * 1024u, Vector(20, -5), Vector(20, 5), fout);
+void test30_4(std::ofstream& fout) {
+    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
-void test44(std::ofstream& fout) {
-    test("Test 44", f11, N_max, 5, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5), fout);
+void test30_8(std::ofstream& fout) {
+    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
-void test45(std::ofstream& fout) {
-    test("Test 45", f12, N_max, 5, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5), fout);
-}
-
-void test46(std::ofstream& fout) {
-    test("Test 46", f13, N_max, 5, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5), fout);
-}
-
-void test47(std::ofstream& fout) {
-    test("Test 47", f14, N_max, 5, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5), fout);
-}
-
-void test48(std::ofstream& fout) {
-    test("Test 48", f15, N_max, 5, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5), fout);
-}
-
-void test49(std::ofstream& fout) {
-    test("Test 49", f16, N_max, 5, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5), fout);
-}
-
-void test50(std::ofstream& fout) {
-    test("Test 50", f17, N_max, 50, 1024u * 1024u, Vector(N_max, -5), Vector(N_max, 5), fout);
+void test30_12(std::ofstream& fout) {
+    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
 int main() {
@@ -373,7 +403,7 @@ int main() {
 	*/
     std::ofstream fout;
     fout.open("test_results.txt");
-	
+
 	std::cout << "-- Number of Cores = " << std::thread::hardware_concurrency() << std::endl;
 	std::cout << "-- Start testing... The results will be written to a file test_results.txt" << std::endl;
 	test1 (fout);
@@ -401,31 +431,27 @@ int main() {
 	test23(fout);
 	test24(fout);
 	test25(fout);
-	test26(fout);
-	test27(fout);
-	test28(fout);
-	test29(fout);
-	test30(fout); 
-	test31(fout);
-	test32(fout);
-	test33(fout);
-	test34(fout);
-	test35(fout);
-	test36(fout); /*
-	test37(fout);
-	test38(fout);
-	test39(fout);
-	test40(fout);
-	test41(fout);
-	test42(fout); 
-	test43(fout);
-	test44(fout);
-	test45(fout);
-	test46(fout);
-	test47(fout);
-	test48(fout);
-	test49(fout);
-	test50(fout); */
+	test26_2(fout);
+	test26_4(fout);
+	test26_8(fout);
+	test26_12(fout);
+	test27_2(fout);
+	test27_4(fout);
+	test27_8(fout);
+	test27_12(fout);
+	test28_2(fout);
+	test28_4(fout);
+	test28_8(fout);
+	test28_12(fout);
+	test29_2(fout);
+	test29_4(fout);
+	test29_8(fout);
+	test29_12(fout);
+	test30_2(fout);
+	test30_4(fout);
+	test30_8(fout);
+	test30_12(fout);
+
     fout.close();
     std::cout << "-- Finish testing... The results are written to a file test_results.txt" << std::endl;
 	return 0;

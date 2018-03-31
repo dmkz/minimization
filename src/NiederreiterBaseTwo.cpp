@@ -1,6 +1,6 @@
 /*
  * Авторы: Бураханова А., Золкин А., Казарян М., Хохлов С., Малоенко С.
- * Генератор сетоr Нидеррайтера, использующий поле F2
+ * Генератор сеток Нидеррайтера, использующий поле F2
  * Файл: NiederreiterBaseTwo.cpp
 */
 
@@ -109,39 +109,13 @@ int NiederreiterBaseTwo::Init(uint32_t dimension_, int64_t seed_) {
     return 0;
 }
 
-//****************************************************************************80
-
 void NiederreiterBaseTwo::setfld2()
 
-//****************************************************************************80
+//  Цель:
 //
-//  Purpose:
+//    SETFLD2 генерирует арифметические таблицы(сложение, умножение, вычитание) для конечного поля порядка 2.
 //
-//    SETFLD2 sets up arithmetic tables for the finite field of order 2.
-//
-//  Discussion:
-//
-//    SETFLD2 sets up addition, multiplication, and subtraction tables 
-//    for the finite field of order QIN.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    29 March 2003
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, int64_t ADD[2][2], MUL[2][2], SUB[2][2], the addition, multiplication, 
-//    and subtraction tables, mod 2.
-//
+
 {
   int64_t i;
   int64_t j;
@@ -157,7 +131,7 @@ void NiederreiterBaseTwo::setfld2()
     }
   }
 //
-//  Use the addition table to set the subtraction table.
+//  Мы используем таблицу для сложения, чтобы получить таблицу вычитания
 //
   for ( i = 0; i < q; i++ )
   {
@@ -169,42 +143,23 @@ void NiederreiterBaseTwo::setfld2()
 
   return;
 }
-//****************************************************************************80
-
-//****************************************************************************80
 
 void NiederreiterBaseTwo::plymul2 (
     int64_t pa_deg, int64_t pa[MAXDEG+1], 
     int64_t pb_deg, int64_t pb[MAXDEG+1], 
     int64_t *pc_deg, int64_t pc[MAXDEG+1] ) const
 
-//****************************************************************************80
 //
-//  Purpose:
+//  Цель:
 //
-//    PLYMUL2 multiplies two polynomials in the field of order 2
+//    PLYMUL2 перемножает два многочлена в конечном поле порядка 2
 //
-//  Discussion:
+//  Описание:
 //
-//    Polynomials stored as arrays have the coefficient of degree N in 
-//    POLY(N), and the degree of the polynomial in POLY(-1).  
+//    Многочлены хранятся в виде массивов.
+//    Нулевой многочлен имеет степень -1.
 //
-//    A polynomial which is identically 0 is given degree -1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    29 March 2003
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
+//  Параметры:
 //
 //    Input, int64_t ADD[2][2], MUL[2][2], 
 //    the addition and multiplication tables, mod 2.
@@ -282,26 +237,19 @@ void NiederreiterBaseTwo::plymul2 (
 
   return;
 }
-//****************************************************************************80
 
-//****************************************************************************80
+
 void NiederreiterBaseTwo::calcc2 ()
 
-//****************************************************************************80
 //
-//  Purpose:
+//  Цель:
 //
-//    CALCC2 computes values of the constants C(I,J,R).
+//    CALCC2 вычисляет значения констант C(I,J,R).
 //
-//  Discussion:
+//  Описание:
 //
-//    This program calculates the values of the constants C(I,J,R).
-//
-//    As far as possible, Niederreiter's notation is used.
-//
-//    For each value of I, we first calculate all the corresponding
-//    values of C.  These are held in the array CI.  All these
-//    values are either 0 or 1.  
+//    Для каждого значения I, сначала мы считаем соотвествующие значения C.
+//    Они хранятся в массиве CI и равны нулю либо единице.
 //
 //    Next we pack the values into the
 //    array CJ, in such a way that CJ(I,R) holds the values of C
@@ -309,30 +257,6 @@ void NiederreiterBaseTwo::calcc2 ()
 //    J from 1 to NBITS.  The most significant bit of CJ(I,R)
 //    (not counting the sign bit) is C(I,1,R) and the least
 //    significant bit is C(I,NBITS,R).
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    29 March 2003
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    R Lidl, Harald Niederreiter, 
-//    Finite Fields,
-//    Cambridge University Press, 1984, page 553.
-//
-//    Harald Niederreiter,
-//    Low-discrepancy and low-dispersion sequences,
-//    Journal of Number Theory,
-//    Volume 30, 1988, pages 51-70.
 //
 //  Parameters:
 //
@@ -369,9 +293,7 @@ void NiederreiterBaseTwo::calcc2 ()
 
     for (int64_t i = 0; i < dimension; i++) {
         //
-        //  For each dimension, we need to calculate powers of an
-        //  appropriate irreducible polynomial:  see Niederreiter
-        //  page 65, just below equation (19).
+        //  Для каждой размерности нужно вычислить степени для подходящего неприводимого многочлена
         //
         //  Copy the appropriate irreducible polynomial into PX,
         //  and its degree into E.  Set polynomial B = PX ** 0 = 1.
@@ -396,8 +318,8 @@ void NiederreiterBaseTwo::calcc2 ()
 
         for (int64_t j = 0; j < NBITS; j++) {
             //
-            //  If U = 0, we need to set B to the next power of PX
-            //  and recalculate V.  This is done by subroutine CALCV.
+            //  Если U = 0, нам нужно посчитать B для следующей степени PX
+            //  и пересчитать V.  Это делается с помощью подпрограммы CALCV.
             //
             if (u == 0) {
                 calcv2(maxv, px_deg, px, &b_deg, b, v);
@@ -412,10 +334,10 @@ void NiederreiterBaseTwo::calcc2 ()
                 ci[j][r] = v[r+u];
             }
             //
-            //  Increment U.  
+            //  Приращение U.  
             //
-            //  If U = E, then U = 0 and in Niederreiter's
-            //  paper Q = Q + 1.  Here, however, Q is not used explicitly.
+            //  Если U = E, тогда U = 0 и в Niederreiter's
+            //  paper Q = Q + 1. Здесь, однако, Q не используется явно.
             //
             u = u + 1;
             if (u == e) {
@@ -438,47 +360,19 @@ void NiederreiterBaseTwo::calcc2 ()
 
     return;
 }
-//****************************************************************************80
 
 void NiederreiterBaseTwo::calcv2 ( int64_t maxv, int64_t px_deg, int64_t px[MAXDEG+1], 
     int64_t *b_deg, int64_t b[MAXDEG+1], int64_t v[] ) const
 
-//****************************************************************************80
 //
-//  Purpose:
+//  Цель:
 //
-//    CALCV2 calculates the value of the constants V(J,R).
+//    CALCV2 высчитывает значения констант V(J,R).
 //
-//  Discussion:
+//  Описание:
 //
-//    This program calculates the values of the constants V(J,R) as
-//    described in the reference (BFN) section 3.3.  It is called from CALCC2.  
-//
-//    Polynomials stored as arrays have the coefficient of degree N 
-//    in POLY(N).  
-//
-//    A polynomial which is identically 0 is given degree -1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    29 March 2003
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Paul Bratley, Bennett Fox, Harald Niederreiter,
-//    Algorithm 738: 
-//    Programs to Generate Niederreiter's Low-Discrepancy Sequences,
-//    ACM Transactions on Mathematical Software,
-//    Volume 20, Number 4, pages 494-495, 1994.
+//    Многочлены хранятся в виде массивов.
+//    Нулевой многочлен имеет степень -1.
 //
 //  Parameters:
 //
@@ -625,35 +519,13 @@ void NiederreiterBaseTwo::calcv2 ( int64_t maxv, int64_t px_deg, int64_t px[MAXD
 
   return;
 }
-//****************************************************************************80
 
 std::vector<Real> NiederreiterBaseTwo::GeneratePoint ()
 
-//****************************************************************************80
 //
-//  Purpose:
+//  Цель:
 //
-//    NIEDERREITER2 returns an element of the Niederreiter sequence base 2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    29 March 2003
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Harald Niederreiter,
-//    Low-discrepancy and low-dispersion sequences,
-//    Journal of Number Theory,
-//    Volume 30, 1988, pages 51-70.
+//    NIEDERREITER2 возвращает элемент последовательности Нидеррайтера по основанию 2.
 //
 //  Parameters:
 //
@@ -689,7 +561,7 @@ std::vector<Real> NiederreiterBaseTwo::GeneratePoint ()
   // int64_t skip; // не используется
   
 //
-//  Initialization.
+//  Инициализация.
 //
   if ( dim_save < 1LL || dimension != dim_save || seed <= 0LL )
   {
@@ -710,7 +582,7 @@ std::vector<Real> NiederreiterBaseTwo::GeneratePoint ()
 
     seed_save = seed;
 //
-//  Calculate the C array.
+// Вычисление массива C.
 //
     calcc2 ();
   }
