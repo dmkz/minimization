@@ -275,23 +275,24 @@ Real f46(const Vector &x){
 	return std::pow((x[0]*x[0]+x[1]-10),2)+std::pow((x[0]+x[1]*x[1]-7),2)+std::pow((x[0]*x[0]+std::pow(x[1],3)-1),2);
 }
 
-//Ursem01
+//Ursem01 
 Real f47(const Vector &x)
 {
-	return -sin(2*x[0]-0.5*M_PI)-3*cos(x[1])-0.5*x[0];
+	return -sin(2*x[0]-0.5*M_PI)-3*cos(x[1])+0.5*x[0]*x[0];
 }
 
-//Alpine01
+//Alpine 1
 Real f48(const Vector &v)
 {
 	Real fun = 0;
 	
-	for (unsigned int i = 1; i < v.size(); i++)
+	for (unsigned int i = 0; i < v.size(); i++)
 	{
 		fun = fun + std::abs(v[i]*sin(v[i])+0.1*v[i]);
 	}
 	return fun;
 }
+
 struct ControlPoint {
     Vector x;
     std::string type;
@@ -1016,12 +1017,14 @@ void test46(Method method) {
 }
 
 void test47(Method method) {
-    auto expected = std::vector<ControlPoint>{{{1.697136443570341,0}, "Global Min"}};
-	auto start_points = gen_start_points(2, -2, 2);
-	//std::vector<std::vector<Real>> start_points = {{3.5, -2.5}, {5, 0}, {4.125, -0.125}, {3.5, -1.5}};
+    auto expected = std::vector<ControlPoint>{
+        {{-1.23729,0}, "Global Min"},{{1.23729,0}, "Global Min"},
+    };
+	// auto start_points = gen_start_points(2, -2, 2);
+	std::vector<std::vector<Real>> start_points = {{-2, -2}, {2, -2}, {-2, 2}, {2, 2}};
 	
 	fout_txt << "----------------------------------- Тест 47 -----------------------------------\n\n";
-    fout_txt << "47. Гладкая функция Ursem01: f(x,y) = -sin(2x-0.5*pi)-3cos(y)-0.5x, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "47. Гладкая функция Ursem01: f(x,y) = -sin(2x-0.5*pi)-3cos(y)+0.5x^2, имеющая бесконечное число глобальных минимумов. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f47, example_stop_condition, start_points, expected);
 }
