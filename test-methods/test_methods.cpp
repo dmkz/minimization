@@ -275,6 +275,12 @@ Real f46(const Vector &x){
 	return std::pow((x[0]*x[0]+x[1]-10),2)+std::pow((x[0]+x[1]*x[1]-7),2)+std::pow((x[0]*x[0]+std::pow(x[1],3)-1),2);
 }
 
+//Ursem01
+Real f47(const Vector &x)
+{
+	return -sin(2*x[0]-0.5*M_PI)-3*cos(x[1])-0.5*x[0];
+}
+
 struct ControlPoint {
     Vector x;
     std::string type;
@@ -998,6 +1004,17 @@ void test46(Method method) {
     test_method(method, f46, example_stop_condition, start_points, expected);
 }
 
+void test47(Method method) {
+    auto expected = std::vector<ControlPoint>{{{1.697136443570341,0}, "Global Min"}};
+	auto start_points = gen_start_points(2, -2, 2);
+	//std::vector<std::vector<Real>> start_points = {{3.5, -2.5}, {5, 0}, {4.125, -0.125}, {3.5, -1.5}};
+	
+	fout_txt << "----------------------------------- Тест 47 -----------------------------------\n\n";
+    fout_txt << "47. Гладкая функция Ursem01: f(x,y) = -sin(2x-0.5*pi)-3cos(y)-0.5x, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+    test_method(method, f47, example_stop_condition, start_points, expected);
+}
+
 void Test(Method method) {
     test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
     test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
@@ -1061,6 +1078,7 @@ void Test(Method method) {
     test44(method);  std::cout << ", 44"; std::cout.flush();  fout_txt.flush();
     test45(method);  std::cout << ", 45"; std::cout.flush();  fout_txt.flush();
 	test46(method);  std::cout << ", 46"; std::cout.flush();  fout_txt.flush();
+	test47(method);  std::cout << ", 47"; std::cout.flush();  fout_txt.flush();
     std::cout << std::endl;
 }
 
