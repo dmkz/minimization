@@ -3,7 +3,12 @@
 #include "bfgs.hpp"
 #include "dfp.hpp"
 #include "powell.hpp"
+
+#include <iostream>
 #include <fstream>
+#include <algorithm>
+#include <string>
+#include <map>
 
 /*
     Тестирование методов отдельно.
@@ -192,7 +197,7 @@ Real f32(const Vector &x){
 Real f33(const Vector &v)
 {
 	Real fun = 0, fun1 = 0, fun2 = 0;
-
+	
 	for (unsigned int i = 0; i < v.size(); i++)
 	{
 		fun1 = fun1 + std::cos(5* M_PI*v[i]);
@@ -275,7 +280,7 @@ Real f46(const Vector &x){
 	return std::pow((x[0]*x[0]+x[1]-10),2)+std::pow((x[0]+x[1]*x[1]-7),2)+std::pow((x[0]*x[0]+std::pow(x[1],3)-1),2);
 }
 
-//Ursem01
+//Ursem01 
 Real f47(const Vector &x)
 {
 	return -sin(2*x[0]-0.5*M_PI)-3*cos(x[1])+0.5*x[0]*x[0];
@@ -285,12 +290,22 @@ Real f47(const Vector &x)
 Real f48(const Vector &v)
 {
 	Real fun = 0;
-
+	
 	for (unsigned int i = 0; i < v.size(); i++)
 	{
 		fun = fun + std::abs(v[i]*sin(v[i])+0.1*v[i]);
 	}
 	return fun;
+}
+
+// Levy13
+Real f49(const Vector &v) {
+    return std::pow((v[0]-1),2)*(std::pow(std::sin(3*M_PI*v[1]),2) + 1) + std::pow((v[1]-1),2)*(std::pow(std::sin(2*M_PI*v[1]),2) + 1) + std::pow(std::sin(3*M_PI*v[0]),2);
+}
+
+// Mishra08
+Real f50(const Vector &v) {
+    return 0.001*std::pow((std::abs(std::pow(v[0],10) - 20*std::pow(v[0],9) + 180*std::pow(v[0],8) - 960*std::pow(v[0],7) + 3360*std::pow(v[0],6) -8064*std::pow(v[0],5) + 13340*std::pow(v[0],4) - 15360*std::pow(v[0],3) + 11520*std::pow(v[0],2) - 5120*v[0] + 2624)*std::abs(std::pow(v[1],4) + 12*std::pow(v[1],3) + 54*std::pow(v[1],2) + 108*v[1] + 81)),2);
 }
 
 struct ControlPoint {
@@ -302,54 +317,6 @@ struct ControlPoint {
         , type(type)
     { }
 };
-
-void test_method(
-    Method method,
-    Function f,
-    const StopCondition& stop_condition,
-    const Matrix& start_points,
-    const std::vector<ControlPoint>& expected
-) {
-    for (int i = 0; i < (int)start_points.size(); ++i) {
-        const auto & p = start_points[i];
-
-        IterationData iter_data = method(f, p, stop_condition);
-        const auto x = iter_data.x_curr;
-        const auto f_test =  iter_data.f_curr;
-        const auto iter_counter = iter_data.iter_counter;
-
-        auto best_eps_f = 1e9;
-        auto best_eps_x = 1e9;
-        auto best_point = expected.front();
-        int best_id = 0;
-        for (int curr_id = 0; curr_id < (int)expected.size(); ++curr_id) {
-            const auto & expected_point = expected[curr_id];
-            auto f_true = f(expected_point.x);
-            auto temp_eps_f = f_test-f_true;
-            auto temp_eps_x = norm(x-expected_point.x);
-            if (temp_eps_x < best_eps_x) {
-                best_point = expected_point;
-                best_eps_x = temp_eps_x;
-                best_eps_f = temp_eps_f;
-                best_id = curr_id;
-            }
-        }
-        fout_txt << "\tИз точки #" << i << " сходится к " << best_point.type << " #" << best_id
-            << " (итераций: " << std::setw(8) << iter_counter << ") ";
-        if (best_eps_f == 1e9) {
-            fout_txt << "все очень плохо :(\n";
-        } else {
-            fout_txt << ", отклонение = " << std::fixed << std::setprecision(24) << std::setw(30) << best_eps_f << std::endl;
-        }
-        fout_txt << "\t\t                Начальная точка: " << p << std::endl;
-        fout_txt << "\t\t  Предполагаемая точка минимума: " << best_point.x << std::endl;
-        fout_txt << "\t\t      Полученная точка минимума: " << x << std::endl;
-        fout_txt << "\t\tПредполагаемое значение функции: "
-            << std::setprecision(8) << std::fixed << std::setw(16) << f(best_point.x) << std::endl;
-        fout_txt << "\t\t    Полученное значение функции: "
-            << std::setprecision(8) << std::fixed << std::setw(16) << f_test << std::endl << std::endl;
-    }
-}
 
 Matrix gen_start_points(int Dimensions, Real left, Real right) {
     Vector point(Dimensions, 1);
@@ -366,26 +333,20 @@ Matrix gen_start_points(int Dimensions, Real left, Real right) {
         point[i] = right;
     }
     start_points.push_back(point);
-//    Real mid = (left + right) / 2;
-//    point = Vector(Dimensions, mid);
-//    for (int i = 0; i < Dimensions; i += 2) {
-//        point[i] = -mid;
-//    }
-//    start_points.push_back(point);
     return start_points;
 }
 
 struct Test {
     std::string id;                         // Идентификатор теста (например: "1", "2", "30_2")
-
-    std::function<Real(const Vector&)> f;   // Целевая функция
+    
+    Function f;                             // Целевая функция
     std::string description_f;              // Ее символьное описание
-
+    
     StopCondition stop_condition;           // Условие остановы
     std::string description_stop_condition; // Его символьное описание
-
+    
     std::vector<ControlPoint> expected;     // Ожидаемые точки
-
+    
     std::vector<Vector> start_points;       // Стартовые точки
     std::vector<std::vector<IterationData>> result;    // Результаты тестирования из стартовых точек
 };
@@ -404,7 +365,7 @@ void prepare_tests() {
         "Test 01, dim 02", f1, "Гладкая функция f(x,y) = 1+x+y-xy+x^2+y^2", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{-1, -1}, "Global Min"}}, // Ожидаемые точки
-        gen_start_points(2, -5, 5), {} // стартовые точки
+        gen_start_points(2, -5, 5)/* стартовые точки */, {}
     });
     // Добавление теста 02:
     Tests.push_back(Test{
@@ -504,7 +465,7 @@ void prepare_tests() {
         std::vector<ControlPoint>{{{3, 0.5}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -0.5, 0.5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
-
+     
     // Добавление теста 20: доделать)
     // Tests.push_back(Test{
     //     "Test 20, dim 04", f20, "Гладкая функция f(x,y,z,t) = (x-1)^2+100(x^2-y)^2+10.1(y-1)^2+(z-1)^2+90(z^2-t)^2+10.1(t-1)^2+19.8(t-1)/y", // Номер теста, функция, ее описание
@@ -546,6 +507,7 @@ void prepare_tests() {
             {-5,-5, 5, 5}
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
+    
 	// Добавление теста 25:
     Tests.push_back(Test{
       "Test 25, dim 04", f25, "Гладкая функция: f(x,y,z,t) = (x^2-y+1)^4+100(y-z)^6+tg^4(z-t)+x^8+(t-1)^2.", // Номер теста, функция, ее описание
@@ -560,146 +522,119 @@ void prepare_tests() {
         "Test 26, dim 02", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0}, "Global Min"}}, // Ожидаемые точки
-        {
-			gen_start_points(2, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_4:
     Tests.push_back(Test{
         "Test 26, dim 04", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
-        {
-			gen_start_points(4, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_8:
     Tests.push_back(Test{
         "Test 26, dim 08", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(8, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_12:
     Tests.push_back(Test{
         "Test 26, dim 12", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(12, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_2:
     Tests.push_back(Test{
         "Test 27, dim 02", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			gen_start_points(2, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_4:
     Tests.push_back(Test{
         "Test 27, dim 04", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(4, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_8:
     Tests.push_back(Test{
         "Test 27, dim 08", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			gen_start_points(8, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_12:
     Tests.push_back(Test{
         "Test 27, dim 12", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(12, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_2:
     Tests.push_back(Test{
         "Test 28, dim 02", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(2, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_4:
     Tests.push_back(Test{
         "Test 28, dim 04", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(4, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_8:
     Tests.push_back(Test{
         "Test 28, dim 08", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(8, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_12:
     Tests.push_back(Test{
         "Test 28, dim 12", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(12, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
-	//Добавление теста 29
-	//Доделать
+	
+    
+    // Добавление теста 29:
+	// Доделать
+    
+    
+    
 	// Добавление теста 30_2:
     Tests.push_back(Test{
         "Test 30, dim 02", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(2, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_4:
     Tests.push_back(Test{
         "Test 30, dim 04", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0,0,0}, "Global Min"}}, // Ожидаемые точки
-        {
-			gen_start_points(4, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_8:
     Tests.push_back(Test{
         "Test 30, dim 08", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
-        {
-			 gen_start_points(8, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_12:
     Tests.push_back(Test{
         "Test 30, dim 08", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
-        {
-			gen_start_points(12, -5, 5)
-        } /* стартовые точки */, {} /* пустой вектор результатов */
+        gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 31:
     Tests.push_back(Test{
@@ -712,7 +647,7 @@ void prepare_tests() {
         {{ 6.0/5,  4.0/5}, "Local Min"},
         {{ 9.0/5,  1.0/5}, "Local Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {1, 1},
             {0.25, -0.125},
             {0.5, -1.5},
@@ -724,14 +659,76 @@ void prepare_tests() {
         "Test 32, dim 02", f32, "Негладкая функция Букин06: f(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|.", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{-10, 1}, "Global Min"}}, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {-15, -3},
             {-15, 3},
             {-5, -3},
             {-5, 3},
 			{-10.5, 1.5}
-        }, {} // стартовые точки
+        } /* стартовые точки */, {}
     });
+    
+    // Добавление теста 33 размерности 2:
+    Tests.push_back(Test{
+        "Test 33, dim 02", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{0, 0}, "Global Min"}
+        }, // Ожидаемые точки
+        gen_start_points(2, -1, 1)/* стартовые точки */, {}
+    });
+    // Добавление теста 33 размерности 4:
+    Tests.push_back(Test{
+        "Test 33, dim 04", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{0, 0, 0, 0}, "Global Min"}
+        }, // Ожидаемые точки
+        gen_start_points(4, -1, 1)/* стартовые точки */, {}
+    });
+    // Добавление теста 33 размерности 8:
+    Tests.push_back(Test{
+        "Test 33, dim 08", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
+        }, // Ожидаемые точки
+        gen_start_points(8, -1, 1)/* стартовые точки */, {}
+    });
+    // Добавление теста 33 размерности 12:
+    Tests.push_back(Test{
+        "Test 33, dim 12", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
+        }, // Ожидаемые точки
+        gen_start_points(12, -1, 1)/* стартовые точки */, {}
+    });
+    // Добавление теста 34:
+    Tests.push_back(Test{
+        "Test 34, dim 02", f34, "Гладкая функция Букин02: f(x,y) = 100*(y-0.01*x^2+1)^2+0.01*(x+10)^2", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{-1, -1}, "Global Min"}
+        }, // Ожидаемые точки
+        Matrix{
+            {-15, -3},
+            {-15, 3},
+            {-5, -3},
+            {-5, 3},
+            {-10.5, 1.5}
+        }/* стартовые точки */, {}
+    });
+    // Добавление теста 35:
+    Tests.push_back(Test{
+        "Test 35, dim 02", f35, "Негладкая функция BartelsConn: f(x,y) = |x^2+y^2+x*y|+|sin(x)|+|sin(y)|", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{0, 0}, "Global Min"}
+        }, // Ожидаемые точки
+        gen_start_points(2, -5, 5)/* стартовые точки */, {}
+    });
+    
     // Добавление теста 36:
     Tests.push_back(Test{
         "Test 36, dim 02", f36, "Гладкая функция Price04: f(x,y) = (2*x^3*y-y^3)^2+(6x-y^2+y)^2", // Номер теста, функция, ее описание
@@ -741,12 +738,12 @@ void prepare_tests() {
             {{2, 4}, "Global Min"},
             {{1.464, -2.506}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {3, 5.5},
             {1.5, -3},
             {0, -5},
             {-1, 1.5}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 37:
     Tests.push_back(Test{
@@ -757,7 +754,7 @@ void prepare_tests() {
             {{-1.74755, 0.873776}, " Local Min"},
             {{1.74755, -0.873776}, " Local Min"}
         }, // Ожидаемые точки
-        gen_start_points(2, -1, 1), {} // стартовые точки
+        gen_start_points(2, -1, 1)/* стартовые точки */, {}
     });
     // Добавление теста 38:
     Tests.push_back(Test{
@@ -773,13 +770,13 @@ void prepare_tests() {
             {{-1.23023, -0.162335}, " Local Max"},
             {{ 1.23023,  0.162335}, " Local Max"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {0,0},
             {1,1},
             {-1, -1},
             {-2, 0},
             {0, 2}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 39:
     Tests.push_back(Test{
@@ -790,12 +787,12 @@ void prepare_tests() {
             {{M_PI, 2.275}, "Global Min"},
             {{9.42478, 2.475}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {-5, 0},
             {10, 0},
             {-5, 15},
             {10, 15}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 40:
     Tests.push_back(Test{
@@ -804,12 +801,12 @@ void prepare_tests() {
         std::vector<ControlPoint>{
             {{-3.2, 12.53}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {-2, -2},
             {-2, 11},
             {10, -2},
             {10, 10}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 41:
     Tests.push_back(Test{
@@ -818,10 +815,10 @@ void prepare_tests() {
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {-15, -5},
             {-500, 500}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 42:
     Tests.push_back(Test{
@@ -830,12 +827,12 @@ void prepare_tests() {
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {-1,-1},
             {-1,1},
             {1,-1},
             {1,1}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 43:
     Tests.push_back(Test{
@@ -844,12 +841,12 @@ void prepare_tests() {
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {500, 0},
             {0, 500},
             {500, 500},
             {0, 0}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 44:
     Tests.push_back(Test{
@@ -859,12 +856,12 @@ void prepare_tests() {
             {{4.701055751981055, 3.152946019601391}, "Global Min"},
             {{-1.582142172055011, -3.130246799635430}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {-M_PI, -M_PI},
             {-M_PI, M_PI},
             {M_PI, -M_PI},
             {M_PI, M_PI}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 45:
     Tests.push_back(Test{
@@ -876,13 +873,13 @@ void prepare_tests() {
             {{1, 1}, " Local Min"},
             {{1,-1}, " Local Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {0,0},
             {-3,-1},
             {-3,1},
             {3,-1},
             {3,1}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 46:
     Tests.push_back(Test{
@@ -894,12 +891,12 @@ void prepare_tests() {
             {{-1.52071, 1.41228}, "Local Min"},
             {{2.27617, 0.864777}, "Local Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {3.5, -2.5},
             {5, 0},
             {4.125, -0.125},
             {3.5, -1.5}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 47:
     Tests.push_back(Test{
@@ -909,12 +906,12 @@ void prepare_tests() {
             {{-1.23729,0}, "Global Min"},
             {{1.23729,0}, "Global Min"},
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {-2, -2},
             {2, -2},
             {-2, 2},
             {2, 2}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
     // Добавление теста 48:
     Tests.push_back(Test{
@@ -923,363 +920,123 @@ void prepare_tests() {
         std::vector<ControlPoint>{
             {{0,0}, "Global Min"}
         }, // Ожидаемые точки
-        std::vector<std::vector<Real>>{
+        Matrix{
             {0.5, 0.5},
             {1, 1},
             {1.5, 1.5},
             {2, 2},
             {4, 4}
-        }, {} // стартовые точки
+        }/* стартовые точки */, {}
     });
-
+    
+    // Добавление теста 49:
+    Tests.push_back(Test{
+        "Test 49, dim 02", f49, "Гладкая функция Levy13 f(x,y) = (x-1)^2*[sin^2(3 pi y) + 1] + (y-1)^2*[sin^2(2 pi y) + 1] + sin^2(3 pi x)", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{1,1}, "Global Min"}
+        }, // Ожидаемые точки
+        gen_start_points(2, -10, 10) /* стартовые точки */, {}
+    });
+    
+    // Добавление теста 50:
+    Tests.push_back(Test{
+        "Test 50, dim 02", f50, "Гладкая функция Mishra08 f(x,y) = 0.001[|x^10 -20x^9 +180x^8 -960x^7 +3360x^6 -8064x^5 +13340x^4 -15360x^3 +11520x^2 -5120x +2624||y^4 +12y^3 +54y^2 +108y +81|]^2", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{2,-3}, "Global Min"}
+        }, // Ожидаемые точки
+        gen_start_points(2, -10, 10) /* стартовые точки */, {}
+    });
 }
 
-void test33_2(Method method)
-{
-	auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
-	auto start_points = gen_start_points(2, -1, 1);
-
-	fout_txt << "----------------------------------- Тест 33_2 -----------------------------------\n\n";
-    fout_txt << "33. Гладкая функция Cosine Mixture: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f33, example_stop_condition, start_points, expected);
-
-}
-
-void test33_4(Method method)
-{
-	auto expected = std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}};
-	auto start_points = gen_start_points(4, -1, 1);
-
-	fout_txt << "----------------------------------- Тест 33_4 -----------------------------------\n\n";
-    fout_txt << "33. Гладкая функция Cosine Mixture: f(x,y) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f33, example_stop_condition, start_points, expected);
-
-}
-
-void test34(Method method)
-{
-	auto expected = std::vector<ControlPoint>{{{-10,0}, "Global Min"}};
-	//auto start_points = gen_start_points(2, -5, 5);
-	//std::vector<std::vector<Real>> start_points = {{-11, -3},{-10, 0.125},{-12, -1.5},{-15, 3}};
-    std::vector<std::vector<Real>> start_points = {{-15, -3}, {-15, 3}, {-5, -3}, {-5, 3}, {-10.5, 1.5}};
-    fout_txt << "----------------------------------- Тест 34 -----------------------------------\n\n";
-    fout_txt << "34. Гладкая функция Букин02: f(x,y) = 100*(y-0.01*x^2+1)^2+0.01*(x+10)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f34, example_stop_condition, start_points, expected);
-}
-
-void test35(Method method) {
-    // BartelsConn |x1^2+x2^2+x1*x2|+|sin(x1)|+|sin(x2)|
-    auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
-	auto start_points = gen_start_points(2, -5, 5);
-
-	fout_txt << "----------------------------------- Тест 35 -----------------------------------\n\n";
-    fout_txt << "35. Негладкая функция BartelsConn: f(x,y) = |x^2+y^2+x*y|+|sin(x)|+|sin(y)|, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f35, example_stop_condition, start_points, expected);
-}
-
-void test36(Method method) {
-    auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}, {{2, 4}, "Global Min"}, {{1.464, -2.506}, "Global Min"}};
-	//auto start_points = gen_start_points(2, -5, 5);
-	std::vector<std::vector<Real>> start_points = {{3, 5.5}, {1.5, -3}, {0, -5}, {-1, 1.5}};
-
-	fout_txt << "----------------------------------- Тест 36 -----------------------------------\n\n";
-    fout_txt << "36. Гладкая функция Price04: f(x,y) = (2*x^3*y-y^3)^2+(6x-y^2+y)^2, имеющая три глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f36, example_stop_condition, start_points, expected);
-}
-
-
-void test37(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0}, "Global Min"},
-        {{-1.74755, 0.873776}, " Local Min"},
-        {{1.74755, -0.873776}, " Local Min"}
-    };
-    auto start_points = gen_start_points(2, -1, 1);
-    fout_txt << "----------------------------------- Тест 37 -----------------------------------\n\n";
-    fout_txt << "37. Гладкая функция: f(x,y) = (2x^2 -1.05x^4 + x^6/6 + xy) + y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f37, example_stop_condition, start_points, expected);
-}
-
-void test38(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{-0.0898, 0.7126}, "Global Min"},
-        {{0.0898, -0.7126}, "Global Min"},
-        {{-1.70361,  0.796084}, " Local Min"},
-        {{ -1.6071, -0.568651}, " Local Min"},
-        {{  1.6071,  0.568651}, " Local Min"},
-        {{ 1.70361, -0.796084}, " Local Min"},
-        {{-1.23023, -0.162335}, " Local Max"},
-        {{ 1.23023,  0.162335}, " Local Max"}
-    };
-    std::vector<std::vector<Real>> start_points = {
-        {0,0}, {1,1}, {-1, -1}, {-2, 0}, {0, 2}
-    };
-    fout_txt << "----------------------------------- Тест 38 -----------------------------------\n\n";
-    fout_txt << "38. Гладкая функция: f(x,y) = (4-2.1*x1^2+x1^4/3)*x1^2+x1*x2+(-4+4*x2^2)*x2^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f38, example_stop_condition, start_points, expected);
-}
-
-void test39(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{-M_PI, 12.275}, "Global Min"},
-        {{M_PI, 2.275}, "Global Min"},
-        {{9.42478, 2.475}, "Global Min"}
-    };
-    std::vector<std::vector<Real>> start_points = {
-        {-5, 0}, {10, 0}, {-5, 15}, {10, 15}
-    };
-    fout_txt << "----------------------------------- Тест 39 -----------------------------------\n\n";
-    fout_txt << "39. Гладкая функция: f(x,y) = (-1.275*x1^2/pi^2+5*x1/pi+x2-6)^2 + (10-5/(4*pi))*cos(x1)+10, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f39, example_stop_condition, start_points, expected);
-}
-
-void test40(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{-3.2, 12.53}, "Global Min"}
-    };
-    std::vector<std::vector<Real>> start_points = {
-        {-2, -2}, {-2, 11}, {10, -2}, {10, 10}
-    };
-    fout_txt << "----------------------------------- Тест 40 -----------------------------------\n\n";
-    fout_txt << "40. Гладкая функция: f(x,y) = (-1.275*x1^2/M_PI^2+5*x1/M_PI+x2-6)^2 + (10-5/(4*M_PI))*cos(x1)*cos(x2)+log(x1^2+x2^2+1)+10, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f40, example_stop_condition, start_points, expected);
-}
-
-void test41(Method method) {
-    auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
-    std::vector<std::vector<Real>> start_points = {
-        {-15, -5}, {-500, 500}
-    };
-    fout_txt << "----------------------------------- Тест 41 -----------------------------------\n\n";
-    fout_txt << "41. Гладкая функция RotatedEllipse01: f(x,y) = 7x^2-6*sqrt(3)*x*y+13y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f41, example_stop_condition, start_points, expected);
-}
-
-void test42(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0}, "Global Min"}
-    };
-    std::vector<std::vector<Real>> start_points = {{-1,-1},{-1,1},{1,-1},{1,1}};
-    fout_txt << "----------------------------------- Тест 42 -----------------------------------\n\n";
-    fout_txt << "42. Гладкая функция: f(x,y) = x^2 + y^2 + 25[sin^2(x) + sin^2(y)], имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f42, example_stop_condition, start_points, expected);
-}
-
-void test43(Method method) {
-    // RotatedEllipse02 x*x-x*y+y*y
-    auto expected = std::vector<ControlPoint>{{{0, 0}, "Global Min"}};
-	std::vector<std::vector<Real>> start_points = {
-        {500, 0}, {0, 500}, {500, 500}, {0, 0}
-    };
-
-	fout_txt << "----------------------------------- Тест 43 -----------------------------------\n\n";
-    fout_txt << "43. Гладкая функция RotatedEllipse02: f(x,y) = x^2-x*y+y^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f43, example_stop_condition, start_points, expected);
-}
-
-void test44(Method method) {
-    // Bird (x-y)^2+exp((1-sin(x))^2)cos(y)+exp((1-cos(y))^2)*sin(x)
-    auto expected = std::vector<ControlPoint>{
-        {{4.701055751981055, 3.152946019601391}, "Global Min"},
-        {{-1.582142172055011, -3.130246799635430}, "Global Min"}
-    };
-	std::vector<std::vector<Real>> start_points = {
-        {-M_PI, -M_PI}, {-M_PI, M_PI}, {M_PI, -M_PI}, {M_PI, M_PI}
-    };
-
-	fout_txt << "----------------------------------- Тест 44 -----------------------------------\n\n";
-    fout_txt << "44. Гладкая функция Bird: f(x,y) = (x-y)^2+exp((1-sin(x))^2)cos(y)+exp((1-cos(y))^2)*sin(x), имеющая два глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f44, example_stop_condition, start_points, expected);
-}
-
-void test45(Method method) {
-    // Hosaki (1-8x+7x^2-7.0/3*x^3+1.0/4*x^4)*y^2*exp(-y)
-    auto expected = std::vector<ControlPoint>{
-        {{4,-1}, "Global Min"},
-        {{4, 1}, "Global Min"},
-        {{1, 1}, " Local Min"},
-        {{1,-1}, " Local Min"}
-    };
-	std::vector<std::vector<Real>> start_points = {
-        {0,0},{-3,-1},{-3,1},{3,-1},{3,1}
-    };
-
-	fout_txt << "----------------------------------- Тест 45 -----------------------------------\n\n";
-    fout_txt << "45. Гладкая функция Hosaki: f(x,y) = (1-8x+7x^2-7.0/3*x^3+1.0/4*x^4)*y^2*exp(-y^2), имеющая два глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f45, example_stop_condition, start_points, expected);
-}
-
-void test46(Method method) {
-    auto expected = std::vector<ControlPoint>{{{3.40919, -2.17143}, "Global Min"},
-	{{-3.62315, -2.38415}, "Local Min"},
-	{{-1.52071, 1.41228}, "Local Min"},
-	{{2.27617, 0.864777}, "Local Min"}};
-	//auto start_points = gen_start_points(2, -5, 5);
-	std::vector<std::vector<Real>> start_points = {{3.5, -2.5}, {5, 0}, {4.125, -0.125}, {3.5, -1.5}};
-
-	fout_txt << "----------------------------------- Тест 46 -----------------------------------\n\n";
-    fout_txt << "46. Гладкая функция El-Attar-Vidyasagar-Dutta: f(x,y) = (x^2+y-10)^2+(x+y^2-7)^2+(x^2+y^3-1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f46, example_stop_condition, start_points, expected);
-}
-
-void test47(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{-1.23729,0}, "Global Min"},{{1.23729,0}, "Global Min"},
-    };
-	// auto start_points = gen_start_points(2, -2, 2);
-	std::vector<std::vector<Real>> start_points = {{-2, -2}, {2, -2}, {-2, 2}, {2, 2}};
-
-	fout_txt << "----------------------------------- Тест 47 -----------------------------------\n\n";
-    fout_txt << "47. Гладкая функция Ursem01: f(x,y) = -sin(2x-0.5*pi)-3cos(y)+0.5x^2, имеющая бесконечное число глобальных минимумов. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f47, example_stop_condition, start_points, expected);
-}
-
-void test48(Method method) {
-    auto expected = std::vector<ControlPoint>{{{0,0}, "Global Min"}};
-	// auto start_points = gen_start_points(2, -5, 5);
-	std::vector<std::vector<Real>> start_points = {
-        {0.5, 0.5}, {1, 1}, {1.5, 1.5}, {2, 2}, {4, 4}
-    };
-
-	fout_txt << "----------------------------------- Тест 48 -----------------------------------\n\n";
-    fout_txt << "48. Негладкая функция Alpine01: f(x,y) = sum(abs(x(i)*sin(x(i))+0.1x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f48, example_stop_condition, start_points, expected);
-}
-
-void Test(Method method) {
-    /*test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
-    test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
-    test3  (method);    std::cout << ", 3";   std::cout.flush();  fout_txt.flush();
-    test4  (method);    std::cout << ", 4";   std::cout.flush();  fout_txt.flush();
-    test5  (method);    std::cout << ", 5";   std::cout.flush();  fout_txt.flush();*/
-    test6  (method);    std::cout << ", 6";   std::cout.flush();  fout_txt.flush();
-    test7  (method);    std::cout << ", 7";   std::cout.flush();  fout_txt.flush();
-    test8  (method);    std::cout << ", 8";   std::cout.flush();  fout_txt.flush();
-    test9  (method);    std::cout << ", 9";   std::cout.flush();  fout_txt.flush();
-    test10 (method);    std::cout << ", 10";  std::cout.flush();  fout_txt.flush();
-    test11 (method);    std::cout << ", 11";  std::cout.flush();  fout_txt.flush();
-//    test12 (method);    std::cout << ", 12";  std::cout.flush();  fout_txt.flush();
-//    test13 (method);    std::cout << ", 13";  std::cout.flush();  fout_txt.flush();
-//    test14 (method);    std::cout << ", 14";  std::cout.flush();  fout_txt.flush();
-    test15 (method);    std::cout << ", 15";  std::cout.flush();  fout_txt.flush();
-//    test16 (method);    std::cout << ", 16";  std::cout.flush();  fout_txt.flush();
-//    test17 (method);    std::cout << ", 17";  std::cout.flush();  fout_txt.flush();
-    test18 (method);    std::cout << ", 18";  std::cout.flush();  fout_txt.flush();
-    test19 (method);    std::cout << ", 19";  std::cout.flush();  fout_txt.flush();
-    // test20 (method);    std::cout << ", 20";  std::cout.flush();  fout_txt.flush();
-    test21 (method);    std::cout << ", 21";  std::cout.flush();  fout_txt.flush();
-    test22 (method);    std::cout << ", 22";  std::cout.flush();  fout_txt.flush();
-    test23 (method);    std::cout << ", 23";  std::cout.flush();  fout_txt.flush();
-    test24 (method);    std::cout << ", 24";  std::cout.flush();  fout_txt.flush();
-    test25 (method);    std::cout << ", 25";  std::cout.flush();  fout_txt.flush();
-    test26_2(method);   std::cout << ", 26_2";  std::cout.flush();  fout_txt.flush();
-    test26_4(method);   std::cout << ", 26_4";  std::cout.flush();  fout_txt.flush();
-    test26_8(method);   std::cout << ", 26_8";  std::cout.flush();  fout_txt.flush();
-    test26_12(method);  std::cout << ", 26_12"; std::cout.flush();  fout_txt.flush();
-    test27_2(method);   std::cout << ", 27_2";  std::cout.flush();  fout_txt.flush();
-    test27_4(method);   std::cout << ", 27_4";  std::cout.flush();  fout_txt.flush();
-    test27_8(method);   std::cout << ", 27_8";  std::cout.flush();  fout_txt.flush();
-    test27_12(method);  std::cout << ", 27_12"; std::cout.flush();  fout_txt.flush();
-    test28_2(method);   std::cout << ", 28_2";  std::cout.flush();  fout_txt.flush();
-    test28_4(method);   std::cout << ", 28_4";  std::cout.flush();  fout_txt.flush();
-    test28_8(method);   std::cout << ", 28_8";  std::cout.flush();  fout_txt.flush();
-    test28_12(method);  std::cout << ", 28_12"; std::cout.flush();  fout_txt.flush();
-//    test29_2(method);   std::cout << ", 29_2";  std::cout.flush();  fout_txt.flush();
-//    test29_4(method);   std::cout << ", 29_4";  std::cout.flush();  fout_txt.flush();
-//    test29_8(method);   std::cout << ", 29_8";  std::cout.flush();  fout_txt.flush();
-//    test29_12(method);  std::cout << ", 29_12"; std::cout.flush();  fout_txt.flush();
-    test30_2(method);   std::cout << ", 30_2";  std::cout.flush();  fout_txt.flush();
-    test30_4(method);   std::cout << ", 30_4";  std::cout.flush();  fout_txt.flush();
-    test30_8(method);   std::cout << ", 30_8";  std::cout.flush();  fout_txt.flush();
-    test30_12(method);  std::cout << ", 30_12"; std::cout.flush();  fout_txt.flush();
-	test31(method);  std::cout << ", 31_2"; std::cout.flush();  fout_txt.flush();
-	test32(method);  std::cout << ", 32"; std::cout.flush();  fout_txt.flush();
-	test33_2(method);  std::cout << ", 33_2"; std::cout.flush();  fout_txt.flush();
-	test33_4(method);  std::cout << ", 33_4"; std::cout.flush();  fout_txt.flush();
-	test34(method);  std::cout << ", 34"; std::cout.flush();  fout_txt.flush();
-    test35(method);  std::cout << ", 35"; std::cout.flush();  fout_txt.flush();
-	test36(method);  std::cout << ", 36"; std::cout.flush();  fout_txt.flush();
-    test37(method);  std::cout << ", 37"; std::cout.flush();  fout_txt.flush();
-    test38(method);  std::cout << ", 38"; std::cout.flush();  fout_txt.flush();
-    test39(method);  std::cout << ", 39"; std::cout.flush();  fout_txt.flush();
-    test40(method);  std::cout << ", 40"; std::cout.flush();  fout_txt.flush();
-    test41(method);  std::cout << ", 41"; std::cout.flush();  fout_txt.flush();
-    test42(method);  std::cout << ", 42"; std::cout.flush();  fout_txt.flush();
-    test43(method);  std::cout << ", 43"; std::cout.flush();  fout_txt.flush();
-    test44(method);  std::cout << ", 44"; std::cout.flush();  fout_txt.flush();
-    test45(method);  std::cout << ", 45"; std::cout.flush();  fout_txt.flush();
-	test46(method);  std::cout << ", 46"; std::cout.flush();  fout_txt.flush();
-	test47(method);  std::cout << ", 47"; std::cout.flush();  fout_txt.flush();
-	test48(method);  std::cout << ", 48"; std::cout.flush();  fout_txt.flush();
-    std::cout << std::endl;
+int find_point_to_converge(Function f, const Vector& x, const std::vector<ControlPoint>& expected) {
+    int id_to_converge = 0;
+    Real min_diff_f = 1e9;
+    Real min_diff_x = 1e9;
+    for (int i = 0; i < (int)expected.size(); ++i) {
+        Real curr_diff_f = std::abs(f(x) - f(expected[i].x));
+        Real curr_diff_x = norm(x - expected[i].x);
+        if ((std::abs(curr_diff_f-min_diff_f) <= 2 * COMPARE_EPS && curr_diff_x < min_diff_x) || curr_diff_f < min_diff_f) { // совпадает
+            id_to_converge = i;
+            min_diff_f = curr_diff_f;
+            min_diff_x = curr_diff_x;
+        }
+    }
+    return id_to_converge;
 }
 
 int main() {
     prepare_tests();
-    std::cout << std::endl;
-    std::cout << "-- Start BFGS Method Tests. Results in test_bfgs.txt" << std::endl;
-    std::cout << "-- Tests: ";
-    fout_txt.open("test_bfgs.txt");
-    fout_txt << "BFGS method:\n\n";
-    Test(bfgs);
-    fout_txt.close();
-
-    std::cout << std::endl;
-    std::cout << "-- Start DFP Method Tests. Results in test_dfp.txt" << std::endl;
-    std::cout << "-- Tests: ";
-    fout_txt.open("test_dfp.txt");
-    fout_txt << "DFP method:\n\n";
-    Test(dfp);
-    fout_txt.close();
-
-    std::cout << std::endl;
-    std::cout << "-- Start Powell Method Tests. Results in test_powell.txt" << std::endl;
-    std::cout << "-- Tests: ";
-    fout_txt.open("test_powell.txt");
-    fout_txt << "Powell method:\n\n";
-    Test(powell);
-    fout_txt.close();
-
-    std::cout << std::endl;
-    std::cout << "-- Start Hessian Free Method Tests. Results in test_hessianfree.txt" << std::endl;
-    std::cout << "-- Tests: ";
-    fout_txt.open("test_hessianfree.txt");
-    fout_txt << "Hessian Free method:\n\n";
-	Test(hessian_free);
-    fout_txt.close();
-
-    std::cout << std::endl;
-    std::cout << "-- Start Nesterov Method Tests. Results in test_nesterov.txt" << std::endl;
-    std::cout << "-- Tests: ";
-    fout_txt.open("test_nesterov.txt");
-    fout_txt << "Nesterov method:\n\n";
-    Test(nesterov);
-    fout_txt.close();
-
-    std::cout << std::endl;
-    std::cout << "-- Finish testing... The results are written to a files:\n";
-    std::cout << "\t * test_bfgs.txt\n";
-    std::cout << "\t * test_dfp.txt\n";
-    std::cout << "\t * test_powell.txt\n";
-    std::cout << "\t * test_hessianfree.txt\n";
-    std::cout << "\t * test_nesterov.txt\n";
-
+    
+    std::map<std::string, std::ofstream> files;
+    
+    for (auto & t : Tests) { // Проход по всем тестам
+        std::cout << "-- " << t.id << std::endl;
+        const int nPoints = (int)t.start_points.size(); // Количество точек в тесте
+        t.result.resize(nPoints);                       // Выделяем память для вектора под ответ
+        
+        // Проход по всем точкам - запуск всех методов из каждой точки:
+        for (int i = 0; i < nPoints; ++i) {
+            // Проход по всем методам - получение результатов от каждого метода:
+            for (auto method : {bfgs, dfp, powell, hessian_free, nesterov}) {
+                t.result[i].push_back(method(t.f, t.start_points[i], t.stop_condition));
+            }
+            // Сортировка в порядке возрастания значений функции в найденных точках:
+            std::sort(t.result[i].begin(), t.result[i].end(), [](const IterationData& left, const IterationData& right){
+                if (2 * COMPARE_EPS > std::abs(left.f_curr - right.f_curr)) {
+                    return left.iter_counter < right.iter_counter;
+                }
+                return left.f_curr < right.f_curr;
+            });
+            
+            
+            for (const auto & r : t.result[i]) {
+                
+                if (files.find(r.method_title) == files.end()) {
+                    char buf[50];
+                    sprintf(buf, "test %s.txt", r.method_title.c_str());
+                    for (char* it = buf; *it != '\0'; ++it) *it = (*it == ' ') ? ('-') : (*it);
+                    files[r.method_title].open(buf);
+                }
+            }
+        }
+    }
+    
+    for (auto & it : files)
+        it.second << it.first << "\n\n";
+    
+    for (auto & t : Tests) { // Проход по всем тестам
+        for (auto & it : files) { // Запись первоначальной информации о тесте в каждый файл
+            it.second << std::string(48, '-') << " " << t.id << " " << std::string(48, '-') << std::endl << std::endl;
+            it.second << t.description_f << "\nПодробнее в документе \"Тестовые функции\"\n\n";
+            it.second << "Условие остановы: " << t.description_stop_condition << "\n\n";
+        }
+        const int nPoints = (int)t.result.size();
+        // Проход по вектору-результату:
+        for (int i = 0; i < nPoints; ++i) {
+            for (auto & r : t.result[i]) {
+                auto& fout_txt = files[r.method_title];
+                
+                // Находим точку, к которой сходится метод:
+                int best_id = find_point_to_converge(t.f, r.x_curr, t.expected);
+                auto best_point = t.expected[best_id];
+                fout_txt << "\tИз точки #" << i << " сходится к " << best_point.type << " #" << best_id
+                    << " (итераций: " << std::setw(8) << r.iter_counter << "), отклонение = " 
+                    << std::fixed << std::setprecision(24) << std::setw(30) << r.f_curr - t.f(best_point.x) << std::endl;                
+                
+                fout_txt << "\t\t                Начальная точка: " << t.start_points[i] << std::endl;
+                fout_txt << "\t\t  Предполагаемая точка минимума: " << best_point.x << std::endl;
+                fout_txt << "\t\t      Полученная точка минимума: " << r.x_curr << std::endl;
+                fout_txt << "\t\tПредполагаемое значение функции: " 
+                    << std::setprecision(8) << std::fixed << std::setw(16) << t.f(best_point.x) << std::endl;
+                fout_txt << "\t\t    Полученное значение функции: " 
+                    << std::setprecision(8) << std::fixed << std::setw(16) << r.f_curr << std::endl << std::endl;
+            }
+        }
+    }
+    
+    for (auto& it : files) it.second.close();
+    
     return 0;
 }
