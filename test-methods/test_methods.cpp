@@ -985,9 +985,12 @@ void test45(Method method) {
 }
 
 void test46(Method method) {
-    auto expected = std::vector<ControlPoint>{{{2.842503, 1.920175}, "Global Min"}};
+    auto expected = std::vector<ControlPoint>{{{3.40919, -2.17143}, "Global Min"},
+	{{-3.62315, -2.38415}, "Local Min"},
+	{{-1.52071, 1.41228}, "Local Min"},
+	{{2.27617, 0.864777}, "Local Min"}};
 	//auto start_points = gen_start_points(2, -5, 5);
-	std::vector<std::vector<Real>> start_points = {{3, 2}, {1.5, 0}, {0.154, 0.126}, {-1, 1.5}};
+	std::vector<std::vector<Real>> start_points = {{3.5, -2.5}, {5, 0}, {4.125, -0.125}, {3.5, -1.5}};
 	
 	fout_txt << "----------------------------------- Тест 46 -----------------------------------\n\n";
     fout_txt << "46. Гладкая функция El-Attar-Vidyasagar-Dutta: f(x,y) = (x^2+y-10)^2+(x+y^2-7)^2+(x^2+y^3-1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
