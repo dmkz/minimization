@@ -281,7 +281,7 @@ Real f47(const Vector &x)
 	return -sin(2*x[0]-0.5*M_PI)-3*cos(x[1])-0.5*x[0];
 }
 
-//Alpine 1
+//Alpine01
 Real f48(const Vector &v)
 {
 	Real fun = 0;
@@ -996,7 +996,7 @@ void test45(Method method) {
     };
 	
 	fout_txt << "----------------------------------- Тест 45 -----------------------------------\n\n";
-    fout_txt << "45. Гладкая функция Hosaki: f(x,y) = (1-8x+7x^2-7.0/3*x^3+1.0/4*x^4)*y^2*exp(-y^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
+    fout_txt << "45. Гладкая функция Hosaki: f(x,y) = (1-8x+7x^2-7.0/3*x^3+1.0/4*x^4)*y^2*exp(-y^2), имеющая два глобальных минимума. \nПодробнее в документе \"Тестовые функции\"\n\n";
     fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
     test_method(method, f45, example_stop_condition, start_points, expected);
 }
