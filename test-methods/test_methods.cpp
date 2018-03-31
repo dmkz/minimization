@@ -70,23 +70,25 @@ Real f11(const Vector &v) {
 }
 
 Real f12(const Vector &v) {
-    const int b[] = {8, 18, 44, 144};
+    // (x1+x2+x3+x4-8)^2+(x1^2+x2^2+x3^2+x4^2-18)^2+(x1^3+x2^3+x3^3+x4^3-44)^2+(x1^4+x2^4+x3^4+x4^4-114)^2
+    assert(v.size() == 4u);
+    
+    Vector b = {8, 18, 44, 114};    
     Real fun = 0;
-    Real g_fun;
     for (int i = 0; i < 4; ++i) {
-        g_fun = 0;
-        for (int j = 0; j < 4; ++j) {
-            g_fun += std::pow(v[j], i);
+        Real temp = -b[i];
+        for (auto x : v) {
+            temp += std::pow(x, i+1);
         }
-        g_fun -= b[i];
-        fun += std::pow(g_fun, 2);
+        fun += temp * temp;
     }
     return fun;
 }
 
 Real f13(const Vector &v) {
-    return std::pow(v[1] - 5.1 / (4 * M_PI_2) * std::pow(v[0], 2) + 5 * v[0] / M_PI - 6, 2) +
-           10 * (1 - 1 / (8 * M_PI)) * std::cos(v[0]) + 10;
+    assert(v.size()==2u);
+    Real x = v[0], y = v[1];
+    return std::pow(y-5.1/(4*M_PI*M_PI)*x*x+5/M_PI*x-6, 2)+10*(1-1/(8*M_PI))*cos(x)+10;
 }
 
 Real f14(const Vector &v) {
@@ -442,6 +444,23 @@ void prepare_tests() {
             {{-2.80512, 3.13131}, "Global Min"}, {{3.58443, -1.84813}, "Global Min"},
             {{-0.270845, -0.923039}, " Local Max"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 12:
+    Tests.push_back(Test{
+        "Test 12, dim 04", f12, "Гладкая функция:\n\tf(x) = (x1+x2+x3+x4-8)^2+(x1^2+x2^2+x3^2+x4^2-18)^2+(x1^3+x2^3+x3^3+x4^3-44)^2+(x1^4+x2^4+x3^4+x4^4-114)^2", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1,2,2,3}, "Global Min"}}, // Ожидаемые точки
+        {{2,2,2,2},{-2,2,-2,2},{2,-2,2,-2},{-2,-2,-2,-2}} /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 13:
+    Tests.push_back(Test{
+        "Test 13, dim 02", f13, "Гладкая функция Бранина:\n\tf(x,y) = (y-5.1*x^2/(4*pi^2)+5*x/pi-6)^2+10(1-1/(8pi)*cos(x))+10", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{-M_PI,12.275},  "Global Min"},
+            {{M_PI,2.275},    "Global Min"},
+            {{9.42478,2.475}, "Global Min"}}, // Ожидаемые точки
+        {{-10,-10},{-10,10},{10,-10},{10,10}} /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 15:
     Tests.push_back(Test{
