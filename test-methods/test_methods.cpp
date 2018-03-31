@@ -920,7 +920,7 @@ void prepare_tests() {
     });
     // Добавление теста 48:
     Tests.push_back(Test{
-        "Test 48, dim 02", f48, "Негладкая функция Alpine01 f(x,y) = sum(abs(x(i)*sin(x(i))+0.1x(i))), имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
+        "Test 48, dim 02", f48, "Негладкая функция Alpine01 f(x,y) = sum(abs(x(i)*sin(x(i))+0.1x(i))).", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{
             {{0,0}, "Global Min"}
@@ -1087,12 +1087,39 @@ void calc_score() {
     std::cout << std::endl;
 }
 
+void compare_tests() 
+{  
+	std::cout << "-- Start Compare Tests. Results in compare_tests.txt" << std::endl;
+    fout_txt.open("compare_tests.txt");
+    fout_txt << "Compare Tests:\n\n";
+	fout_txt << "Функция; Метод, который справился лучше всего; Полученное минимальное значение функции\n\n";
+    int i = 1;
+	
+    for (auto t : Tests)
+	{
+        for (auto & r : t.result) 
+		{
+			fout_txt << i << "). ";
+			fout_txt << t.description_f;
+			fout_txt << " ; ";
+			fout_txt << r[0].method_title;
+			fout_txt << " ; ";
+			fout_txt << r[0].f_curr;
+			fout_txt << "\n";
+			++i;
+        }
+    }  
+	
+	fout_txt.close();
+}
+
 
 int main() {
     prepare_tests();
     run_tests();
     print_results_per_methods();
     calc_score();
+	compare_tests();
     
     return 0;
 }
