@@ -375,8 +375,37 @@ Matrix gen_start_points(int Dimensions, Real left, Real right) {
     return start_points;
 }
 
+struct Test {
+    std::string id;                         // Идентификатор теста (например: "1", "2", "30_2")
+    
+    std::function<Real(const Vector&)> f;   // Целевая функция
+    std::string description_f;              // Ее символьное описание
+    
+    StopCondition stop_condition;           // Условие остановы
+    std::string description_stop_condition; // Его символьное описание
+    
+    std::vector<ControlPoint> expected;     // Ожидаемые точки
+    
+    std::vector<Vector> start_points;       // Стартовые точки
+    std::vector<std::vector<IterationData>> result;    // Результаты тестирования из стартовых точек
+};
+
+std::vector<Test> Tests; // Массив всех тестов
+
 bool example_stop_condition(const IterationData& iter_data) {
     return iter_data.iter_counter >= 100 || std::abs(iter_data.f_curr - iter_data.f_prev) < 1e-8;
+}
+
+const std::string descript_ex_stop_cond = "iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001";
+
+void prepare_tests() {
+    // Добавление теста 01:
+    Tests.push_back(Test{
+        "01", f1, "Гладкая функция: f(x,y) = 1+x+y-xy+x^2+y^2, имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{-1, -1}, "Global Min"}}, // Ожидаемые точки
+        gen_start_points(2, -5, 5), {} // стартовые точки
+    });
 }
 
 void test1(Method method) {
@@ -1111,6 +1140,7 @@ void Test(Method method) {
 }
 
 int main() {
+    prepare_tests();
     std::cout << std::endl;
     std::cout << "-- Start BFGS Method Tests. Results in test_bfgs.txt" << std::endl;
     std::cout << "-- Tests: ";
