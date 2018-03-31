@@ -546,6 +546,192 @@ void prepare_tests() {
             {-5,-5, 5, 5}
         } /* стартовые точки */, {} /* пустой вектор результатов */
     });
+	// Добавление теста 25:
+    Tests.push_back(Test{
+        "Test 25, dim 04", f25, "Гладкая функция: f(x,y,z,t) = (x^2-y+1)^4+100(y-z)^6+tg^4(z-t)+x^8+(t-1)^2.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			auto start_points = Matrix{{1, 2, 2, 2}};
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 26_2:
+    Tests.push_back(Test{
+        "Test 26, dim 02", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0, 0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(2, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 26_4:
+    Tests.push_back(Test{
+        "Test 26, dim 04", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(4, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 26_8:
+    Tests.push_back(Test{
+        "Test 26, dim 08", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(8, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 26_12:
+    Tests.push_back(Test{
+        "Test 26, dim 12", f26, "Гладкая функция: f(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(12, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 27_2:
+    Tests.push_back(Test{
+        "Test 27, dim 02", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(2, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 27_4:
+    Tests.push_back(Test{
+        "Test 27, dim 04", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(4, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 27_8:
+    Tests.push_back(Test{
+        "Test 27, dim 08", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(8, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 27_12:
+    Tests.push_back(Test{
+        "Test 27, dim 12", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(12, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 28_2:
+    Tests.push_back(Test{
+        "Test 28, dim 02", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(2, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 28_4:
+    Tests.push_back(Test{
+        "Test 28, dim 04", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(4, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 28_8:
+    Tests.push_back(Test{
+        "Test 28, dim 08", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(8, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 28_12:
+    Tests.push_back(Test{
+        "Test 28, dim 12", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(12, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	//Добавление теста 29
+	//Доделать
+	// Добавление теста 30_2:
+    Tests.push_back(Test{
+        "Test 30, dim 02", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0,0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(2, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 30_4:
+    Tests.push_back(Test{
+        "Test 30, dim 04", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0,0,0,0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(4, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 30_8:
+    Tests.push_back(Test{
+        "Test 30, dim 08", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(8, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 30_12:
+    Tests.push_back(Test{
+        "Test 30, dim 08", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2).", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
+        {
+			 auto start_points = gen_start_points(12, -5, 5);
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+	// Добавление теста 31:
+    Tests.push_back(Test{
+        "Test 31, dim 02", f31, "Гладкая функция Голдштейна-Прайса: f(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)].", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+		{{     0,     -1}, "Global Min"},
+        {{ 4.0/5,  1.0/5}, "Local Max"},
+        {{-3.0/5, -2.0/5}, "Local Min"},
+        {{ 6.0/5,  4.0/5}, "Local Min"},
+        {{ 9.0/5,  1.0/5}, "Local Min"}
+        }, // Ожидаемые точки
+        std::vector<std::vector<Real>>{
+            {1, 1},
+            {0.25, -0.125},
+            {0.5, -1.5},
+            {0, -1.2}
+        }, {} // стартовые точки
+    });
+	// Добавление теста 32:
+    Tests.push_back(Test{
+        "Test 32, dim 02", f32, "Негладкая функция Букин06: f(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{-10, 1}, "Global Min"}}, // Ожидаемые точки
+        std::vector<std::vector<Real>>{
+            {-15, -3},
+            {-15, 3},
+            {-5, -3},
+            {-5, 3},
+			{-10.5, 1.5}
+        }, {} // стартовые точки
+    });
     // Добавление теста 36:
     Tests.push_back(Test{
         "Test 36, dim 02", f36, "Гладкая функция Price04: f(x,y) = (2*x^3*y-y^3)^2+(6x-y^2+y)^2", // Номер теста, функция, ее описание
@@ -745,231 +931,6 @@ void prepare_tests() {
             {4, 4}
         }, {} // стартовые точки
     });
-
-}
-
-void test25(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 1, 1, 1}, "Global Min"}
-    };
-    auto start_points = Matrix{{1, 2, 2, 2}};
-    for (auto & it : gen_start_points(4, -5, 5)) {
-        start_points.push_back(it);
-    }
-
-    fout_txt << "----------------------------------- Тест 25 ----------------------------------\n\n";
-    fout_txt << "25. Гладкая функция: f(x,y,z,t) = (x^2-y+1)^4+100(y-z)^6+tg^4(z-t)+x^8+(t-1)^2, имеет один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f25, example_stop_condition, start_points, expected);
-}
-
-void test26_2(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 26_2 ----------------------------------\n\n";
-    fout_txt << "26. Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f26, example_stop_condition, start_points, expected);
-}
-
-void test26_4(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0, 0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(4, -5, 5);
-    fout_txt << "----------------------------------- Тест 26_4 ----------------------------------\n\n";
-    fout_txt << "26. Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f26, example_stop_condition, start_points, expected);
-}
-
-void test26_8(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(8, -5, 5);
-    fout_txt << "----------------------------------- Тест 26_8 ----------------------------------\n\n";
-    fout_txt << "26. Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f26, example_stop_condition, start_points, expected);
-}
-
-void test26_12(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(12, -5, 5);
-    fout_txt << "----------------------------------- Тест 26_12 ----------------------------------\n\n";
-    fout_txt << "26. Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f26, example_stop_condition, start_points, expected);
-}
-
-void test27_2(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 27_2 ----------------------------------\n\n";
-    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f27, example_stop_condition, start_points, expected);
-}
-
-void test27_4(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1, 1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(4, -5, 5);
-    fout_txt << "----------------------------------- Тест 27_4 ----------------------------------\n\n";
-    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f27, example_stop_condition, start_points, expected);
-}
-
-void test27_8(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(8, -5, 5);
-    fout_txt << "----------------------------------- Тест 27_8 ----------------------------------\n\n";
-    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f27, example_stop_condition, start_points, expected);
-}
-
-void test27_12(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(12, -5, 5);
-    fout_txt << "----------------------------------- Тест 27_12 ----------------------------------\n\n";
-    fout_txt << "27. Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f27, example_stop_condition, start_points, expected);
-}
-
-void test28_2(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 28_2 ----------------------------------\n\n";
-    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f28, example_stop_condition, start_points, expected);
-}
-
-void test28_4(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1, 1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(4, -5, 5);
-    fout_txt << "----------------------------------- Тест 28_4 ----------------------------------\n\n";
-    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f28, example_stop_condition, start_points, expected);
-}
-
-void test28_8(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(8, -5, 5);
-    fout_txt << "----------------------------------- Тест 28_8 ----------------------------------\n\n";
-    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f28, example_stop_condition, start_points, expected);
-}
-
-void test28_12(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}
-    };
-    auto start_points = gen_start_points(12, -5, 5);
-    fout_txt << "----------------------------------- Тест 28_12 ----------------------------------\n\n";
-    fout_txt << "28. Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f28, example_stop_condition, start_points, expected);
-}
-
-void test30_2(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 30_2 ----------------------------------\n\n";
-    fout_txt << "30. Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f30, example_stop_condition, start_points, expected);
-}
-
-void test30_4(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0, 0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(4, -5, 5);
-    fout_txt << "----------------------------------- Тест 30_4 ----------------------------------\n\n";
-    fout_txt << "30. Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f30, example_stop_condition, start_points, expected);
-}
-
-void test30_8(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(8, -5, 5);
-    fout_txt << "----------------------------------- Тест 30_8 ----------------------------------\n\n";
-    fout_txt << "30. Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f30, example_stop_condition, start_points, expected);
-}
-
-void test30_12(Method method) {
-    auto expected = std::vector<ControlPoint>{
-        {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
-    };
-    auto start_points = gen_start_points(12, -5, 5);
-    fout_txt << "----------------------------------- Тест 30_12 ----------------------------------\n\n";
-    fout_txt << "30. Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f30, example_stop_condition, start_points, expected);
-}
-
-void test31(Method method)
-{
-	auto expected = std::vector<ControlPoint>{
-        {{     0,     -1}, "Global Min"},
-        {{ 4.0/5,  1.0/5}, "Local Max"},
-        {{-3.0/5, -2.0/5}, "Local Min"},
-        {{ 6.0/5,  4.0/5}, "Local Min"},
-        {{ 9.0/5,  1.0/5}, "Local Min"}
-    };
-    //auto start_points = gen_start_points(2, -5, 5);
-	std::vector<std::vector<Real>> start_points = {{1, 1},{0.25, -0.125},{0.5, -1.5},{0, -1.2}};
-
-    fout_txt << "----------------------------------- Тест 31 -----------------------------------\n\n";
-    fout_txt << "31. Гладкая функция Голдштейна-Прайса: f(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)], имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f31, example_stop_condition, start_points, expected);
-}
-
-void test32(Method method)
-{
-	auto expected = std::vector<ControlPoint>{{{-10, 1}, "Global Min"}};
-	//auto start_points = gen_start_points(2, -5, 5);
-
-    // -15 <= x <= -5
-    // -3 <= y <= 3
-	std::vector<std::vector<Real>> start_points = {{-15, -3}, {-15, 3}, {-5, -3}, {-5, 3}, {-10.5, 1.5}};
-
-	fout_txt << "----------------------------------- Тест 32 -----------------------------------\n\n";
-    fout_txt << "32. Негладкая функция Букин06: f(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|, имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f32, example_stop_condition, start_points, expected);
 
 }
 
