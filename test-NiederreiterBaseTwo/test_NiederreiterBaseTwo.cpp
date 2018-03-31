@@ -88,41 +88,6 @@ void test_corr_range(int start, int finish) {
     return;
 }
 
-void test_comp_sum_range (int start, int finish) {
-// Тест на покомпонентную сумму с вычитанием среднего значения. Все правильно, если сумма равна нулю
-// - протестировано до 24 размерности, работает
-    std::cout << "-- Test Components Sum diff Mean equal zero? from dim = " << start << " to " << finish << std::endl;
-    for (int dim_num = start; dim_num <= finish; dim_num++) {
-
-        std::vector<bool> matrix(1LL << dim_num);
-
-        std::vector<std::vector<long double>> table(dim_num, std::vector<long double>(1LL << dim_num));
-        
-        NiederreiterBaseTwo generator;
-        generator.Init(dim_num);
-        
-        for (int64_t i = 0; i < (1LL << dim_num); i++) {
-            auto r = generator.GeneratePoint();
-            for (int j = 0; j < dim_num; ++j) {
-                table[j][i] = r[j];
-            }
-        }
-
-        long double max_abs_sum = -1;
-        for (int i = 0; i < dim_num; ++i) {
-            long double x_avg = avg(table[i]);
-            long double sum = 0;
-            for (const auto & it : table[i]) {
-                sum += (it - x_avg);
-            }
-            max_abs_sum = std::max(max_abs_sum, std::abs(sum));
-        }
-
-        std::cout << "\tdim = " << std::setw(2) << dim_num << ": max_abs_comp_sum_diff_mean(x) = " << max_abs_sum << (max_abs_sum < 1e-8 ? " OK, EQUAL ZERO" : "BAD" ) << std::endl;
-    }
-    return;
-}
-
 void test_comp_uniq_range (int start, int finish) {
 // Тест на покомпонентную уникальность
 // протестированно от 2 до 24 включительно. Вердикт - ОК

@@ -76,13 +76,13 @@ SobolSeqGenerator::GeneratePoint()
         return PointReal();
     }
 
-    current_point_number += 1;
-
     if(current_point_number == 0)
     {
         last_generated_point = PointUnsigned(D, std::vector<uint32_t>(D, 0));
         return PointReal(D, std::vector<Real>(D, 0));
     }
+	
+	current_point_number += 1;
 	
     PointUnsigned result_point = PointUnsigned(D);
 
@@ -95,7 +95,7 @@ SobolSeqGenerator::GeneratePoint()
         C++;
     }
 	
-    // Вычислить направляюoее число V, умноженное на pow(2,32)
+    // Вычислить направляющее число V, умноженное на pow(2,32)
     uint32_t V_first = 1 << (32u-C);
 
     // Вычислить первую координату, умноженную на pow(2,32)
@@ -154,6 +154,6 @@ SobolSeqGenerator::GeneratePoint()
 int
 SobolSeqGenerator::Reset()
 {
-	current_point_number = -1;
+	current_point_number = 0;
 	return 0;
 }
