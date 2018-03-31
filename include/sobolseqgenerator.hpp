@@ -16,7 +16,11 @@ struct DirectionalNumbersParams
 class SobolSeqGenerator : public TMSNet
 {
 public:
+
     int Init();
+	int Init(uint32_t D_);
+    int Init(uint32_t D_, uint32_t N_);
+    int Init(uint32_t D_, std::string dir_file);
     int Init(uint32_t N_, uint32_t D_, std::string dir_file);
 	int Reset();
 	
