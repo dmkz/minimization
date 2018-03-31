@@ -401,56 +401,39 @@ const std::string descript_ex_stop_cond = "iter_counter >= 100 || |f_i-f_(i-1)| 
 void prepare_tests() {
     // Добавление теста 01:
     Tests.push_back(Test{
-        "01", f1, "Гладкая функция: f(x,y) = 1+x+y-xy+x^2+y^2, имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
+        "Test 01, dim 02", f1, "Гладкая функция: f(x,y) = 1+x+y-xy+x^2+y^2, имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{-1, -1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5), {} // стартовые точки
     });
-}
-
-void test1(Method method) {
-    auto expected = std::vector<ControlPoint>{{{-1, -1}, "Global Min"}};
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 1 -----------------------------------\n\n";
-    fout_txt << "01. Гладкая функция: f(x,y) = 1+x+y-xy+x^2+y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f1, example_stop_condition, start_points, expected);
-}
-
-void test2(Method method) {
-    auto expected = std::vector<ControlPoint>{{{Real(-46) / 47, Real(-106) / 47}, "Global Min"}};
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 2 -----------------------------------\n\n";
-    fout_txt << "02. Гладкая функция: f(x,y) = 1+7x+5y+0.5xy+3x^2+y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f2, example_stop_condition, start_points, expected);
-}
-
-void test3(Method method) {
-    auto expected = std::vector<ControlPoint>{{{Real(-19) / 2, -5}, "Global Min"}};
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 3 -----------------------------------\n\n";
-    fout_txt << "03. Гладкая функция: f(x,y) = 100+7x+5y-10xy+3x^2+10y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f3, example_stop_condition, start_points, expected);
-}
-
-void test4(Method method) {
-    auto expected = std::vector<ControlPoint>{{{Real(-77900) / 39, Real(-14220)/13}, "Global Min"}};
-    auto start_points = gen_start_points(2, -5, 5);
-    fout_txt << "----------------------------------- Тест 4 -----------------------------------\n\n";
-    fout_txt << "04. Гладкая функция: f(x,y) = 100+7x+5y-10.95xy+3x^2+10y^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f4, example_stop_condition, start_points, expected);
-}
-
-void test5(Method method) {
-    auto expected = std::vector<ControlPoint>{{{-0.25, -0.25, -0.25}, "Global Min"}};
-    auto start_points = gen_start_points(3, -5, 5);
-    fout_txt << "----------------------------------- Тест 5 -----------------------------------\n\n";
-    fout_txt << "05. Гладкая функция: f(x,y,z) = 1+x+y+z+xy+xz+yz+x^2+y^2+z^2, имеющая единственный глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
-    fout_txt << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-    test_method(method, f5, example_stop_condition, start_points, expected);
+    // Добавление теста 02:
+    Tests.push_back(Test{
+        "Test 02, dim 02", f2, "Гладкая функция f(x,y) = 1+7x+5y+0.5xy+3x^2+y^2, имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{Real(-46) / 47, Real(-106) / 47}, "Global Min"}}, // Ожидаемые точки
+        gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 03:
+    Tests.push_back(Test{
+        "Test 03, dim 02", f3, "Гладкая функция f(x,y) = 100+7x+5y-10xy+3x^2+10y^2, имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{Real(-19) / 2, -5}, "Global Min"}}, // Ожидаемые точки
+        gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 04:
+    Tests.push_back(Test{
+        "Test 04, dim 02", f4, "Гладкая функция f(x,y) = 100+7x+5y-10.95xy+3x^2+10y^2, имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{Real(-77900) / 39, Real(-14220)/13}, "Global Min"}}, // Ожидаемые точки
+        gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 05:
+    Tests.push_back(Test{
+        "Test 05, dim 02", f5, "Гладкая функция: f(x,y,z) = 1+x+y+z+xy+xz+yz+x^2+y^2+z^2, имеющая единственный глобальный минимум.", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{-0.25, -0.25, -0.25}, "Global Min"}}, // Ожидаемые точки
+        gen_start_points(3, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
+    });
 }
 
 void test6(Method method) {
