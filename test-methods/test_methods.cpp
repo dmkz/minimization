@@ -1031,8 +1031,10 @@ void test47(Method method) {
 
 void test48(Method method) {
     auto expected = std::vector<ControlPoint>{{{0,0}, "Global Min"}};
-	auto start_points = gen_start_points(2, -5, 5);
-	//std::vector<std::vector<Real>> start_points = {{3.5, -2.5}, {5, 0}, {4.125, -0.125}, {3.5, -1.5}};
+	// auto start_points = gen_start_points(2, -5, 5);
+	std::vector<std::vector<Real>> start_points = {
+        {0.5, 0.5}, {1, 1}, {1.5, 1.5}, {2, 2}, {4, 4}
+    };
 	
 	fout_txt << "----------------------------------- Тест 48 -----------------------------------\n\n";
     fout_txt << "48. Негладкая функция Alpine01: f(x,y) = sum(abs(x(i)*sin(x(i))+0.1x(i))), имеющая один глобальный минимум. \nПодробнее в документе \"Тестовые функции\"\n\n";
