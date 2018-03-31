@@ -1055,11 +1055,11 @@ void test48(Method method) {
 }
 
 void Test(Method method) {
-    test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
+    /*test1  (method);    std::cout << "1";     std::cout.flush();  fout_txt.flush();
     test2  (method);    std::cout << ", 2";   std::cout.flush();  fout_txt.flush();
     test3  (method);    std::cout << ", 3";   std::cout.flush();  fout_txt.flush();
     test4  (method);    std::cout << ", 4";   std::cout.flush();  fout_txt.flush();
-    test5  (method);    std::cout << ", 5";   std::cout.flush();  fout_txt.flush();
+    test5  (method);    std::cout << ", 5";   std::cout.flush();  fout_txt.flush();*/
     test6  (method);    std::cout << ", 6";   std::cout.flush();  fout_txt.flush();
     test7  (method);    std::cout << ", 7";   std::cout.flush();  fout_txt.flush();
     test8  (method);    std::cout << ", 8";   std::cout.flush();  fout_txt.flush();
