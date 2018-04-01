@@ -138,7 +138,7 @@ Real brent(const Real ax, const Real bx, const Real cx, Real f(const Real, int, 
     По оси абсцисс
     минимум возвращается как x, а значение минимальной функции возвращается как brent,
     возвращаемое значение функции.*/
-    const int ITMAX = 100; //заданный максимум итераций 
+    const int ITMAX = 50; //заданный максимум итераций 
     const Real CGOLD = 0.3819660;
     const Real ZEPS = 1.0e-3;
     int iter;

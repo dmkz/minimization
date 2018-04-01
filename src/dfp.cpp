@@ -24,7 +24,7 @@ IterationData dfp(Function f, Vector start_point, const StopCondition& stop_cond
 	Real alpha;
 	for (int i = 0; i < n; ++i)
 		t[i] = -t[i];
-	alpha = search_alpha(f, start_point, t, 100);
+	alpha = search_alpha(f, start_point, t, 30);
 	if (alpha == -1) {
 		return iter_data;
 	}
@@ -43,7 +43,7 @@ IterationData dfp(Function f, Vector start_point, const StopCondition& stop_cond
 				p[i] -= B[i][j] * cur_grad[j];
 			}
 		}
-		alpha = search_alpha(f, x_cur, p, 100);
+		alpha = search_alpha(f, x_cur, p, 30);
 		if (alpha == -1) {
 			break;
 		} 
