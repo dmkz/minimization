@@ -172,8 +172,8 @@ Real f28(const Vector &v) {
 
 Real f29(const Vector &v) {
     Real fun = 0;
-    for (unsigned int i=0; i < v.size() - 1; i++) {
-        fun += v[i] * v[i] + 2 * v[i+1] * v[i+1] -0.3 * std::cos(3 * M_PI * v[i]) -
+    for (int i = 0; i < (int)v.size() - 1; i++) {
+        fun += v[i] * v[i] + 2 * v[i+1] * v[i+1] - 0.3 * std::cos(3 * M_PI * v[i]) -
                0.4 * std::cos(4 * M_PI * v[i+1]) + 0.7;
     }
     return fun;
@@ -583,13 +583,14 @@ void prepare_tests() {
         gen_start_points(2, -0.5, 0.5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
      
-    // Добавление теста 20: доделать)
-    // Tests.push_back(Test{
-    //     "Test 20, dim 04", f20, "Гладкая функция:\n\tf(x,y,z,t) = (x-1)^2+100(x^2-y)^2+10.1(y-1)^2+(z-1)^2+90(z^2-t)^2+10.1(t-1)^2+19.8(t-1)/y", // Номер теста, функция, ее описание
-    //     example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
-    //     std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
-    //         {{-3,-1,-3,-1},{-0.5, /* стартовые точки */, {} /* пустой вектор результатов */
-    // });
+    // Добавление теста 20:
+    Tests.push_back(Test{
+        "Test 20, dim 04", f20, "Модифицированная гладкая функция Колвилля:\n\tf(x) = 100*(x2-x1*x1)^2+(1-x1)^2+90*(x4-x3*x3)^2+(1-x3)^2+10.1*(x2-1)^2+10.1*(x4-1)^2", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(4,1), "Global Min"}}, // Ожидаемые точки
+        {{-3,-1,-3,-1},{-0.5, 0.5, -0.5, 0.5}, Vector(4, 30), Vector(4, 100)} /* стартовые точки */, {} /* пустой вектор результатов */
+    }); 
+    
     // Добавление теста 21:
     Tests.push_back(Test{
         "Test 21, dim 02", f21, "Гладкая функция:\n\tf(x,y) = (y-x^2)^2+(1-x)^2", // Номер теста, функция, ее описание
@@ -723,10 +724,54 @@ void prepare_tests() {
         gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	
-    
-    // Добавление теста 29:
-	// Доделать
-    
+    // Добавление теста 29_2:
+    Tests.push_back(Test{
+        "Test 29, dim 02", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(2, 0), "Global Min"}}, // Ожидаемые точки
+        {
+            Vector(2,1.0),
+            Vector(2,1.5),
+            Vector(2,2.0),
+            Vector(2,2.5)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 29_4:
+    Tests.push_back(Test{
+        "Test 29, dim 04", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(4, 0), "Global Min"}}, // Ожидаемые точки
+        {
+            Vector(4,1.0),
+            Vector(4,1.5),
+            Vector(4,2.0),
+            Vector(4,2.5)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 29_08:
+    Tests.push_back(Test{
+        "Test 29, dim 08", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(8, 0), "Global Min"}}, // Ожидаемые точки
+        {
+            Vector(8,1.0),
+            Vector(8,1.5),
+            Vector(8,2.0),
+            Vector(8,2.5)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 29_16:
+    Tests.push_back(Test{
+        "Test 29, dim 16", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(16, 0), "Global Min"}}, // Ожидаемые точки
+        {
+            Vector(16,1.0),
+            Vector(16,1.5),
+            Vector(16,2.0),
+            Vector(16,2.5)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
     
     
 	// Добавление теста 30_2:
@@ -752,7 +797,7 @@ void prepare_tests() {
     });
 	// Добавление теста 30_12:
     Tests.push_back(Test{
-        "Test 30, dim 08", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
+        "Test 30, dim 12", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
@@ -1206,11 +1251,11 @@ void calc_score() {
     for (const auto & it : score) {
         table.insert({it.second, it.first});
     }
-    
-    std::cout << "Methods score:\n";
+    std::cout << std::setw(12) << "Place" << " | " << std::setw(12) << "Total score" << " | " << std::setw(16) << "Method title" << std::endl;
+    std::cout << std::string(12,'-') << "-+-" << std::string(12,'-') << "-+-" << std::string(16,'-') << std::endl;
     int i = 1;
     for (auto it = table.rbegin(); it != table.rend(); ++it) {
-        std::cout << std::setw(8) << i++ << std::setw(8) << it->first << std::setw(16) << it->second << std::endl;
+        std::cout << std::setw(12) << i++ << " | " << std::setw(12) << it->first << " | " << std::setw(16) << it->second << std::endl;
     }
     std::cout << std::endl;
 }

@@ -27,7 +27,7 @@ IterationData nesterov(Function f, Vector startingPoint, const StopCondition& st
     iter_data.method_title = "Nesterov";
     
 	do {
-		for (int local_iter=0; local_iter < 100; ++local_iter) {
+		for (int local_iter=0; local_iter < 30; ++local_iter) {
             // alfaNext^2 = 2 * alfa * (A + alfaNext)
             // alfaNext^2 - 2 * alfa * (A + alfaNext) = 0
             // alfaNext^2 - 2 * alfa * alfaNext - 2 * alfa * A = 0
