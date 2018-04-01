@@ -92,7 +92,7 @@ Real f13(const Vector &v) {
 }
 
 Real f14(const Vector &v) {
-    return std::sin(v[0] + v[1]) + std::pow(v[0] - v[1], 2) - 1.5 * v[0] + 2.5 * v[1] + 1;
+    return std::sin(v[0] + v[1]) + std::pow(v[0] - v[1], 2) + 1.5 * v[0]*v[0] + 2.5 * v[1]*v[1] + 1;
 }
 
 Real f15(const Vector &v) {
@@ -100,12 +100,16 @@ Real f15(const Vector &v) {
 }
 
 Real f16(const Vector &v) {
-    return (std::pow(std::sin(v[0] - v[1]), 2) * std::pow(std::sin(v[0] + v[1]), 2));
+    return norm(v) < 1e-16 ? 0 : -(std::pow(std::sin(v[0] - v[1]), 2) * std::pow(std::sin(v[0] + v[1]), 2))/norm(v);
 }
 
 Real f17(const Vector &v) {
-    return 1 / (1 + std::pow(v[0] - v[1], 2)) + std::sin((M_PI * v[1] + v[2]) / 2) +
-           std::exp(std::pow((v[0] + v[1]) / v[1] - 2, 2));
+    Real sum_sqr = 0, sum_sin = 0;
+    for (auto x : v) {
+        sum_sqr += x * x;
+        sum_sin += sin(x)*sin(x);
+    }
+    return sum_sin-exp(-sum_sqr);
 }
 
 Real f18(const Vector &v) {
@@ -118,9 +122,8 @@ Real f19(const Vector &v) {
 }
 
 Real f20(const Vector &v) {
-// Не имеет глобального минимума - не использовать.
     Real x1 = v[0], x2 = v[1], x3 = v[2], x4 = v[3];
-    return 100*(x2-x1*x1)*(x2-x1*x1)+(1-x1)*(1-x1)+90*(x4-x3*x3)*(x4-x3*x3)+(1-x3)*(1-x3)*(1-x3)+10.1*(x2-1)*(x2-1)+(x4-1)*(x4-1)+19.8*(x2-1)*(x4-1);
+    return 100*(x2-x1*x1)*(x2-x1*x1)+(1-x1)*(1-x1)+90*(x4-x3*x3)*(x4-x3*x3)+(1-x3)*(1-x3)+10.1*(x2-1)*(x2-1)+10.1*(x4-1)*(x4-1);
 }
 
 Real f21(const Vector &v) {
@@ -462,12 +465,108 @@ void prepare_tests() {
             {{9.42478,2.475}, "Global Min"}}, // Ожидаемые точки
         {{-10,-10},{-10,10},{10,-10},{10,10}} /* стартовые точки */, {} /* пустой вектор результатов */
     });
+    // Добавление теста 14:
+    Tests.push_back(Test{
+        "Test 14, dim 02", f14, "Модифицированная гладкая функция МакКормика:\n\tf(x,y) = sin(x+y)+(x-y)^2+1.5x^2+2.5y^2+1", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{-0.25988392,-0.20213194},  "Global Min"}},
+        {{-10,-10},{-10,10},{10,-10},{10,10}} /* стартовые точки */, {} /* пустой вектор результатов */
+    });
     // Добавление теста 15:
     Tests.push_back(Test{
         "Test 15, dim 02", f15, "Гладкая функция Матиаса:\n\tf(x,y) = 0.26(x^2+y^2)-0.48xy", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{0, 0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -10, 10) /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 16:
+    Tests.push_back(Test{
+        "Test 16, dim 02", f16, "Гладкая функция Кин:\n\tf(x,y) = -sin(x-y)^2*sin(x+y)^2/sqrt(x^2+y^2)", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{ 0.00000,  1.39325}, "Global Min"}, 
+            {{ 1.39325,  0.00000}, "Global Min"},
+            {{ 0.00000, -1.39325}, "Global Min"},
+            {{-1.39325,  0.00000}, "Global Min"}}, // Ожидаемые точки
+        {{0,-2},{0, 2},{-2,0},{2,0}} /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 17_2:
+    Tests.push_back(Test{
+        "Test 17, dim 02", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{
+            {{0, 0}, "Global Min"}},  // Ожидаемые точки
+        {{1,1},{1.2,1.2},{1.4,1.4},{1.6,1.6},{1.8,1.8},{2,2}} /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 17_4:
+    Tests.push_back(Test{
+        "Test 17, dim 04", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}},  // Ожидаемые точки
+        {
+            {1.0,1.0,1.0,1.0},
+            {1.2,1.2,1.2,1.2},
+            {1.4,1.4,1.4,1.4},
+            {1.6,1.6,1.6,1.6},
+            {1.8,1.8,1.8,1.8},
+            {2.0,2.0,2.0,2.0}
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 17_8:
+    Tests.push_back(Test{
+        "Test 17, dim 08", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(8,0), "Global Min"}},  // Ожидаемые точки
+        {
+            Vector(8, 1.0),
+            Vector(8, 1.2),
+            Vector(8, 1.4),
+            Vector(8, 1.6),
+            Vector(8, 1.8),
+            Vector(8, 2.0)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 17_16:
+    Tests.push_back(Test{
+        "Test 17, dim 16", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(16,0), "Global Min"}},  // Ожидаемые точки
+        {
+            Vector(16, 1.0),
+            Vector(16, 1.2),
+            Vector(16, 1.4),
+            Vector(16, 1.6),
+            Vector(16, 1.8),
+            Vector(16, 2.0)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 17_32:
+    Tests.push_back(Test{
+        "Test 17, dim 32", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(32,0), "Global Min"}},  // Ожидаемые точки
+        {
+            Vector(32, 1.0),
+            Vector(32, 1.2),
+            Vector(32, 1.4),
+            Vector(32, 1.6),
+            Vector(32, 1.8),
+            Vector(32, 2.0)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
+    });
+    // Добавление теста 17_64:
+    Tests.push_back(Test{
+        "Test 17, dim 64", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        std::vector<ControlPoint>{{Vector(64,0), "Global Min"}},  // Ожидаемые точки
+        {
+            Vector(64, 1.0),
+            Vector(64, 1.2),
+            Vector(64, 1.4),
+            Vector(64, 1.6),
+            Vector(64, 1.8),
+            Vector(64, 2.0)
+        } /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 18:
     Tests.push_back(Test{
