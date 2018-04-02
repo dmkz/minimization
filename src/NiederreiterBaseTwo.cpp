@@ -14,7 +14,11 @@ int NiederreiterBaseTwo::Init(uint32_t dimension) {
     return Init(dimension, 0);
 }
 
-int NiederreiterBaseTwo::Init(uint32_t dimension_, int64_t seed_) {
+int NiederreiterBaseTwo::Reset() {
+	return Init(dimension);
+}
+
+int NiederreiterBaseTwo::Init(uint32_t dimension_, uint32_t seed_) {
     // Инициализация неприводимых многочленов:
     irred = {
         {0, 1, 0, 0, 0, 0, 0, 0, 0}, //  0   x
@@ -520,7 +524,7 @@ void NiederreiterBaseTwo::calcv2 ( int64_t maxv, int64_t px_deg, int64_t px[MAXD
   return;
 }
 
-std::vector<Real> NiederreiterBaseTwo::GeneratePoint ()
+PointReal NiederreiterBaseTwo::GeneratePoint ()
 
 //
 //  Цель:
@@ -621,7 +625,7 @@ std::vector<Real> NiederreiterBaseTwo::GeneratePoint ()
 //  Multiply the numerators in NEXTQ by RECIP to get the next
 //  quasi-random vector.
 //
-    std::vector<long double> quasi(dim_save);
+  std::vector<long double> quasi(dim_save);
   for ( i = 0; i < dim_save; i++ )
   {
     quasi[i] = ( ( long double ) nextq[i] ) * RECIP;
@@ -660,5 +664,6 @@ std::vector<Real> NiederreiterBaseTwo::GeneratePoint ()
   seed_save = seed;
   seed = seed + 1;
 
-  return quasi;
+  PointReal result(quasi.size(), quasi);
+  return result;
 }

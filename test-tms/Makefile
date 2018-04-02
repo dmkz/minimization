@@ -1,5 +1,5 @@
 TARGET = main
-SRCS = test.cpp ../src/sobolseqgenerator.cpp
+SRCS = test.cpp ../src/sobolseqgenerator.cpp ../src/NiederreiterBaseTwo.cpp
 OBJS = $(SRCS:.cpp=.o)
 CXX ?= gcc
 CXXFLAGS ?= -Ofast -std=c++14 -Wall -Wextra -fmax-errors=2 -I"../include" -I"."

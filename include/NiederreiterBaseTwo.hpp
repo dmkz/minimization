@@ -24,7 +24,7 @@
 # define DIM_MAX 63
 # define NBITS 63
  
-class NiederreiterBaseTwo
+class NiederreiterBaseTwo : public TMSNet
 {
 private:
     const long double RECIP = 1.0 / ( long double ) ( uint64_t(1) << NBITS ); // Коэффициент масштабирования
@@ -59,11 +59,13 @@ private: // Вспомогательные функции
     void calcv2 ( int64_t maxv, int64_t px_deg, int64_t px[MAXDEG+1], int64_t *b_deg, int64_t b[MAXDEG+1], int64_t v[] ) const;
     
 public:
+	~NiederreiterBaseTwo() {};
     // Инициализация:
     int Init();
-    int Init(uint32_t dimension);
-    int Init(uint32_t dimension, int64_t seed);
+    int Init(uint32_t D_);
+    int Init(uint32_t D_, uint32_t N_);
+	int Reset();
     // Генерация одной точки:
-    std::vector<Real> GeneratePoint();
+    PointReal GeneratePoint();
 };
  
