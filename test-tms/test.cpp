@@ -34,16 +34,24 @@ int main() {
 			for(uint32_t m = m_start; m <= m_finish; m++) 
 			{
 				uint32_t t = m + 1; 
+				
+				TMSParametersTest test;
+				std::cout << "\nStarted: " << "m = " << m << ", s = " << s << ". Timestamp: "<< test.CurrentDateTime();
 				do  
 				{
 					t--;
-					TMSParametersTest test;
 					test.Init(t, m, s, b, generator_ptr);
-					if(test.Run() == 1)
+					int test_result = test.Run();
+					if(test_result == 1)
 					{
+						std::cout << "\nFinished: " << "t = " <<  results[s-s_start][m-m_start] << ", time = " << test.CurrentDateTime();
 						break;
 					} else {
 						results[s-s_start][m-m_start] = t;
+						if(t == 0)
+						{
+							std::cout << "\nFinished: " << "t = " <<  results[s-s_start][m-m_start] << ", time = " << test.CurrentDateTime();
+						}
 					}
 				} while(t != 0);
 			}
