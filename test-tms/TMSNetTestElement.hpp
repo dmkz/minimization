@@ -14,9 +14,6 @@ class TMSNetTestElement
 {
 public:
 	~TMSNetTestElement();
-
-	// Инициализация теста
-	virtual int Init(uint32_t dimension_, uint32_t point_num_, TMSNet* generator_ptr) = 0;
 	// Прогонка теста
 	virtual int Run() = 0;
 	
@@ -30,9 +27,7 @@ public:
 };
 
 TMSNetTestElement::~TMSNetTestElement()
-{
-	delete generator;
-}
+{}
 
 const std::string 
 TMSNetTestElement::CurrentDateTime() {
