@@ -5,7 +5,7 @@ CXX ?= gcc
 CXXFLAGS ?= -pthread -Ofast -std=c++14 -Wall -Wextra -fmax-errors=2 -I"include"
 
 # Поддиректории, в которых также нужно осуществить сборку:
-SUBDIRS := test-methods test-NiederreiterBaseTwo
+SUBDIRS := test-methods test-tms
 
 # Если в них нужно осуществлять сборку, то нужно и выполнять make clean
 # Преобразуем цели, добавив суффикс, отвечающий за очистку:
