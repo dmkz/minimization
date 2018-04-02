@@ -45,7 +45,6 @@ Point<T>::Point(uint32_t N_, const std::vector<T>& _coordinate)
     coordinate = _coordinate;
 }
 
-
 typedef Point<Real> PointReal;
 
 struct NetPoint {
