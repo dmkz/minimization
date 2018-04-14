@@ -54,11 +54,11 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	return outData;
 }
 
-// Автор: Козырев Дмитрий
-std::vector<std::pair<Real, Vector>>
+// Автор: Козырев Дмитрий, Бураханова Алена
+std::vector<std::pair<Real, PointM>>
 find_local_mins_with_threads(Function f, const StopCondition& stop_condition, const std::vector<std::pair<Real, Vector>>& inData) {
 	// Создаем вектор под ответ:
-	std::vector<std::pair<Real, Vector>> outData(inData.size());
+	std::vector<std::pair<Real, PointM>> outData(inData.size());
 	
 	// Количество ядер:
 	uint32_t nCores = std::max(1u, std::thread::hardware_concurrency());
@@ -109,14 +109,31 @@ find_local_mins_with_threads(Function f, const StopCondition& stop_condition, co
                 
 				// Записываем ответ:
 				outWrite.lock();
-				outData[i] = std::min({
-					it,
-					std::make_pair(f1, x1),
-					std::make_pair(f2, x2), 
-					std::make_pair(f3, x3), 
-                    std::make_pair(f4, x4),
-                    std::make_pair(f5, x5) 
-				});
+				std::vector<Real> values({it.first, f1, f2, f3, f4, f5});
+				int min_pos = distance(values.begin(),min_element(values.begin(),values.end()));
+				switch(min_pos)
+				{
+					case 0:
+						outData[i] = std::make_pair(it.first, PointM(it.second, std::string("Initial point(no method)")));
+						break;
+					case 1:
+						outData[i] = std::make_pair(f1, PointM(x1, std::string("BFGS")));
+						break;
+					case 2:
+						outData[i] = std::make_pair(f2, PointM(x2, std::string("Hessian Free")));
+						break;
+					case 3:
+						outData[i] = std::make_pair(f3, PointM(x3, std::string("Nesterov")));
+						break;
+					case 4:
+						outData[i] = std::make_pair(f4, PointM(x4, std::string("DFP")));
+						break;
+					case 5:
+						outData[i] = std::make_pair(f5, PointM(x5, std::string("Powell")));
+						break;
+					default:
+						outData[i] = std::make_pair(it.first, PointM(it.second, std::string("Unexpected")));
+				}
 				outWrite.unlock();
 			}
 			return;
@@ -134,8 +151,8 @@ find_local_mins_with_threads(Function f, const StopCondition& stop_condition, co
 	
 }
 
-// Автор: Козырев Дмитрий
-std::vector<std::pair<Real, Vector>>
+// Автор: Козырев Дмитрий, Бураханова Алена
+std::vector<std::pair<Real, PointM>>
 find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
 	// Несколько проверок на входные данные:
 	assert(dim > 0u && dim == min.size() && dim == max.size());
@@ -145,8 +162,8 @@ find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint3
 	}
 	
 	// Объект-генератор сетки:
-	SobolSeqGenerator net;
-	net.Init(nAllPoints, dim, "new-joe-kuo-6.21201.txt");
+	NiederreiterBaseTwo net;
+	net.Init(dim, nAllPoints);
 	
 	// ----- Первый этап: вычисление значений функции в узлах сетки с отбором точек-кандидатов -----
 	
@@ -171,7 +188,8 @@ find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint3
 			for (auto& it : calc_f_with_threads(f, group)) {
 				candidates.insert(it);
 				if (candidates.size() > nBestPoints) {
-					candidates.erase(std::prev(candidates.end()));
+					auto max_element_it = std::max_element(candidates.begin(), candidates.end(), comparePairRealVector());
+					candidates.erase(max_element_it);
 				}
 			}
 			group.clear();
@@ -191,7 +209,7 @@ find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint3
 	auto answer = find_local_mins_with_threads(f, stop_condition, temp);
 	
 	// Итоговая сортировка всех найденных точек по неубыванию значения функции в них:
-	std::sort(answer.begin(), answer.end());
+	std::sort(answer.begin(), answer.end(), comparePairRealPointM());
 	
 	return answer;
 }

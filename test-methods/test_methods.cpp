@@ -408,7 +408,7 @@ void prepare_tests() {
     });
     // Добавление теста 07:
     Tests.push_back(Test{
-        "Test 07, dim 02", f7, "Гладкая функция:\n\tf(x,y) = 10x^6+15y^6-20x^3y+xy^3", // Номер теста, функция, ее описание
+        "Test 07, dim 02", f7, "Гладкая функция:\n\tf(x,y) = 10x^6+15y^6-20(x^3y+xy^3)", // Номер теста, функция, ее описание
         example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
         std::vector<ControlPoint>{{{-1.08789, -1.00318}, "Global Min"}, {{1.08789, 1.00318}, "Global Min"}, {{0, 0}, "Saddle point"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
