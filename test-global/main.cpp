@@ -2,7 +2,7 @@
 
 /*
     Тестирование глобальной оптимизации.
-    Автор: Юрий Кондратов.
+    Автор: Юрий Кондратов, Алена Бураханова.
 */
 
 #include <stdio.h>
@@ -202,7 +202,7 @@ void test(std::string title, Function f, std::string description_f, uint32_t dim
     fout << description_f << "\n" << std::endl;
 	fout << "\tПолученное значение функции в точке: Точка наилучшего приближения:\n" << std::endl; 
 	for (auto & rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
-		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second << '}' << std::endl;
+		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second.x << "}, method = " << rec.second.method  << std::endl;
 	}
     fout.flush();
 }
@@ -308,85 +308,85 @@ void test25(std::ofstream& fout) {
 }
 
 void test26_2(std::ofstream& fout) {
-    test("Test 26, dim 02", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 26, dim 02", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test26_4(std::ofstream& fout) {
-    test("Test 26, dim 04", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 26, dim 04", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test26_8(std::ofstream& fout) {
-    test("Test 26, dim 08", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 26, dim 08", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 8, 10, 128, Vector(8, -5), Vector(8, 5), fout);
 }
 
 void test26_12(std::ofstream& fout) {
-    test("Test 26, dim 12", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 26, dim 12", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 12, 10, 128, Vector(12, -5), Vector(12, 5), fout);
 }
 
 
 void test27_2(std::ofstream& fout) {
-    test("Test 27, dim 02", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 27, dim 02", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test27_4(std::ofstream& fout) {
-    test("Test 27, dim 04", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 27, dim 04", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test27_8(std::ofstream& fout) {
-    test("Test 27, dim 08", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 27, dim 08", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 8, 10, 128, Vector(8, -5), Vector(8, 5), fout);
 }
 
 void test27_12(std::ofstream& fout) {
-    test("Test 27, dim 12", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 27, dim 12", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 12, 10, 128, Vector(12, -5), Vector(12, 5), fout);
 }
 
 void test28_2(std::ofstream& fout) {
-    test("Test 28, dim 02", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 28, dim 02", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test28_4(std::ofstream& fout) {
-    test("Test 28, dim 04", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 28, dim 04", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test28_8(std::ofstream& fout) {
-    test("Test 28, dim 08", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 28, dim 08", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 8, 10, 128, Vector(8, -5), Vector(8, 5), fout);
 }
 
 void test28_12(std::ofstream& fout) {
-    test("Test 28, dim 12", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 28, dim 12", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 12, 10, 128, Vector(12, -5), Vector(12, 5), fout);
 }
 
 void test29_2(std::ofstream& fout) {
-    test("Test 29, dim 02", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 29, dim 02", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test29_4(std::ofstream& fout) {
-    test("Test 29, dim 04", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 29, dim 04", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test29_8(std::ofstream& fout) {
-    test("Test 29, dim 08", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 29, dim 08", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 8, 10, 128, Vector(8, -5), Vector(8, 5), fout);
 }
 
 void test29_12(std::ofstream& fout) {
-    test("Test 29, dim 12", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 29, dim 12", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 12, 10, 128, Vector(12, -5), Vector(12, 5), fout);
 }
 
 
 void test30_2(std::ofstream& fout) {
-    test("Test 30, dim 02", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 30, dim 02", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test30_4(std::ofstream& fout) {
-    test("Test 30, dim 04", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 30, dim 04", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test30_8(std::ofstream& fout) {
-    test("Test 30, dim 08", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 30, dim 08", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 8, 10, 128, Vector(8, -5), Vector(8, 5), fout);
 }
 
 void test30_12(std::ofstream& fout) {
-    test("Test 30, dim 12", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 30, dim 12", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 12, 10, 128, Vector(12, -5), Vector(12, 5), fout);
 }
 
 int main() {
