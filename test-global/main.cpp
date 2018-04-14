@@ -113,18 +113,15 @@ Real f18(const Vector &v) {
 }
 
 Real f19(const Vector &v) {
-    // Beale
-    return std::pow(v[0] * v[1] - v[0] + 1.5, 2) +
-           std::pow(v[0] * v[1] * v[1] - v[0] + 2.25, 2) +
-           std::pow(v[0] * std::pow(v[2], 3) - v[0] + 2.625, 2);
+	//Beale
+    Real x = v[0], y = v[1];
+    return (1.5-x*(1-y))*(1.5-x*(1-y))+(2.25-x*(1-y*y))*(2.25-x*(1-y*y))+(2.625-x*(1-y*y*y))*(2.625-x*(1-y*y*y));
 }
 
 Real f20(const Vector &v) {
-    // Colville
-    return std::pow(v[0] - 1, 2) + 100 * std::pow(v[0] * v[0] - v[1], 2) +
-           10.1 * std::pow(v[2] - 1, 2) + std::pow(v[2] - 1, 2) +
-           90 * std::pow(v[2] * v[2] - v[3], 2) + 10.1 * std::pow(v[3] - 1, 2) +
-           19.8 * (v[3] - 1) * (v[1] - 1);
+	//Colville
+    Real x1 = v[0], x2 = v[1], x3 = v[2], x4 = v[3];
+    return 100*(x2-x1*x1)*(x2-x1*x1)+(1-x1)*(1-x1)+90*(x4-x3*x3)*(x4-x3*x3)+(1-x3)*(1-x3)+10.1*(x2-1)*(x2-1)+10.1*(x4-1)*(x4-1);
 }
 
 Real f21(const Vector &v) {
@@ -251,7 +248,7 @@ void test10(std::ofstream& fout) {
 }
 
 void test11(std::ofstream& fout) {
-    test("Test 11, dim 02", f11, "\nГладкая функция:\n\tf(x,y) = (x^2+y-11)^2+(y^2+x-7)^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 11, dim 02", f11, "\nГладкая функция Химмельблау:\n\tf(x,y) = (x^2+y-11)^2+(y^2+x-7)^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test12(std::ofstream& fout) {
@@ -259,7 +256,7 @@ void test12(std::ofstream& fout) {
 }
 
 void test13(std::ofstream& fout) {
-    test("Test 13, dim 02", f13, "\nГладкая функция:\n\tf(x,y) = (y-5.1/(4*M_PI_2)*x^2+5/M_PI*x-6)^2+10(1-1/(8*M_PI))cos(x)+10", 2, 10, 32, Vector(2, -10), Vector(2, 10), fout);
+    test("Test 13, dim 02", f13, "\nГладкая функция Бранина:\n\tf(x,y) = (y-5.1/(4*M_PI_2)*x^2+5/M_PI*x-6)^2+10(1-1/(8*M_PI))cos(x)+10", 2, 10, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test14(std::ofstream& fout) {
@@ -267,7 +264,7 @@ void test14(std::ofstream& fout) {
 }
 
 void test15(std::ofstream& fout) {
-    test("Test 15, dim 02", f15, "\nГладкая функция:\n\tf(x,y) = 0.26(x^2+y^2)-0.48xy", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 15, dim 02", f15, "\nГладкая функция Матиаса:\n\tf(x,y) = 0.26(x^2+y^2)-0.48xy", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test16(std::ofstream& fout) {
@@ -287,7 +284,7 @@ void test19(std::ofstream& fout) {
 }
 
 void test20(std::ofstream& fout) {
-    test("Test 20, dim 04", f20, "\nГладкая функция Colville:\n\tf(x,y,z,t) = 100(x-y^2)^2+(1-x)^2+90(t-z^2)^2+(1-z)^2+10.1((y-1)^2+(t-1)^2)+19.8(y-1)(t-1)", 4, 5, 128, Vector(4, -10), Vector(4, 10), fout);
+    test("Test 20, dim 04", f20, "\nГладкая функция Colville:\n\tf(x1,x2,x3,x4) =  100*(x2-x1*x1)*(x2-x1*x1)+(1-x1)*(1-x1)+90*(x4-x3*x3)*(x4-x3*x3)+(1-x3)*(1-x3)+10.1*(x2-1)*(x2-1)+10.1*(x4-1)*(x4-1)", 4, 5, 128, Vector(4, -10), Vector(4, 10), fout);
 }
 
 void test21(std::ofstream& fout) {
