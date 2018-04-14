@@ -198,7 +198,7 @@ Real f30(const Vector &v) {
 }
 
 
-void test(std::string title, Function f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max, std::ofstream& fout) {
+void test(std::string title, Function f, std::string description_f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max, std::ofstream& fout) {
     std::cout << "-- " << title << std::endl;
     std::cout.flush();
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
@@ -210,187 +210,185 @@ void test(std::string title, Function f, uint32_t dim, uint32_t nBestPoints, uin
 }
 
 void test1(std::ofstream& fout) {
-	test("Test  1", f1, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  1, dim 02", f1, "\nФункция:\n\tf(x,y) = 1+x+y-xy+x^2+y^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test2(std::ofstream& fout) {
-	test("Test  2", f2, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  2, dim 02", f2, "\nФункция:\n\tf(x,y) = 1+7x+5y+0.5xy+3x^2+y^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test3(std::ofstream& fout) {
-	test("Test  3", f3, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  3, dim 02", f3, "\nФункция:\n\tf(x,y) = 100+7x+5y-10xy+3x^2+10y^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test4(std::ofstream& fout) {
-	test("Test  4", f4, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  4, dim 02", f4, "\nФункция:\n\tf(x,y) = 100+7x+5y-10.95xy+3x^2+10y^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test5(std::ofstream& fout) {
-	test("Test  5", f5, 3, 5, 64, Vector(3, -5), Vector(3, 5), fout);
+	test("Test  5, dim 03", f5, "\nФункция:\n\tf(x,y,z) = 1+x+y+z+xy+xz+yz+x^2+y^2+z^2", 3, 5, 64, Vector(3, -5), Vector(3, 5), fout);
 }
 
 void test6(std::ofstream& fout) {
-	test("Test  6", f6, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  6, dim 02", f6, "\nФункция:\n\tf(x,y) = 10x^4+15y^4+15xy", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test7(std::ofstream& fout) {
-	test("Test  7", f7, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  7, dim 02", f7, "\nФункция:\n\tf(x,y) = 10x^6+15y^6-20(y*x^3+x*y^3)", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test8(std::ofstream& fout) {
-	test("Test  8", f8, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  8, dim 02", f8, "\nФункция:\n\tf(x,y) = x^6+y^6-2(y*x^3+x*y^3)+x^2+y^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test9(std::ofstream& fout) {
-	test("Test  9", f9, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test  9, dim 02", f9, "\nФункция:\n\tf(x,y) = x^6+y^6-3(y*x^3+x*y^3)+x^2+y^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test10(std::ofstream& fout) {
-	test("Test 10", f10, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+	test("Test 10, dim 02", f10, "\nФункция:\n\tf(x,y) = x^6+y^6-2(y*x^3+x*y^3)+x^4+y^4-x^2-y^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test11(std::ofstream& fout) {
-    test("Test 11", f11, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 11, dim 02", f11, "\nФункция:\n\tf(x,y) = (x^2+y-11)^2+(y^2+x-7)^2", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test12(std::ofstream& fout) {
-    test("Test 12", f12, 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 12, dim 04", f12, "\nФункция:\n\tf(x,y,z,t) = 16+(x+y+z+t-18)^2+(x^2+y^2+z^2+t^2-44)^2+(x^3+y^3+z^3+t^3-144)^2", 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test13(std::ofstream& fout) {
-    test("Test 13", f13, 2, 10, 32, Vector(2, -10), Vector(2, 10), fout);
+    test("Test 13, dim 02", f13, "\nФункция:\n\tf(x,y) = (y-5.1/(4*M_PI_2)*x^2+5/M_PI*x-6)^2+10(1-1/(8*M_PI))cos(x)+10", 2, 10, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test14(std::ofstream& fout) {
-    test("Test 14", f14, 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
+    test("Test 14, dim 02", f14, "\nФункция:\n\tf(x,y) = sin(x+y)+(x-y)^2-1.5x+2.5y+1", 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test15(std::ofstream& fout) {
-    test("Test 15", f15, 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 15, dim 02", f15, "\nФункция:\n\tf(x,y) = 0.26(x^2+y^2)-0.48xy", 2, 5, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test16(std::ofstream& fout) {
-    test("Test 16", f16, 2, 5, 32, Vector(2, 0), Vector(2, 10), fout);
+    test("Test 16, dim 02", f16, "\nФункция Keane:\n\tf(x,y) = -((sin(x-y))^2*(sin(x+y))^2)/(x^2+y^2)^(1/2)", 2, 5, 32, Vector(2, 0), Vector(2, 10), fout);
 }
 
 void test17(std::ofstream& fout) {
-    test("Test 17", f17, 3, 5, 64, Vector(3, 0), Vector(3, 10), fout);
+    test("Test 17, dim 03",  f17, "\nФункция SchmidtVetters:\n\tf(x,y,z) = 1/(1+(x-y)^2)+sin((M_PI*y+z)/2)+M_E^(((x+y)/y-2)^2)", 3, 5, 64, Vector(3, 0), Vector(3, 10), fout);
 }
 
 void test18(std::ofstream& fout) {
-    test("Test 18", f18, 2, 5, 32, Vector(2, -1), Vector(2, 5), fout);
+    test("Test 18, dim 02", f18, "\nФункция Zettl:\n\tf(x,y) = x/4+(x^2-2x+y^2)^2", 2, 5, 32, Vector(2, -1), Vector(2, 5), fout);
 }
 
 void test19(std::ofstream& fout) {
-    test("Test 19", f19, 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
+    test("Test 19, dim 02", f19, "\nФункция Beale:\n\tf(x,y) = (1.5-x+xy)^2+(2.25-x+xy^2)^2+(2.625-x+xy^3)^2", 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test20(std::ofstream& fout) {
-    test("Test 20", f20, 4, 5, 128, Vector(4, -10), Vector(4, 10), fout);
+    test("Test 20, dim 04", f20, "\nГладкая функция Colville:\n\tf(x,y,z,t) = 100(x-y^2)^2+(1-x)^2+90(t-z^2)^2+(1-z)^2+10.1((y-1)^2+(t-1)^2)+19.8(y-1)(t-1)", 4, 5, 128, Vector(4, -10), Vector(4, 10), fout);
 }
 
 void test21(std::ofstream& fout) {
-    test("Test 21", f21, 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 21, dim 02", f21, "\nФункция:\n\tf(x,y) = (x^2-y)^2+(1-x)^2",2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test22(std::ofstream& fout) {
-    test("Test 22", f22, 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 22, dim 02", f22, "\nФункция:\n\tf(x,y) = (x^2-y)^2+100(1-x)^2", 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test23(std::ofstream& fout) {
-    test("Test 23", f23, 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
+    test("Test 23, dim 02", f23, "\nФункция:\n\tf(x,y) = 100(y-x^3)^2+(1-x)^2", 2, 10, 32, Vector(2, -5), Vector(2, 5), fout);
 }
 
 void test24(std::ofstream& fout) {
-    test("Test 24", f24, 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 24, dim 04", f24, "\nФункция:\n\tf(x,y,z,t) = x+10y+5(t-z)^2+(y-2z)^4+10(x-t)^4", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test25(std::ofstream& fout) {
-    test("Test 25", f25, 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 25, dim 04", f25, "\nФункция:\n\tf(x,y,z,t) = (x^2-y)^4+100(y-z)^6+(tan(z-t))^4+x^8+(t^3-1)^2)", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test26_2(std::ofstream& fout) {
-    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 26, dim 02", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
 void test26_4(std::ofstream& fout) {
-    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 26, dim 04", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
 void test26_8(std::ofstream& fout) {
-    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 26, dim 08", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
 void test26_12(std::ofstream& fout) {
-    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 26, dim 12", f26, "\nГладкая функция:\n\tf(x1,..,xn) = sum_(i=1)^(n-1)(x_i^2)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
 
 void test27_2(std::ofstream& fout) {
-    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 27, dim 02", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
 void test27_4(std::ofstream& fout) {
-    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 27, dim 04", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
 void test27_8(std::ofstream& fout) {
-    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 27, dim 08", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
 void test27_12(std::ofstream& fout) {
-    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 27, dim 12", f27, "\nГладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
-
 void test28_2(std::ofstream& fout) {
-    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 28, dim 02", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
 void test28_4(std::ofstream& fout) {
-    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 28, dim 04", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
 void test28_8(std::ofstream& fout) {
-    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 28, dim 08", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
 void test28_12(std::ofstream& fout) {
-    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 28, dim 12", f28, "\nГладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
-
 void test29_2(std::ofstream& fout) {
-    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 29, dim 02", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
 void test29_4(std::ofstream& fout) {
-    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 29, dim 04", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
 void test29_8(std::ofstream& fout) {
-    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 29, dim 08", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
 void test29_12(std::ofstream& fout) {
-    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 29, dim 12", f29, "\nГладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
 
 void test30_2(std::ofstream& fout) {
-    test("Test 26_2", f26, 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
+    test("Test 30, dim 02", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 2, 10, 32, Vector(2, -5), Vector(2, -5), fout);
 }
 
 void test30_4(std::ofstream& fout) {
-    test("Test 26_4", f26, 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
+    test("Test 30, dim 04", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 4, 10, 128, Vector(4, -5), Vector(4, -5), fout);
 }
 
 void test30_8(std::ofstream& fout) {
-    test("Test 26_8", f26, 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
+    test("Test 30, dim 08", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 8, 10, 128, Vector(8, -5), Vector(8, -5), fout);
 }
 
 void test30_12(std::ofstream& fout) {
-    test("Test 26_12", f26, 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
+    test("Test 30, dim 12", f30, "\nГладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", 12, 10, 128, Vector(12, -5), Vector(12, -5), fout);
 }
 
 int main() {
