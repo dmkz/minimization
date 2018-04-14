@@ -194,7 +194,6 @@ Real f30(const Vector &v) {
     return fun;
 }
 
-
 void test(std::string title, Function f, std::string description_f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max, std::ofstream& fout) {
     std::cout << "-- " << title << std::endl;
     std::cout.flush();
