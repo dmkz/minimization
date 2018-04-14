@@ -142,7 +142,7 @@ Real f23(const Vector &v) {
 }
 Real f24(const Vector &v) {
     //  VII
-    return v[0] + 10 * v[1] + 5 * std::pow(v[3] - v[2], 2) +
+    return std::pow(v[0] + 10 * v[1],2) + 5 * std::pow(v[3] - v[2], 2) +
            std::pow(v[1] - 2 * v[2], 4) + 10 * std::pow(v[0] - v[3], 4);
 }
 Real f25(const Vector &v) {
@@ -255,7 +255,7 @@ void test11(std::ofstream& fout) {
 }
 
 void test12(std::ofstream& fout) {
-    test("Test 12, dim 04", f12, "\nГладкая функция:\n\tf(x,y,z,t) = 16+(x+y+z+t-18)^2+(x^2+y^2+z^2+t^2-44)^2+(x^3+y^3+z^3+t^3-144)^2", 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 12, dim 04", f12, "\nГладкая функция:\n\tf(x1,x2,x3,x4) = (x1+x2+x3+x4-8)^2+(x1^2+x2^2+x3^2+x4^2-18)^2+(x1^3+x2^3+x3^3+x4^3-44)^2+(x1^4+x2^4+x3^4+x4^4-114)^2", 4, 5, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test13(std::ofstream& fout) {
@@ -303,11 +303,10 @@ void test23(std::ofstream& fout) {
 }
 
 void test24(std::ofstream& fout) {
-    test("Test 24, dim 04", f24, "\nГладкая функция:\n\tf(x,y,z,t) = x+10y+5(t-z)^2+(y-2z)^4+10(x-t)^4", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
+    test("Test 24, dim 04", f24, "\nГладкая функция:\n\tf(x,y,z,t) = (x+10y)^2+5(t-z)^2+(y-2z)^4+10(x-t)^4", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
 void test25(std::ofstream& fout) {
-    test("Test 25, dim 04", f25, "\nГладкая функция:\n\tf(x,y,z,t) = (x^2-y)^4+100(y-z)^6+(tan(z-t))^4+x^8+(t^3-1)^2)", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
     test("Test 25, dim 04", f25, "\nГладкая функция:\n\tf(x,y,z,t) = (x^2-y)^4+100(y-z)^6+(tan(z-t))^4+x^8+(t^3-1)^2)", 4, 10, 128, Vector(4, -5), Vector(4, 5), fout);
 }
 
