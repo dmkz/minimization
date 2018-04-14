@@ -1,7 +1,7 @@
 TARGET = main
-SRCS =          main.cpp    ../src/global_min.cpp      ../src/hessian_free.cpp 
-SRCS+=    ../src/dfp.cpp      ../src/nesterov.cpp ../src/sobolseqgenerator.cpp  
-SRCS+=   ../src/math.cpp ../src/StopCondition.cpp              ../src/bfgs.cpp  
+SRCS =          main.cpp    ../src/global_min.cpp      	 ../src/hessian_free.cpp 
+SRCS+=    ../src/dfp.cpp      ../src/nesterov.cpp ../src/NiederreiterBaseTwo.cpp  
+SRCS+=   ../src/math.cpp ../src/StopCondition.cpp              	 ../src/bfgs.cpp  
 SRCS+= ../src/powell.cpp 
 OBJS = $(SRCS:.cpp=.o)
 CXX ?= gcc

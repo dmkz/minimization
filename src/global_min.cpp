@@ -145,8 +145,8 @@ find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint3
 	}
 	
 	// Объект-генератор сетки:
-	SobolSeqGenerator net;
-	net.Init(nAllPoints, dim, "new-joe-kuo-6.21201.txt");
+	NiederreiterBaseTwo net;
+	net.Init(dim, nAllPoints);
 	
 	// ----- Первый этап: вычисление значений функции в узлах сетки с отбором точек-кандидатов -----
 	

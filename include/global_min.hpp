@@ -1,6 +1,7 @@
 #pragma once
 
-#include "sobolseqgenerator.hpp"
+#include "NiederreiterBaseTwo.hpp"
+//#include "sobolseqgenerator.hpp"
 #include "math.hpp"
 #include "nesterov.hpp"
 #include "hessian_free.hpp"
