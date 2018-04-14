@@ -202,7 +202,7 @@ void test(std::string title, Function f, std::string description_f, uint32_t dim
     std::cout << "-- " << title << std::endl;
     std::cout.flush();
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
-    
+    fout << description_f << "\n" << std::endl;
 	for (auto & rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
 		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second << '}' << std::endl;
 	}
