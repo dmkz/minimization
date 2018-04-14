@@ -89,7 +89,7 @@ Real f13(const Vector &v) {
 }
 
 Real f14(const Vector &v) {
-    return std::sin(v[0] + v[1]) + std::pow(v[0] - v[1], 2) - 1.5 * v[0] + 2.5 * v[1] + 1;
+	return std::sin(v[0] + v[1]) + std::pow(v[0] - v[1], 2) + 1.5 * v[0]*v[0] + 2.5 * v[1]*v[1] + 1;
 }
 
 Real f15(const Vector &v) {
@@ -263,7 +263,7 @@ void test13(std::ofstream& fout) {
 }
 
 void test14(std::ofstream& fout) {
-    test("Test 14, dim 02", f14, "\nГладкая функция:\n\tf(x,y) = sin(x+y)+(x-y)^2-1.5x+2.5y+1", 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
+    test("Test 14, dim 02", f14, "\nГладкая функция МакКормика:\n\tf(x,y) = sin(x+y)+(x-y)^2+1.5x^2+2.5y^2+1", 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
 }
 
 void test15(std::ofstream& fout) {
