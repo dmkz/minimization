@@ -102,9 +102,12 @@ Real f16(const Vector &v) {
 }
 
 Real f17(const Vector &v) {
-    //SchmidtVetters
-    return 1 / (1 + std::pow(v[0] - v[1], 2)) + std::sin((M_PI * v[1] + v[2]) / 2) +
-           std::exp(std::pow((v[0] + v[1]) / v[1] - 2, 2));
+    Real sum_sqr = 0, sum_sin = 0;
+    for (auto x : v) {
+        sum_sqr += x * x;
+        sum_sin += sin(x)*sin(x);
+    }
+    return sum_sin-exp(-sum_sqr);
 }
 
 Real f18(const Vector &v) {
@@ -395,9 +398,30 @@ void test16(std::ofstream& fout) {
     test("Test 16, dim 02", f16, "\nГладкая функция Keane:\n\tf(x,y) = -((sin(x-y))^2*(sin(x+y))^2)/(x^2+y^2)^(1/2)", 2, 5, 32, Vector(2, 0), Vector(2, 10), fout);
 }
 
-void test17(std::ofstream& fout) {
-    test("Test 17, dim 03",  f17, "\nГладкая функция SchmidtVetters:\n\tf(x,y,z) = 1/(1+(x-y)^2)+sin((M_PI*y+z)/2)+M_E^(((x+y)/y-2)^2)", 3, 5, 64, Vector(3, 0), Vector(3, 10), fout);
+void test17_2(std::ofstream& fout) {
+    test("Test 17, dim 02",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 2, 5, 64, Vector(2, 0), Vector(2, 10), fout);
 }
+
+void test17_4(std::ofstream& fout) {
+    test("Test 17, dim 04",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 4, 10, 128, Vector(4, 0), Vector(4, 10), fout);
+}
+
+void test17_8(std::ofstream& fout) {
+    test("Test 17, dim 08",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 8, 10, 128, Vector(8, 0), Vector(8, 10), fout);
+}
+
+void test17_16(std::ofstream& fout) {
+    test("Test 17, dim 16",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 16, 10, 128, Vector(16, 0), Vector(16, 10), fout);
+}
+
+void test17_32(std::ofstream& fout) {
+    test("Test 17, dim 32",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 32, 10, 128, Vector(32, 0), Vector(32, 10), fout);
+}
+
+/*
+void test17_64(std::ofstream& fout) {
+    test("Test 17, dim 64",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 64, 10, 128, Vector(64, 0), Vector(64, 10), fout);
+}*/
 
 void test18(std::ofstream& fout) {
     test("Test 18, dim 02", f18, "\nГладкая функция Zettl:\n\tf(x,y) = x/4+(x^2-2x+y^2)^2", 2, 5, 32, Vector(2, -1), Vector(2, 5), fout);
@@ -408,7 +432,7 @@ void test19(std::ofstream& fout) {
 }
 
 void test20(std::ofstream& fout) {
-    test("Test 20, dim 04", f20, "\nГладкая функция Colville:\n\tf(x1,x2,x3,x4) =  100*(x2-x1*x1)*(x2-x1*x1)+(1-x1)*(1-x1)+90*(x4-x3*x3)*(x4-x3*x3)+(1-x3)*(1-x3)+10.1*(x2-1)*(x2-1)+10.1*(x4-1)*(x4-1)", 4, 5, 128, Vector(4, -10), Vector(4, 10), fout);
+    test("Test 20, dim 04", f20, "\nМодифицированная гладкая функция Colville:\n\tf(x1,x2,x3,x4) =  100*(x2-x1*x1)*(x2-x1*x1)+(1-x1)*(1-x1)+90*(x4-x3*x3)*(x4-x3*x3)+(1-x3)*(1-x3)+10.1*(x2-1)*(x2-1)+10.1*(x4-1)*(x4-1)", 4, 5, 128, Vector(4, -10), Vector(4, 10), fout);
 }
 
 void test21(std::ofstream& fout) {
@@ -638,7 +662,12 @@ int main() {
 	test14(fout);
 	test15(fout);
 	test16(fout);
-	test17(fout);
+	test17_2(fout);
+	test17_4(fout);
+	test17_8(fout);
+	test17_16(fout);
+	test17_32(fout);
+	//test17_64(fout);
 	test18(fout);
 	test19(fout);
 	test20(fout);
