@@ -328,11 +328,11 @@
 
 Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001
 
-	f_min =     0.000000, point = {      2.99999951      0.49999987}, method = BFGS
-	f_min =     0.000000, point = {      2.99999918      0.49999993}, method = BFGS
-	f_min =     0.000000, point = {      2.99999806      0.49999960}, method = BFGS
-	f_min =     0.000000, point = {      2.99995468      0.49998915}, method = Powell
-	f_min =     0.454580, point = {   -728.48849727      1.00135079}, method = Powell
+	f_min =     0.000000, point = {      2.99999993      0.49999998}, method = BFGS
+	f_min =     0.000000, point = {      3.00000107      0.50000026}, method = Hessian Free
+	f_min =     0.000000, point = {      3.00000113      0.50000026}, method = Powell
+	f_min =     0.000000, point = {      3.00000123      0.50000030}, method = Hessian Free
+	f_min =     0.000000, point = {      3.00000085      0.50000037}, method = DFP
 
 ----------------------------------------- Test 20, dim 04 -----------------------------------------
 

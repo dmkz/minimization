@@ -428,7 +428,7 @@ void test18(std::ofstream& fout) {
 }
 
 void test19(std::ofstream& fout) {
-    test("Test 19, dim 02", f19, "\nГладкая функция Beale:\n\tf(x,y) = (1.5-x+xy)^2+(2.25-x+xy^2)^2+(2.625-x+xy^3)^2", 2, 5, 32, Vector(2, -10), Vector(2, 10), fout);
+    test("Test 19, dim 02", f19, "\nГладкая функция Beale:\n\tf(x,y) = (1.5-x+xy)^2+(2.25-x+xy^2)^2+(2.625-x+xy^3)^2", 2, 5, 32, Vector(2, -0.5), Vector(2, 0.5), fout);
 }
 
 void test20(std::ofstream& fout) {
