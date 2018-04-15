@@ -5,7 +5,7 @@ r8 =00000000FFFEBCF0 r9 =0000000000000002 r10=0000000000000001
 r11=00000000FFFEC4D0 r12=00000000FFFEB510 r13=000000000000003F
 r14=00000000FFFEB270 r15=0000000000000040
 rbp=00000000FFFEB500 rsp=00000000FFFEB230
-program=E:\Studies\minimization\test-global\main.exe, pid 2652, thread main
+program=E:\Studies\minimization\test-global\main.exe, pid 8800, thread main
 cs=0033 ds=002B es=002B fs=0053 gs=002B ss=002B
 Stack trace:
 Frame        Function    Args

@@ -418,10 +418,9 @@ void test17_32(std::ofstream& fout) {
     test("Test 17, dim 32",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 32, 10, 128, Vector(32, 0), Vector(32, 10), fout);
 }
 
-/*
 void test17_64(std::ofstream& fout) {
     test("Test 17, dim 64",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 64, 10, 128, Vector(64, 0), Vector(64, 10), fout);
-}*/
+}
 
 void test18(std::ofstream& fout) {
     test("Test 18, dim 02", f18, "\nГладкая функция Zettl:\n\tf(x,y) = x/4+(x^2-2x+y^2)^2", 2, 5, 32, Vector(2, -1), Vector(2, 5), fout);
