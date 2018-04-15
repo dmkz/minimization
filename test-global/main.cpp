@@ -324,7 +324,7 @@ void test(std::string title, Function f, std::string description_f, uint32_t dim
 	fout << "\n";
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
     fout << description_f << "\n" << std::endl;
-	fout << "\tПолученное значение функции в точке: Точка наилучшего приближения:\n" << std::endl; 
+	fout << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
 	for (auto & rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
 		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second.x << "}, method = " << rec.second.method  << std::endl;
 	}
@@ -615,6 +615,10 @@ int main() {
 	*/
     std::ofstream fout;
     fout.open("test_results.txt");
+	fout << "\t\t\t\t\tРезультаты глобального тестирования" << std::endl;
+	fout << "\nВывод производится в формате:\n\nФункция:\n\nУсловие остановы:\n" << std::endl;
+	fout << "\tПолученное значение функции в точке; Точка наилучшего приближения; Метод\n" << std::endl; 
+	fout << "Подробнее о функциях можно узнать в документе \"Тестовые функции\"\n";
 
 	std::cout << "-- Number of Cores = " << std::thread::hardware_concurrency() << std::endl;
 	std::cout << "-- Start testing... The results will be written to a file test_results.txt" << std::endl;
