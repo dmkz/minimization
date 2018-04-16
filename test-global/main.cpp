@@ -418,8 +418,8 @@ void test17_32(std::ofstream& fout) {
     test("Test 17, dim 32",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 32, 10, 128, Vector(32, 0), Vector(32, 10), fout);
 }
 
-void test17_64(std::ofstream& fout) {
-    test("Test 17, dim 64",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 64, 10, 128, Vector(64, 0), Vector(64, 10), fout);
+void test17_48(std::ofstream& fout) {
+    test("Test 17, dim 48",  f17, "\nМодифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", 48, 10, 128, Vector(48, -2), Vector(48, 2), fout);
 }
 
 void test18(std::ofstream& fout) {
@@ -638,7 +638,7 @@ int main() {
 	*/
     std::ofstream fout;
     fout.open("test_results.txt");
-	fout << "\t\t\t\t\tРезультаты глобального тестирования" << std::endl;
+	fout << "\t\t\t\t\t\t\tРезультаты глобального тестирования" << std::endl;
 	fout << "\nВывод производится в формате:\n\nФункция:\n\nУсловие остановы:\n" << std::endl;
 	fout << "\tПолученное значение функции в точке; Точка наилучшего приближения; Метод\n" << std::endl; 
 	fout << "Подробнее о функциях можно узнать в документе \"Тестовые функции\"\n";
@@ -666,7 +666,7 @@ int main() {
 	test17_8(fout);
 	test17_16(fout);
 	test17_32(fout);
-	//test17_64(fout);
+	test17_48(fout);
 	test18(fout);
 	test19(fout);
 	test20(fout);
