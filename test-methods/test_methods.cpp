@@ -1275,7 +1275,11 @@ void compare_tests() {
         for (int i = 0; i < (int)t.start_points.size(); ++i) { 
             auto& r = t.result[i];           // Результаты по текущему методу
             Real diff = r[0].f_curr - f_min; // Отклонение относительно глобального минимума
-            fout << "\tИз точки #" << i << " справился лучше всего метод " << std::setw(12) << r[0].method_title 
+            fout << "\tИз точки (";
+			for(auto& coord: t.start_points[i]) {
+				fout << std::setprecision(2) << std::fixed << std::setw(6) << coord;
+			}
+			fout << ") справился лучше всего метод " << std::setw(12) << r[0].method_title 
                 << " (отклонение от глобального минимума = " << std::setw(12) << diff << ", число итераций = " << std::setw(4) << r[0].iter_counter << ")" << std::endl;
         }
         fout << std::endl;
