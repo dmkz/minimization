@@ -26,5 +26,5 @@ std::pair<Vector, Vector> mnbrak(Real axInit, Real bxInit, Real func(const Real,
 IterationData powell(Function func, Vector p, const StopCondition& stop_condition = default_stop_condition);
 // func - указатель на целевую функцию
 // p - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в структуре данных о последней итерации

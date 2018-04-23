@@ -5,7 +5,7 @@
 IterationData nesterov(Function f, Vector startingPoint, const StopCondition& stop_condition) {
 // f - указатель на целевую функцию
 // startingPoint - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в структуре данных о последней итерации
     
     Real ro = 2.0;

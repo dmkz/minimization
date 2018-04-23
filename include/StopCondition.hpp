@@ -23,5 +23,5 @@ struct IterationData {
     void next(const Vector& x_next, const Real f_next); // Переход к следующей итерации
 };
 
-// Условие остановы итерации, применяемое по-умолчанию:
+// Условие останова итерации, применяемое по-умолчанию:
 bool default_stop_condition(const IterationData&);

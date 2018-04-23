@@ -346,7 +346,7 @@ struct Test {
     Function f;                             // Целевая функция
     std::string description_f;              // Ее символьное описание
     
-    StopCondition stop_condition;           // Условие остановы
+    StopCondition stop_condition;           // Условие останова
     std::string description_stop_condition; // Его символьное описание
     
     std::vector<ControlPoint> expected;     // Ожидаемые точки
@@ -367,56 +367,56 @@ void prepare_tests() {
     // Добавление теста 01:
     Tests.push_back(Test{
         "Test 01, dim 02", f1, "Гладкая функция:\n\tf(x,y) = 1+x+y-xy+x^2+y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-1, -1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5)/* стартовые точки */, {}
     });
     // Добавление теста 02:
     Tests.push_back(Test{
         "Test 02, dim 02", f2, "Гладкая функция:\n\tf(x,y) = 1+7x+5y+0.5xy+3x^2+y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{Real(-46) / 47, Real(-106) / 47}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 03:
     Tests.push_back(Test{
         "Test 03, dim 02", f3, "Гладкая функция:\n\tf(x,y) = 100+7x+5y-10xy+3x^2+10y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{Real(-19) / 2, -5}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 04:
     Tests.push_back(Test{
         "Test 04, dim 02", f4, "Гладкая функция:\n\tf(x,y) = 100+7x+5y-10.95xy+3x^2+10y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{Real(-77900) / 39, Real(-14220)/13}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 05:
     Tests.push_back(Test{
         "Test 05, dim 03", f5, "Гладкая функция:\n\tf(x,y,z) = 1+x+y+z+xy+xz+yz+x^2+y^2+z^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-0.25, -0.25, -0.25}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(3, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 06:
     Tests.push_back(Test{
         "Test 06, dim 02", f6, "Гладкая функция:\n\tf(x,y) = 10x^4+15y^4+15xy", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-0.582109, 0.525995}, "Global Min"}, {{0.582109, -0.525995}, "Global Min"}, {{0, 0}, "Saddle point"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 07:
     Tests.push_back(Test{
         "Test 07, dim 02", f7, "Гладкая функция:\n\tf(x,y) = 10x^6+15y^6-20(x^3y+xy^3)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-1.08789, -1.00318}, "Global Min"}, {{1.08789, 1.00318}, "Global Min"}, {{0, 0}, "Saddle point"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 08:
     Tests.push_back(Test{
         "Test 08, dim 02", f8, "Гладкая функция:\n\tf(x,y) = x^6+y^6-2(x^3y+xy^3)+x^2+y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-1, -1}, "Global Min"}, {{0, 0}, "Global Min"}, {{1, 1}, "Global Min"},
             {{-0.57735, -0.57735}, "Saddle point"}, {{0.57735, 0.57735}, "Saddle point"}}, // Ожидаемые точки
@@ -425,14 +425,14 @@ void prepare_tests() {
     // Добавление теста 09:
     Tests.push_back(Test{
         "Test 09, dim 02", f9, "Гладкая функция:\n\tf(x,y) = x^6+y^6-3(x^3y+xy^3)+x^2+y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-1.34777, -1.34777}, "Global Min"}, {{1.34777, 1.34777}, "Global Min"}, {{0, 0}, " Local Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 10:
     Tests.push_back(Test{
         "Test 10, dim 02", f10, "Гладкая функция:\n\tf(x,y) = x^6+y^6-2(x^3y+xy^3)+x^4+y^4-x^2-y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-1, -1}, "Global Min"}, {{1, 1}, "Global Min"},
             {{0, 0}, " Local Max"}, {{-0.39332, 0.39332}, " Local Min"}, {{0.39332, -0.39332}, " Local Min"}}, // Ожидаемые точки
@@ -441,7 +441,7 @@ void prepare_tests() {
     // Добавление теста 11:
     Tests.push_back(Test{
         "Test 11, dim 02", f11, "Гладкая функция Химмельблау:\n\tf(x,y) = (x^2+y-11)^2+(x+y^2-7)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{3, 2}, "Global Min"}, {{-3.77931, -3.28319}, "Global Min"},
             {{-2.80512, 3.13131}, "Global Min"}, {{3.58443, -1.84813}, "Global Min"},
@@ -451,14 +451,14 @@ void prepare_tests() {
     // Добавление теста 12:
     Tests.push_back(Test{
         "Test 12, dim 04", f12, "Гладкая функция:\n\tf(x) = (x1+x2+x3+x4-8)^2+(x1^2+x2^2+x3^2+x4^2-18)^2+(x1^3+x2^3+x3^3+x4^3-44)^2+(x1^4+x2^4+x3^4+x4^4-114)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1,2,2,3}, "Global Min"}}, // Ожидаемые точки
         {{2,2,2,2},{-2,2,-2,2},{2,-2,2,-2},{-2,-2,-2,-2}} /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 13:
     Tests.push_back(Test{
         "Test 13, dim 02", f13, "Гладкая функция Бранина:\n\tf(x,y) = (y-5.1*x^2/(4*pi^2)+5*x/pi-6)^2+10(1-1/(8pi)*cos(x))+10", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-M_PI,12.275},  "Global Min"},
             {{M_PI,2.275},    "Global Min"},
@@ -468,21 +468,21 @@ void prepare_tests() {
     // Добавление теста 14:
     Tests.push_back(Test{
         "Test 14, dim 02", f14, "Модифицированная гладкая функция МакКормика:\n\tf(x,y) = sin(x+y)+(x-y)^2+1.5x^2+2.5y^2+1", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-0.25988392,-0.20213194},  "Global Min"}},
         {{-10,-10},{-10,10},{10,-10},{10,10}} /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 15:
     Tests.push_back(Test{
         "Test 15, dim 02", f15, "Гладкая функция Матиаса:\n\tf(x,y) = 0.26(x^2+y^2)-0.48xy", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -10, 10) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 16:
     Tests.push_back(Test{
         "Test 16, dim 02", f16, "Гладкая функция Кин:\n\tf(x,y) = -sin(x-y)^2*sin(x+y)^2/sqrt(x^2+y^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{ 0.00000,  1.39325}, "Global Min"}, 
             {{ 1.39325,  0.00000}, "Global Min"},
@@ -493,7 +493,7 @@ void prepare_tests() {
     // Добавление теста 17_2:
     Tests.push_back(Test{
         "Test 17, dim 02", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}},  // Ожидаемые точки
         {{1,1},{1.2,1.2},{1.4,1.4},{1.6,1.6},{1.8,1.8},{2,2}} /* стартовые точки */, {} /* пустой вектор результатов */
@@ -501,7 +501,7 @@ void prepare_tests() {
     // Добавление теста 17_4:
     Tests.push_back(Test{
         "Test 17, dim 04", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}},  // Ожидаемые точки
         {
             {1.0,1.0,1.0,1.0},
@@ -515,7 +515,7 @@ void prepare_tests() {
     // Добавление теста 17_8:
     Tests.push_back(Test{
         "Test 17, dim 08", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(8,0), "Global Min"}},  // Ожидаемые точки
         {
             Vector(8, 1.0),
@@ -529,7 +529,7 @@ void prepare_tests() {
     // Добавление теста 17_16:
     Tests.push_back(Test{
         "Test 17, dim 16", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(16,0), "Global Min"}},  // Ожидаемые точки
         {
             Vector(16, 1.0),
@@ -543,7 +543,7 @@ void prepare_tests() {
     // Добавление теста 17_32:
     Tests.push_back(Test{
         "Test 17, dim 32", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(32,0), "Global Min"}},  // Ожидаемые точки
         {
             Vector(32, 1.0),
@@ -557,7 +557,7 @@ void prepare_tests() {
     // Добавление теста 17_64:
     Tests.push_back(Test{
         "Test 17, dim 64", f17, "Модифицированная гладкая функция XinSheYang04:\n\tf(x) = sum(sin(x(i))^2)-exp(-sum(x(i)^2))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(64,0), "Global Min"}},  // Ожидаемые точки
         {
             Vector(64, 1.0),
@@ -571,14 +571,14 @@ void prepare_tests() {
     // Добавление теста 18:
     Tests.push_back(Test{
         "Test 18, dim 02", f18, "Гладкая функция Зеттла:\n\tf(x,y) = x/4+(x^2-2x+y^2)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-0.029896, 0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -1, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 19:
     Tests.push_back(Test{
         "Test 19, dim 02", f19, "Гладкая функция Биля:\n\tf(x,y) = (xy-x+1.5)^2+(xy^2-x+2.25)^2+(x*y^3-x+2.625)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{3, 0.5}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -0.5, 0.5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
@@ -586,7 +586,7 @@ void prepare_tests() {
     // Добавление теста 20:
     Tests.push_back(Test{
         "Test 20, dim 04", f20, "Модифицированная гладкая функция Колвилля:\n\tf(x) = 100*(x2-x1*x1)^2+(1-x1)^2+90*(x4-x3*x3)^2+(1-x3)^2+10.1*(x2-1)^2+10.1*(x4-1)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(4,1), "Global Min"}}, // Ожидаемые точки
         {{-3,-1,-3,-1},{-0.5, 0.5, -0.5, 0.5}, Vector(4, 30), Vector(4, 100)} /* стартовые точки */, {} /* пустой вектор результатов */
     }); 
@@ -594,28 +594,28 @@ void prepare_tests() {
     // Добавление теста 21:
     Tests.push_back(Test{
         "Test 21, dim 02", f21, "Гладкая функция:\n\tf(x,y) = (y-x^2)^2+(1-x)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 22:
     Tests.push_back(Test{
         "Test 22, dim 02", f22, "Гладкая функция:\n\tf(x,y) = (y-x^2)^2+100(1-x)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 23:
     Tests.push_back(Test{
         "Test 23, dim 02", f23, "Гладкая функция:\n\tf(x,y) = 100(y-x^3)^2+(1-x)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
     // Добавление теста 24:
     Tests.push_back(Test{
         "Test 24, dim 04", f24, "Гладкая функция:\n\tf(x,y,z,t) = (x+10y)^2+5(z-t)^2+(y-2z)^4+10(x-t)^4", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
         {
             {-3,-1, 0, 1},
@@ -629,7 +629,7 @@ void prepare_tests() {
 	// Добавление теста 25:
     Tests.push_back(Test{
       "Test 25, dim 04", f25, "Гладкая функция:\n\tf(x,y,z,t) = (x^2-y+1)^4+100(y-z)^6+tg^4(z-t)+x^8+(t-1)^2", // Номер теста, функция, ее описание
-       example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+       example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         {
 			{ 1, 2, 2, 2},
@@ -642,84 +642,84 @@ void prepare_tests() {
 	// Добавление теста 26_2:
     Tests.push_back(Test{
         "Test 26, dim 02", f26, "Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_4:
     Tests.push_back(Test{
         "Test 26, dim 04", f26, "Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_8:
     Tests.push_back(Test{
         "Test 26, dim 08", f26, "Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 26_12:
     Tests.push_back(Test{
         "Test 26, dim 12", f26, "Гладкая функция:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_2:
     Tests.push_back(Test{
         "Test 27, dim 02", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_4:
     Tests.push_back(Test{
         "Test 27, dim 04", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_8:
     Tests.push_back(Test{
         "Test 27, dim 08", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 27_12:
     Tests.push_back(Test{
         "Test 27, dim 12", f27, "Гладкая функция Нестерова Чебышева-Розенброка 1:\n\tf(x1, ..., xn) = (x1-1)^2/4+sum_(i=1)^(n-1)(x_(i+1)-2*x_i^2+1)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_2:
     Tests.push_back(Test{
         "Test 28, dim 02", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_4:
     Tests.push_back(Test{
         "Test 28, dim 04", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_8:
     Tests.push_back(Test{
         "Test 28, dim 08", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 28_12:
     Tests.push_back(Test{
         "Test 28, dim 12", f28, "Гладкая функция Розенброка:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (100(x_i^2-x_(i+1))^2+(x_i-1)^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
@@ -727,7 +727,7 @@ void prepare_tests() {
     // Добавление теста 29_2:
     Tests.push_back(Test{
         "Test 29, dim 02", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(2, 0), "Global Min"}}, // Ожидаемые точки
         {
             Vector(2,1.0),
@@ -739,7 +739,7 @@ void prepare_tests() {
     // Добавление теста 29_4:
     Tests.push_back(Test{
         "Test 29, dim 04", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(4, 0), "Global Min"}}, // Ожидаемые точки
         {
             Vector(4,1.0),
@@ -751,7 +751,7 @@ void prepare_tests() {
     // Добавление теста 29_08:
     Tests.push_back(Test{
         "Test 29, dim 08", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(8, 0), "Global Min"}}, // Ожидаемые точки
         {
             Vector(8,1.0),
@@ -763,7 +763,7 @@ void prepare_tests() {
     // Добавление теста 29_16:
     Tests.push_back(Test{
         "Test 29, dim 16", f29, "Гладкая функция Бохачевсокого:\n\tf(x1, ..., xn) = sum_(i=1)^(n-1) (x(i)^2+2x(i+1)^2-0.3*cos(3*pi*x(i)-0.4*cos(4*pi*x(i+1))+0.7)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{Vector(16, 0), "Global Min"}}, // Ожидаемые точки
         {
             Vector(16,1.0),
@@ -777,35 +777,35 @@ void prepare_tests() {
 	// Добавление теста 30_2:
     Tests.push_back(Test{
         "Test 30, dim 02", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0,0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(2, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_4:
     Tests.push_back(Test{
         "Test 30, dim 04", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0,0,0,0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(4, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_8:
     Tests.push_back(Test{
         "Test 30, dim 08", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(8, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 30_12:
     Tests.push_back(Test{
         "Test 30, dim 12", f30, "Гладкая функция:\n\tf(x1, ..., xn) = x_1^2+10^6*sum_(i=1)^(n-1) (x_i^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{0,0,0,0,0,0,0,0,0,0,0,0}, "Global Min"}}, // Ожидаемые точки
         gen_start_points(12, -5, 5) /* стартовые точки */, {} /* пустой вектор результатов */
     });
 	// Добавление теста 31:
     Tests.push_back(Test{
         "Test 31, dim 02", f31, "Гладкая функция Голдштейна-Прайса:\n\tf(x,y) = [1+(x+y+1)^2(19-14x+3x^2-14y+6xy+3y^2)][30+(2x-3y)^2(18-32x+12x^2+48y-36xy+27y^2)]", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
 		{{     0,     -1}, "Global Min"},
         {{ 4.0/5,  1.0/5}, "Local Max"},
@@ -823,7 +823,7 @@ void prepare_tests() {
 	// Добавление теста 32:
     Tests.push_back(Test{
         "Test 32, dim 02", f32, "Негладкая функция Bukin06:\n\tf(x,y) = 100*sqrt(|y-0.01*x^2|)+0.01|x+10|", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{{{-10, 1}, "Global Min"}}, // Ожидаемые точки
         Matrix{
             {-15, -3},
@@ -836,7 +836,7 @@ void prepare_tests() {
     // Добавление теста 33 размерности 2:
     Tests.push_back(Test{
         "Test 33, dim 02", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -845,7 +845,7 @@ void prepare_tests() {
     // Добавление теста 33 размерности 4:
     Tests.push_back(Test{
         "Test 33, dim 04", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0, 0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -854,7 +854,7 @@ void prepare_tests() {
     // Добавление теста 33 размерности 8:
     Tests.push_back(Test{
         "Test 33, dim 08", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -863,7 +863,7 @@ void prepare_tests() {
     // Добавление теста 33 размерности 12:
     Tests.push_back(Test{
         "Test 33, dim 12", f33, "Гладкая функция Cosine Mixture:\n\tf(x1, ..., xn) = sum(x(i)^2)-0.1*sum(cos(5*pi*x(i)))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -872,7 +872,7 @@ void prepare_tests() {
     // Добавление теста 34:
     Tests.push_back(Test{
         "Test 34, dim 02", f34, "Гладкая функция Bukin02:\n\tf(x,y) = 100*(y-0.01*x^2+1)^2+0.01*(x+10)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-10, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -887,7 +887,7 @@ void prepare_tests() {
     // Добавление теста 35:
     Tests.push_back(Test{
         "Test 35, dim 02", f35, "Негладкая функция BartelsConn:\n\tf(x,y) = |x^2+y^2+x*y|+|sin(x)|+|sin(y)|", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -897,7 +897,7 @@ void prepare_tests() {
     // Добавление теста 36:
     Tests.push_back(Test{
         "Test 36, dim 02", f36, "Гладкая функция Price04:\n\tf(x,y) = (2*x^3*y-y^3)^2+(6x-y^2+y)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"},
             {{2, 4}, "Global Min"},
@@ -913,7 +913,7 @@ void prepare_tests() {
     // Добавление теста 37:
     Tests.push_back(Test{
         "Test 37, dim 02", f37, "Гладкая функция:\n\tf(x,y) = (2x^2 -1.05x^4 + x^6/6 + xy) + y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"},
             {{-1.74755, 0.873776}, " Local Min"},
@@ -924,7 +924,7 @@ void prepare_tests() {
     // Добавление теста 38:
     Tests.push_back(Test{
         "Test 38, dim 02", f38, "Гладкая функция:\n\tf(x,y) = (4-2.1*x1^2+x1^4/3)*x1^2+x1*x2+(-4+4*x2^2)*x2^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-0.0898, 0.7126}, "Global Min"},
             {{0.0898, -0.7126}, "Global Min"},
@@ -946,7 +946,7 @@ void prepare_tests() {
     // Добавление теста 39:
     Tests.push_back(Test{
         "Test 39, dim 02", f39, "Гладкая функция:\n\tf(x,y) = (-1.275*x1^2/pi^2+5*x1/pi+x2-6)^2 + (10-5/(4*pi))*cos(x1)+10", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-M_PI, 12.275}, "Global Min"},
             {{M_PI, 2.275}, "Global Min"},
@@ -962,7 +962,7 @@ void prepare_tests() {
     // Добавление теста 40:
     Tests.push_back(Test{
         "Test 40, dim 02", f40, "Гладкая функция:\n\tf(x,y) = (-1.275*x1^2/M_PI^2+5*x1/M_PI+x2-6)^2 + (10-5/(4*M_PI))*cos(x1)*cos(x2)+log(x1^2+x2^2+1)+10", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-3.2, 12.53}, "Global Min"}
         }, // Ожидаемые точки
@@ -976,7 +976,7 @@ void prepare_tests() {
     // Добавление теста 41:
     Tests.push_back(Test{
         "Test 41, dim 02", f41, "Гладкая функция RotatedEllipse01:\n\tf(x,y) = 7x^2-6*sqrt(3)*x*y+13y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -988,7 +988,7 @@ void prepare_tests() {
     // Добавление теста 42:
     Tests.push_back(Test{
         "Test 42, dim 02", f42, "Гладкая функция:\n\tf(x,y) = x^2 + y^2 + 25[sin^2(x) + sin^2(y)]", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -1002,7 +1002,7 @@ void prepare_tests() {
     // Добавление теста 43:
     Tests.push_back(Test{
         "Test 43, dim 02", f43, "Гладкая функция RotatedEllipse02:\n\tf(x,y) = x^2-x*y+y^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0, 0}, "Global Min"}
         }, // Ожидаемые точки
@@ -1016,7 +1016,7 @@ void prepare_tests() {
     // Добавление теста 44:
     Tests.push_back(Test{
         "Test 44, dim 02", f44, "Гладкая функция Bird:\n\tf(x,y) = (x-y)^2+exp((1-sin(x))^2)cos(y)+exp((1-cos(y))^2)*sin(x)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{4.701055751981055, 3.152946019601391}, "Global Min"},
             {{-1.582142172055011, -3.130246799635430}, "Global Min"}
@@ -1031,7 +1031,7 @@ void prepare_tests() {
     // Добавление теста 45:
     Tests.push_back(Test{
         "Test 45, dim 02", f45, "Гладкая функция Hosaki:\n\tf(x,y) = (1-8x+7x^2-7.0/3*x^3+1.0/4*x^4)*y^2*exp(-y^2)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{4,-1}, "Global Min"},
             {{4, 1}, "Global Min"},
@@ -1049,7 +1049,7 @@ void prepare_tests() {
     // Добавление теста 46:
     Tests.push_back(Test{
         "Test 46, dim 02", f46, "Гладкая функция El-Attar-Vidyasagar-Dutta:\n\tf(x,y) = (x^2+y-10)^2+(x+y^2-7)^2+(x^2+y^3-1)^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{3.40919, -2.17143}, "Global Min"},
             {{-3.62315, -2.38415}, "Local Min"},
@@ -1066,7 +1066,7 @@ void prepare_tests() {
     // Добавление теста 47:
     Tests.push_back(Test{
         "Test 47, dim 02", f47, "Гладкая функция Ursem01:\n\tf(x,y) = -sin(2x-0.5*pi)-3cos(y)+0.5x^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{-1.23729,0}, "Global Min"},
             {{1.23729,0}, "Global Min"},
@@ -1081,7 +1081,7 @@ void prepare_tests() {
     // Добавление теста 48:
     Tests.push_back(Test{
         "Test 48, dim 02", f48, "Негладкая функция Alpine01:\n\tf(x,y) = sum(abs(x(i)*sin(x(i))+0.1x(i)))", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{0,0}, "Global Min"}
         }, // Ожидаемые точки
@@ -1097,7 +1097,7 @@ void prepare_tests() {
     // Добавление теста 49:
     Tests.push_back(Test{
         "Test 49, dim 02", f49, "Гладкая функция Levy13:\n\tf(x,y) = (x-1)^2*[sin^2(3 pi y) + 1] + (y-1)^2*[sin^2(2 pi y) + 1] + sin^2(3 pi x)", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{1,1}, "Global Min"}
         }, // Ожидаемые точки
@@ -1107,7 +1107,7 @@ void prepare_tests() {
     // Добавление теста 50:
     Tests.push_back(Test{
         "Test 50, dim 02", f50, "Негладкая функция Mishra08:\n\tf(x,y) = 0.001[|x^10 -20x^9 +180x^8 -960x^7 +3360x^6 -8064x^5 +13340x^4 -15360x^3 +11520x^2 -5120x +2624||y^4 +12y^3 +54y^2 +108y +81|]^2", // Номер теста, функция, ее описание
-        example_stop_condition, descript_ex_stop_cond,       // Условие остановы и его описание
+        example_stop_condition, descript_ex_stop_cond,       // Условие останова и его описание
         std::vector<ControlPoint>{
             {{2, -3}, "Global Min"}
         }, // Ожидаемые точки
@@ -1199,7 +1199,7 @@ void print_results_per_methods() { // Вывод информации о тес�
         for (auto & it : files) { // Запись первоначальной информации о тесте в каждый файл
             it.second << std::string(48, '-') << " " << t.id << " " << std::string(48, '-') << std::endl << std::endl;
             it.second << t.description_f << "\nПодробнее в документе \"Тестовые функции\"\n\n";
-            it.second << "Условие остановы: " << t.description_stop_condition << "\n\n";
+            it.second << "Условие останова: " << t.description_stop_condition << "\n\n";
         }
         const int nPoints = (int)t.result.size();
         // Проход по вектору-результату:
@@ -1269,7 +1269,7 @@ void compare_tests() {
         
         // Выведем шапку теста:
         fout << std::string(80, '-') << "\n";
-        fout << t.id << ": " << t.description_f << " (критерий остановы: " << t.description_stop_condition << ")\n\n";
+        fout << t.id << ": " << t.description_f << " (критерий останова: " << t.description_stop_condition << ")\n\n";
         
         // Для каждой начальной точки выведем лучший метод:
         for (int i = 0; i < (int)t.start_points.size(); ++i) { 

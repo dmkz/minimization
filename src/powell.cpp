@@ -3,7 +3,7 @@
 IterationData powell(Function func, Vector p, const StopCondition& stop_condition) {
 // func - указатель на целевую функцию
 // p - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в структуре данных о последней итерации
     
     int i, j, ibig; //переменные для циклов

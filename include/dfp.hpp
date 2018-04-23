@@ -8,7 +8,7 @@
 IterationData dfp(Function f, Vector start_point, const StopCondition& stop_condition = default_stop_condition);
 // f - указатель на целевую функцию
 // start_point - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в структуре данных о последней итерации
 
 Matrix out_pr(Vector& x, Vector& y);

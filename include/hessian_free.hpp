@@ -8,7 +8,7 @@
 IterationData hessian_free(Function f, Vector x, const StopCondition& stop_condition = default_stop_condition);
 // f - указатель на целевую функцию
 // x - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в структуре данных о последней итерации
 
 // Медленный алгоритм Hessian Free (без модификации)
@@ -16,7 +16,7 @@ IterationData hessian_free(Function f, Vector x, const StopCondition& stop_condi
 IterationData slow_hessian_free(Function f, Vector x, const StopCondition& stop_condition = default_stop_condition);
 // f - указатель на целевую функцию
 // x - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в структуре данных о последней итерации
 
 // Апроксимация умножения градиента функции f в точке х на вектор dx

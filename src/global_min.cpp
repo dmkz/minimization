@@ -2,7 +2,7 @@
 #include <thread>
 #include <mutex>
 
-// Автор: Козырев Дмитрий
+// Автор: Козырев Дмитрий, Бураханова Алена, Золкин Артем
 std::vector<std::pair<Real, Vector>>
 calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	// Создаем вектор под ответ:
@@ -54,7 +54,6 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 	return outData;
 }
 
-// Автор: Козырев Дмитрий, Бураханова Алена
 std::vector<std::vector<std::pair<Real, GlobalTestData>>>
 find_local_mins_with_threads(Function f, const StopCondition& stop_condition, const std::vector<std::pair<Real, Vector>>& inData) {
 	// Создаем вектор под ответ:
@@ -90,31 +89,41 @@ find_local_mins_with_threads(Function f, const StopCondition& stop_condition, co
 				auto iter_data = bfgs(f, it.second, stop_condition);
                 auto x1 = iter_data.x_curr;
 				auto f1 = iter_data.f_curr;
+				auto sc1 = "Кол-во итераций: " + std::to_string(iter_data.iter_counter) 
+					+ ", отклонение: " + std::to_string(std::abs(iter_data.f_curr - iter_data.f_prev));
                 
                 iter_data = hessian_free(f, it.second, stop_condition);
 				auto x2 = iter_data.x_curr;
                 auto f2 = iter_data.f_curr;
+				auto sc2 = "Кол-во итераций: " + std::to_string(iter_data.iter_counter) 
+					+ ", отклонение: " + std::to_string(std::abs(iter_data.f_curr - iter_data.f_prev));
                 
                 iter_data = nesterov(f, it.second, stop_condition);
 				auto x3 = iter_data.x_curr;
                 auto f3 = iter_data.f_curr;
+				auto sc3 = "Кол-во итераций: " + std::to_string(iter_data.iter_counter) 
+					+ ", отклонение: " + std::to_string(std::abs(iter_data.f_curr - iter_data.f_prev));
                 
                 iter_data = dfp(f, it.second, stop_condition);
                 auto x4 = iter_data.x_curr;
                 auto f4 = iter_data.f_curr;
+				auto sc4 = "Кол-во итераций: " + std::to_string(iter_data.iter_counter) 
+					+ ", отклонение: " + std::to_string(std::abs(iter_data.f_curr - iter_data.f_prev));
                 
                 iter_data = powell(f, it.second, stop_condition);
                 auto x5 = iter_data.x_curr;
                 auto f5 = iter_data.f_curr;
+				auto sc5 = "Кол-во итераций: " + std::to_string(iter_data.iter_counter) 
+					+ ", отклонение: " + std::to_string(std::abs(iter_data.f_curr - iter_data.f_prev));
                 
 				// Записываем ответ:
 				outWrite.lock();
-				outData[i].push_back(std::make_pair(it.first, GlobalTestData(it.second, std::string("Initial point(no method)"))));
-				outData[i].push_back(std::make_pair(f1, GlobalTestData(x1, std::string("BFGS"))));
-				outData[i].push_back(std::make_pair(f2, GlobalTestData(x2, std::string("Hessian Free"))));
-				outData[i].push_back(std::make_pair(f3, GlobalTestData(x3, std::string("Nesterov"))));
-				outData[i].push_back(std::make_pair(f4, GlobalTestData(x4, std::string("DFP"))));
-				outData[i].push_back(std::make_pair(f5, GlobalTestData(x5, std::string("Powell"))));
+				outData[i].push_back(std::make_pair(it.first, GlobalTestData(it.second, std::string("Initial point(no method)"), std::string(""))));
+				outData[i].push_back(std::make_pair(f1, GlobalTestData(x1, std::string("BFGS"), sc1)));
+				outData[i].push_back(std::make_pair(f2, GlobalTestData(x2, std::string("Hessian Free"), sc2)));
+				outData[i].push_back(std::make_pair(f3, GlobalTestData(x3, std::string("Nesterov"), sc3)));
+				outData[i].push_back(std::make_pair(f4, GlobalTestData(x4, std::string("DFP"), sc4)));
+				outData[i].push_back(std::make_pair(f5, GlobalTestData(x5, std::string("Powell"), sc5)));
 				
 				outWrite.unlock();
 			}
@@ -133,7 +142,6 @@ find_local_mins_with_threads(Function f, const StopCondition& stop_condition, co
 	
 }
 
-// Автор: Козырев Дмитрий, Бураханова Алена
 std::vector<std::vector<std::pair<Real, GlobalTestData>>>
 find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
 	// Несколько проверок на входные данные:
