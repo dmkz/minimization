@@ -328,8 +328,20 @@ void test(std::string title, Function f, std::string description_f, uint32_t dim
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
     fout << description_f << "\n" << std::endl;
 	fout << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-	for (auto & rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
-		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second.x << "}, method = " << rec.second.method  << std::endl;
+	for (auto & point_rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
+		for(auto & rec : point_rec) {
+			if(rec.second.method == "Initial point(no method)")
+			{
+				fout << "Для стартовой точки {" << rec.second.x << "} с значением функции " << std::fixed << std::setprecision(4) << std::setw(6) << rec.first << ": " << std::endl;;
+			}
+		}
+		for(auto & rec : point_rec) {
+			if(rec.second.method != "Initial point(no method)")
+			{
+				fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second.x << "}, method = " << rec.second.method << "; " << std::endl;
+			}
+		}
+		fout << std::endl;
 	}
     fout.flush();
 }

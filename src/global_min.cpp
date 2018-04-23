@@ -55,10 +55,10 @@ calc_f_with_threads(Function f, const std::vector<Vector> & inData) {
 }
 
 // Автор: Козырев Дмитрий, Бураханова Алена
-std::vector<std::pair<Real, PointM>>
+std::vector<std::vector<std::pair<Real, GlobalTestData>>>
 find_local_mins_with_threads(Function f, const StopCondition& stop_condition, const std::vector<std::pair<Real, Vector>>& inData) {
 	// Создаем вектор под ответ:
-	std::vector<std::pair<Real, PointM>> outData(inData.size());
+	std::vector<std::vector<std::pair<Real, GlobalTestData>>> outData(inData.size());
 	
 	// Количество ядер:
 	uint32_t nCores = std::max(1u, std::thread::hardware_concurrency());
@@ -109,31 +109,13 @@ find_local_mins_with_threads(Function f, const StopCondition& stop_condition, co
                 
 				// Записываем ответ:
 				outWrite.lock();
-				std::vector<Real> values({it.first, f1, f2, f3, f4, f5});
-				int min_pos = distance(values.begin(),min_element(values.begin(),values.end()));
-				switch(min_pos)
-				{
-					case 0:
-						outData[i] = std::make_pair(it.first, PointM(it.second, std::string("Initial point(no method)")));
-						break;
-					case 1:
-						outData[i] = std::make_pair(f1, PointM(x1, std::string("BFGS")));
-						break;
-					case 2:
-						outData[i] = std::make_pair(f2, PointM(x2, std::string("Hessian Free")));
-						break;
-					case 3:
-						outData[i] = std::make_pair(f3, PointM(x3, std::string("Nesterov")));
-						break;
-					case 4:
-						outData[i] = std::make_pair(f4, PointM(x4, std::string("DFP")));
-						break;
-					case 5:
-						outData[i] = std::make_pair(f5, PointM(x5, std::string("Powell")));
-						break;
-					default:
-						outData[i] = std::make_pair(it.first, PointM(it.second, std::string("Unexpected")));
-				}
+				outData[i].push_back(std::make_pair(it.first, GlobalTestData(it.second, std::string("Initial point(no method)"))));
+				outData[i].push_back(std::make_pair(f1, GlobalTestData(x1, std::string("BFGS"))));
+				outData[i].push_back(std::make_pair(f2, GlobalTestData(x2, std::string("Hessian Free"))));
+				outData[i].push_back(std::make_pair(f3, GlobalTestData(x3, std::string("Nesterov"))));
+				outData[i].push_back(std::make_pair(f4, GlobalTestData(x4, std::string("DFP"))));
+				outData[i].push_back(std::make_pair(f5, GlobalTestData(x5, std::string("Powell"))));
+				
 				outWrite.unlock();
 			}
 			return;
@@ -152,7 +134,7 @@ find_local_mins_with_threads(Function f, const StopCondition& stop_condition, co
 }
 
 // Автор: Козырев Дмитрий, Бураханова Алена
-std::vector<std::pair<Real, PointM>>
+std::vector<std::vector<std::pair<Real, GlobalTestData>>>
 find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max) {
 	// Несколько проверок на входные данные:
 	assert(dim > 0u && dim == min.size() && dim == max.size());
@@ -209,7 +191,10 @@ find_absmin(Function f, const StopCondition& stop_condition, uint32_t dim, uint3
 	auto answer = find_local_mins_with_threads(f, stop_condition, temp);
 	
 	// Итоговая сортировка всех найденных точек по неубыванию значения функции в них:
-	std::sort(answer.begin(), answer.end(), comparePairRealPointM());
+	for(uint32_t i = 0; i < candidates.size(); ++i)
+	{
+		std::sort(answer[i].begin(), answer[i].end(), comparePairRealGlobalTestData());
+	}
 	
 	return answer;
 }
