@@ -322,14 +322,37 @@ Real f50(const Vector &v) {
 }
 
 void test(std::string title, Function f, std::string description_f, uint32_t dim, uint32_t nBestPoints, uint32_t nAllPoints, Vector min, Vector max, std::ofstream& fout) {
+	int point_precision = 3;
     std::cout << "-- " << title << std::endl;
     std::cout.flush();
 	fout << "\n";
 	fout << "----------------------------------------- " << title << " -----------------------------------------" << std::endl;
     fout << description_f << "\n" << std::endl;
-	fout << "Условие остановы: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
-	for (auto & rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
-		fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {" << rec.second.x << "}, method = " << rec.second.method  << std::endl;
+	fout << "Условие останова: iter_counter >= 100 || |f_i-f_(i-1)| < 0.00000001\n\n";
+	for (auto & point_rec : find_absmin(f, default_stop_condition, dim, nBestPoints, nAllPoints, min, max)) {
+		for(auto & rec : point_rec) {
+			if(rec.second.method == "Initial point(no method)")
+			{
+				fout << "Для стартовой точки {";
+
+				for(auto& coord: rec.second.x) {
+					fout << std::setprecision(point_precision) << std::fixed << std::setw(point_precision + 2) << coord << " ";
+				}				
+				fout << "} с значением функции " << std::fixed << std::setprecision(4) << std::setw(6) << rec.first << ": " << std::endl;
+			}
+		}
+		for(auto & rec : point_rec) {
+			if(rec.second.method != "Initial point(no method)")
+			{
+				fout << "\tf_min = " << std::fixed << std::setprecision(6) << std::setw(12) << rec.first << ", point = {";
+
+				for(auto& coord: rec.second.x) {
+					fout << std::setprecision(point_precision) << std::fixed << std::setw(point_precision+ 2) << coord << " ";
+				}				
+				fout << "}, " << rec.second.method << ", " << rec.second.stop_cause << std::endl;
+			}
+		}
+		fout << std::endl;
 	}
     fout.flush();
 }
@@ -639,7 +662,7 @@ int main() {
     std::ofstream fout;
     fout.open("test_results.txt");
 	fout << "\t\t\t\t\t\t\tРезультаты глобального тестирования" << std::endl;
-	fout << "\nВывод производится в формате:\n\nФункция:\n\nУсловие остановы:\n" << std::endl;
+	fout << "\nВывод производится в формате:\n\nФункция:\n\nУсловие останова:\n" << std::endl;
 	fout << "\tПолученное значение функции в точке; Точка наилучшего приближения; Метод\n" << std::endl; 
 	fout << "Подробнее о функциях можно узнать в документе \"Тестовые функции\"\n";
 

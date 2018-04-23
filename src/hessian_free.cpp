@@ -4,7 +4,7 @@
 IterationData slow_hessian_free(Function f, Vector x, const StopCondition& stop_condition) {
 // f - указатель на целевую функцию
 // x - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в структуре данных о последней итерации
 
     
@@ -27,7 +27,7 @@ IterationData slow_hessian_free(Function f, Vector x, const StopCondition& stop_
 IterationData hessian_free(Function f, Vector x, const StopCondition& stop_condition) {
 // f - указатель на целевую функцию
 // x - начальное приближение
-// stop_condition - критерий остановы
+// stop_condition - критерий останова
 // Результат работы метода будет лежать в объекте итерации
 
 // Инициализируем начальной точкой структуру данных итерации:
