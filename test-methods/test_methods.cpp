@@ -1277,7 +1277,7 @@ void compare_tests() {
             Real diff = r[0].f_curr - f_min; // Отклонение относительно глобального минимума
             fout << "\tИз точки (";
 			for(auto& coord: t.start_points[i]) {
-				fout << std::setprecision(2) << std::fixed << std::setw(6) << coord;
+				fout << std::setprecision(2) << std::fixed << std::setw(7) << coord;
 			}
 			fout << ") справился лучше всего метод " << std::setw(12) << r[0].method_title 
                 << " (отклонение от глобального минимума = " << std::setw(12) << diff << ", число итераций = " << std::setw(4) << r[0].iter_counter << ")" << std::endl;
