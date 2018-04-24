@@ -1,5 +1,7 @@
 #include "powell.hpp"
 
+// Авторы: Бабичев Денис (теория), Бессонов Трофим (тестирование, теория), Данилов Алексей (реализация), Киселев Николай (реализация)
+
 IterationData powell(Function func, Vector p, const StopCondition& stop_condition) {
 // func - указатель на целевую функцию
 // p - начальное приближение
